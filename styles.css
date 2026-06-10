@@ -717,7 +717,7 @@ section#process.section {
 /* Move hero image higher on desktop */
 @media (min-width: 901px) {
   .hero-grid .hero-card {
-    margin-top: -190px !important;
+    margin-top: -160px !important;
   }
 }
 /* Modern hero headline */
