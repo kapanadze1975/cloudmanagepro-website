@@ -843,3 +843,91 @@ body.modal-open {
     padding: 26px;
   }
 }
+/* Contact popup modal - fixed */
+#contactModal.contact-modal {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 24px !important;
+}
+
+#contactModal.contact-modal.open {
+  display: flex !important;
+}
+
+.contact-modal-backdrop {
+  position: absolute !important;
+  inset: 0 !important;
+  background: rgba(13, 23, 40, 0.65) !important;
+  backdrop-filter: blur(8px);
+}
+
+.contact-modal-card {
+  position: relative !important;
+  width: min(560px, 100%) !important;
+  background: #ffffff !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 28px !important;
+  box-shadow: 0 30px 90px rgba(13, 23, 40, 0.28) !important;
+  padding: 34px !important;
+  z-index: 1 !important;
+}
+
+.contact-modal-close {
+  position: absolute !important;
+  top: 18px !important;
+  right: 18px !important;
+  width: 38px !important;
+  height: 38px !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: #eef3fb !important;
+  color: var(--text) !important;
+  font-size: 1.6rem !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+}
+
+.contact-modal form {
+  display: grid !important;
+  gap: 14px !important;
+}
+
+.contact-modal label {
+  display: grid !important;
+  gap: 7px !important;
+  color: var(--text) !important;
+  font-weight: 750 !important;
+}
+
+.contact-modal input,
+.contact-modal textarea {
+  width: 100% !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 14px !important;
+  padding: 13px 14px !important;
+  font: inherit !important;
+  color: var(--text) !important;
+  background: #f8fbff !important;
+  outline: none !important;
+}
+
+.contact-modal input:focus,
+.contact-modal textarea:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 4px rgba(15, 107, 255, 0.12) !important;
+}
+
+.contact-submit {
+  width: 100% !important;
+  border: 0 !important;
+  cursor: pointer !important;
+  margin-top: 8px !important;
+}
+
+body.modal-open {
+  overflow: hidden !important;
+}
