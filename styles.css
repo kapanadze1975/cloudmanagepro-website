@@ -591,3 +591,10 @@ section.healthcare.section {
 section.process.section {
   padding-top: 25px !important;
 }
+#healthcare {
+  padding-bottom: 20px !important;
+}
+
+#process {
+  padding-top: 20px !important;
+}
