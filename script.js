@@ -19,3 +19,16 @@ const year = document.querySelector('#year');
 if (year) {
   year.textContent = new Date().getFullYear();
 }
+// Smooth Back to Top without showing #top in URL
+document.querySelectorAll('a[href="#top"]').forEach((link) => {
+  link.addEventListener('click', function (event) {
+    event.preventDefault();
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
+    history.replaceState(null, '', window.location.pathname);
+  });
+});
