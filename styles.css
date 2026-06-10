@@ -584,3 +584,10 @@ section.process.section {
 section.contact.section {
   padding-top: 20px !important;
 }
+section.healthcare.section {
+  padding-bottom: 25px !important;
+}
+
+section.process.section {
+  padding-top: 25px !important;
+}
