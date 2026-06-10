@@ -1,0 +1,23 @@
+{
+  "routes": [
+    {
+      "route": "/*",
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Permissions-Policy": "camera=(), microphone=(), geolocation=()"
+      }
+    }
+  ],
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": [
+      "/assets/*",
+      "/*.{css,js,png,jpg,jpeg,gif,svg,ico}"
+    ]
+  },
+  "mimeTypes": {
+    ".svg": "image/svg+xml"
+  }
+}
