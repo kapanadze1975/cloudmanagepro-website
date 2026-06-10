@@ -577,3 +577,10 @@ h3 {
 .contact {
   padding-top: 20px !important;
 }
+section.process.section {
+  padding-bottom: 10px !important;
+}
+
+section.contact.section {
+  padding-top: 20px !important;
+}
