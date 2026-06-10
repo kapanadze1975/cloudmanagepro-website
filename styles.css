@@ -240,21 +240,24 @@ h3 {
   padding: 18px;
 }
 
-.section {
-  padding: 78px 0;
-}
-.intro {
-  padding-top: 20px;
-   padding-bottom: 30px;
-}
-#services {
-  padding-top: 25px;
-}
 .hero-card img {
   width: 100%;
   height: auto;
   object-fit: contain;
   border-radius: 16px;
+}
+
+.section {
+  padding: 78px 0;
+}
+
+.intro {
+  padding-top: 20px;
+  padding-bottom: 30px;
+}
+
+#services {
+  padding-top: 25px;
 }
 
 .intro-grid,
@@ -374,6 +377,7 @@ h3 {
     #fff;
 }
 
+/* Footer */
 .footer {
   padding: 56px 0 26px;
   background: #0d1728;
@@ -382,8 +386,9 @@ h3 {
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.4fr 0.8fr 0.8fr;
-  gap: 30px;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 42px;
+  align-items: start;
 }
 
 .footer strong {
@@ -402,6 +407,63 @@ h3 {
   color: #fff;
 }
 
+.footer-brand {
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.footer-service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px 22px;
+}
+
+.footer-service-grid a {
+  margin: 4px 0;
+}
+
+.footer-social {
+  display: flex;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.footer-social a {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 1.15rem;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.footer-social a:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.footer-contact a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.footer-contact-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  color: #ffffff;
+  background: rgba(15, 107, 255, 0.35);
+  font-weight: 800;
+}
+
 .footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   margin-top: 32px;
@@ -413,11 +475,7 @@ h3 {
   font-size: 0.92rem;
 }
 
-.footer-brand {
-  color: #fff;
-  margin-bottom: 12px;
-}
-
+/* Tablet */
 @media (max-width: 900px) {
   .nav-menu {
     position: absolute;
@@ -450,9 +508,16 @@ h3 {
   }
 
   .cards,
-  .steps,
-  .footer-grid {
+  .steps {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .contact-actions {
@@ -460,6 +525,7 @@ h3 {
   }
 }
 
+/* Mobile */
 @media (max-width: 620px) {
   .container {
     width: min(100% - 28px, 1120px);
@@ -470,8 +536,11 @@ h3 {
   }
 
   .cards,
-  .steps,
-  .footer-grid {
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-service-grid {
     grid-template-columns: 1fr;
   }
 
