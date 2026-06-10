@@ -732,3 +732,11 @@ section#process.section {
   letter-spacing: 0.18em !important;
   font-size: 0.76rem !important;
 }
+/* Make hero headline smaller and cleaner */
+.hero h1 {
+  font-size: clamp(2.4rem, 4.5vw, 4rem) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.045em !important;
+  font-weight: 800 !important;
+  max-width: 680px !important;
+}
