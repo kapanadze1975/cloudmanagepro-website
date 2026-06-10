@@ -570,3 +570,10 @@ h3 {
     flex-direction: column;
   }
 }
+.process {
+  padding-bottom: 10px !important;
+}
+
+.contact {
+  padding-top: 20px !important;
+}
