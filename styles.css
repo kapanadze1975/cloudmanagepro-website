@@ -616,4 +616,19 @@ section#process.section {
 .footer .footer-contact-icon {
   flex: 0 0 28px;
 }
+/* Keep footer logo and CloudManagePro text on same line */
+.footer .footer-brand {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 12px;
+  margin-bottom: 14px;
+}
 
+.footer .footer-brand .brand-mark {
+  flex: 0 0 46px;
+}
+
+.footer .footer-brand span {
+  display: inline-block;
+  white-space: nowrap;
+}
