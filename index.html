@@ -35,7 +35,7 @@
         <a href="#services">Services</a>
         <a href="#healthcare">Healthcare IT</a>
         <a href="#process">Process</a>
-        <a href="#contact">Contact</a>
+        <a href="#contact" class="open-contact-modal">Contact</a>
         <a class="nav-cta" href="mailto:admin@cloudmanagepro.com">Get Support</a>
       </div>
     </nav>
@@ -321,7 +321,45 @@
   </div>
 </footer>
   
+<div class="contact-modal" id="contactModal" aria-hidden="true">
+  <div class="contact-modal-backdrop"></div>
 
+  <div class="contact-modal-card" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
+    <button class="contact-modal-close" type="button" aria-label="Close contact form">×</button>
+
+    <p class="eyebrow">Contact</p>
+    <h2 id="contactModalTitle">How can we help?</h2>
+    <p class="contact-modal-text">
+      Send a quick message and include the issue, affected users/devices, urgency, and any important details.
+    </p>
+
+    <form id="contactForm">
+      <label>
+        Name
+        <input type="text" id="contactName" name="name" placeholder="Your name" required />
+      </label>
+
+      <label>
+        Email
+        <input type="email" id="contactEmail" name="email" placeholder="your@email.com" required />
+      </label>
+
+      <label>
+        Phone
+        <input type="tel" id="contactPhone" name="phone" placeholder="347-241-2967" />
+      </label>
+
+      <label>
+        Message
+        <textarea id="contactMessage" name="message" rows="5" placeholder="Tell us what you need help with..." required></textarea>
+      </label>
+
+      <button class="button primary contact-submit" type="submit">
+        Send Message
+      </button>
+    </form>
+  </div>
+</div>
   <script src="/script.js"></script>
 </body>
 </html>
