@@ -603,5 +603,16 @@ section#process.section {
   padding-top: 10px !important;
   margin-top: -25px !important;
 }
+/* Keep footer contact text next to icon */
+.footer .footer-contact a {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px;
+  white-space: nowrap;
+  margin: 12px 0;
+}
 
+.footer .footer-contact-icon {
+  flex: 0 0 28px;
+}
 
