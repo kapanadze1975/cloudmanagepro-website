@@ -710,3 +710,7 @@ section#process.section {
     white-space: normal !important;
   }
 }
+/* Keep footer service names on one line */
+.footer-services .footer-service-grid a {
+  white-space: nowrap !important;
+}
