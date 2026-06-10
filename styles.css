@@ -720,3 +720,15 @@ section#process.section {
     margin-top: -160px !important;
   }
 }
+/* Modern hero headline */
+.hero h1 {
+  font-size: clamp(2.8rem, 5.6vw, 4.8rem) !important;
+  line-height: 1.02 !important;
+  letter-spacing: -0.055em !important;
+  font-weight: 800 !important;
+  max-width: 720px;
+}
+.hero .eyebrow {
+  letter-spacing: 0.18em !important;
+  font-size: 0.76rem !important;
+}
