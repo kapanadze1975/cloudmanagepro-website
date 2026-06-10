@@ -245,6 +245,10 @@ h3 {
 }
 .intro {
   padding-top: 20px;
+   padding-bottom: 30px;
+}
+#services {
+  padding-top: 35px;
 }
 .hero-card img {
   width: 100%;
