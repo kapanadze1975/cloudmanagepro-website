@@ -717,6 +717,6 @@ section#process.section {
 /* Move hero image higher on desktop */
 @media (min-width: 901px) {
   .hero-grid .hero-card {
-    margin-top: -90px !important;
+    margin-top: -110px !important;
   }
 }
