@@ -422,41 +422,46 @@ h3 {
   margin: 4px 0;
 }
 
+/* Smaller footer social icons */
 .footer-social {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-top: 24px;
+  gap: 10px;
+  margin-top: 22px;
 }
 
 .footer-social a {
-  width: 46px;
-  height: 46px;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px;
+  min-height: 38px;
   border-radius: 50%;
-  display: inline-grid;
+  display: inline-grid !important;
   place-items: center;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.14);
   color: #9aa8bd;
-  margin: 0;
-  transition:
-    background 0.18s ease,
-    border-color 0.18s ease,
-    color 0.18s ease,
-    transform 0.18s ease,
-    box-shadow 0.18s ease;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden;
 }
+
 .footer-social a svg {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
+  width: 16px !important;
+  height: 16px !important;
+  max-width: 16px !important;
+  max-height: 16px !important;
+  fill: currentColor !important;
+  display: block;
 }
+
 .footer-social a:hover {
   background: #0f6bff;
   border-color: #0f6bff;
   color: #ffffff;
   transform: translateY(-2px);
   box-shadow: 0 12px 28px rgba(15, 107, 255, 0.35);
+} 255, 0.35);
 }
 
 .footer-contact a {
