@@ -587,23 +587,21 @@ section.contact.section {
 section.healthcare.section {
   padding-bottom: 25px !important;
 }
-
-section.process.section {
-  padding-top: 25px !important;
+/* Final section spacing fixes */
+section#services.section {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
-/* Services to Healthcare IT spacing */
-#services {
-  padding-bottom: 20px !important;
+section#healthcare.section {
+  padding-top: 0 !important;
+  padding-bottom: 10px !important;
+  margin-top: -45px !important;
 }
 
-#healthcare {
-  padding-top: 20px !important;
-  padding-bottom: 20px !important;
+section#process.section {
+  padding-top: 10px !important;
+  margin-top: -25px !important;
 }
 
-/* Healthcare IT to Process spacing */
-#process {
-  padding-top: 20px !important;
-}
 
