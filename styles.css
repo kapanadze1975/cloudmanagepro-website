@@ -589,20 +589,21 @@ section.healthcare.section {
 }
 /* Final section spacing fixes */
 section#services.section {
-  padding-bottom: 0 !important;
+  padding-bottom: 35px !important;
   margin-bottom: 0 !important;
 }
 
 section#healthcare.section {
-  padding-top: 0 !important;
-  padding-bottom: 10px !important;
-  margin-top: -45px !important;
+  padding-top: 30px !important;
+  padding-bottom: 25px !important;
+  margin-top: 0 !important;
 }
 
 section#process.section {
-  padding-top: 10px !important;
-  margin-top: -25px !important;
+  padding-top: 25px !important;
+  margin-top: 0 !important;
 }
+
 /* Keep footer contact text next to icon */
 .footer .footer-contact a {
   display: flex !important;
