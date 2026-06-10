@@ -591,10 +591,19 @@ section.healthcare.section {
 section.process.section {
   padding-top: 25px !important;
 }
-#healthcare {
+
+/* Services to Healthcare IT spacing */
+#services {
   padding-bottom: 20px !important;
 }
 
+#healthcare {
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+}
+
+/* Healthcare IT to Process spacing */
 #process {
   padding-top: 20px !important;
 }
+
