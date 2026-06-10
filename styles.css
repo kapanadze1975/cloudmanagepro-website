@@ -717,6 +717,6 @@ section#process.section {
 /* Move hero image slightly up on desktop */
 @media (min-width: 901px) {
   .hero .hero-card {
-    transform: translateY(-35px);
+    transform: translateY(-45px);
   }
 }
