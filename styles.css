@@ -669,3 +669,44 @@ section#process.section {
     white-space: normal;
   }
 }
+/* Clean existing footer services into 2 rows */
+.footer .container {
+  width: min(1320px, calc(100% - 80px)) !important;
+}
+
+.footer-grid {
+  grid-template-columns: 330px 1fr 300px !important;
+  gap: 40px !important;
+}
+
+.footer-service-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(130px, 1fr)) !important;
+  gap: 18px 28px !important;
+}
+
+.footer-service-grid a {
+  white-space: nowrap !important;
+  font-size: 0.95rem !important;
+  line-height: 1.25 !important;
+  margin: 0 !important;
+}
+
+/* Footer mobile layout */
+@media (max-width: 900px) {
+  .footer .container {
+    width: min(1120px, calc(100% - 40px)) !important;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .footer-service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .footer-service-grid a {
+    white-space: normal !important;
+  }
+}
