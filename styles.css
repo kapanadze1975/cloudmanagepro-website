@@ -714,9 +714,9 @@ section#process.section {
 .footer-services .footer-service-grid a {
   white-space: nowrap !important;
 }
-/* Move hero image slightly up on desktop */
+/* Move hero image higher on desktop */
 @media (min-width: 901px) {
-  .hero .hero-card {
-    transform: translateY(-45px);
+  .hero-grid .hero-card {
+    margin-top: -90px !important;
   }
 }
