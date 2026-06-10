@@ -243,6 +243,12 @@ h3 {
 .section {
   padding: 78px 0;
 }
+.hero-card img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 16px;
+}
 
 .intro-grid,
 .healthcare-grid {
