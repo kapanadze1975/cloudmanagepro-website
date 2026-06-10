@@ -740,3 +740,106 @@ section#process.section {
   font-weight: 800 !important;
   max-width: 650px !important;
 }
+/* Contact popup modal */
+.contact-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.contact-modal.open {
+  display: flex;
+}
+
+.contact-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 23, 40, 0.62);
+  backdrop-filter: blur(8px);
+}
+
+.contact-modal-card {
+  position: relative;
+  width: min(560px, 100%);
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: 0 30px 90px rgba(13, 23, 40, 0.28);
+  padding: 34px;
+  z-index: 1;
+}
+
+.contact-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: #eef3fb;
+  color: var(--text);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.contact-modal-close:hover {
+  background: #dfe9f8;
+}
+
+.contact-modal-text {
+  color: var(--muted);
+  margin-bottom: 22px;
+}
+
+.contact-modal form {
+  display: grid;
+  gap: 14px;
+}
+
+.contact-modal label {
+  display: grid;
+  gap: 7px;
+  color: var(--text);
+  font-weight: 750;
+}
+
+.contact-modal input,
+.contact-modal textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 13px 14px;
+  font: inherit;
+  color: var(--text);
+  background: #f8fbff;
+  outline: none;
+}
+
+.contact-modal input:focus,
+.contact-modal textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(15, 107, 255, 0.12);
+}
+
+.contact-submit {
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+@media (max-width: 620px) {
+  .contact-modal-card {
+    padding: 26px;
+  }
+}
