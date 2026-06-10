@@ -243,6 +243,9 @@ h3 {
 .section {
   padding: 78px 0;
 }
+.intro {
+  padding-top: 10px;
+}
 .hero-card img {
   width: 100%;
   height: auto;
