@@ -14,10 +14,11 @@
     "rewrite": "/index.html",
     "exclude": [
       "/assets/*",
-      "/*.{css,js,png,jpg,jpeg,gif,svg,ico}"
+      "/*.{css,js,png,jpg,jpeg,gif,svg,ico,xml,txt}"
     ]
   },
   "mimeTypes": {
-    ".svg": "image/svg+xml"
+    ".svg": "image/svg+xml",
+    ".xml": "application/xml"
   }
 }
