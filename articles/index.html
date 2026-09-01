@@ -78,7 +78,12 @@
     .sidebar{display:flex;flex-direction:column;gap:15px}
 
     /* featured */
-    .featured{position:relative;overflow:hidden;border-radius:13px;background:radial-gradient(circle at 83% 40%,rgba(20,186,196,.2),transparent 27%),linear-gradient(130deg,#061d3e 0%,#072d5e 65%,#0b4b91 120%);min-height:295px;color:#fff;padding:31px 33px;box-shadow:var(--cmp-shadow)}
+    .featured{
+      position:relative;overflow:hidden;border-radius:13px;background:
+      radial-gradient(circle at 83% 40%,rgba(20,186,196,.2),transparent 27%),
+      linear-gradient(130deg,#061d3e 0%,#072d5e 65%,#0b4b91 120%);
+      min-height:295px;color:#fff;padding:31px 33px;box-shadow:var(--cmp-shadow)
+    }
     .featured:after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(69,175,255,.2) 1px,transparent 1px);background-size:16px 16px;mask-image:linear-gradient(90deg,transparent 35%,#000 100%);pointer-events:none}
     .featured-copy{position:relative;z-index:2;max-width:56%}
     .feature-top{display:flex;align-items:center;gap:12px;font-size:.73rem;font-weight:900;letter-spacing:.06em}
@@ -159,3 +164,203 @@
       .topic-grid{grid-template-columns:1fr}
     }
   </style>
+</head>
+<body>
+<header class="cmp-header">
+  <div class="cmp-container cmp-nav">
+    <a class="cmp-brand" href="/">
+      <img src="/assets/logo-mark.svg" alt="" />
+      <span>CloudManagePro</span>
+    </a>
+    <nav class="cmp-navlinks" aria-label="Main navigation">
+      <a href="/#services">Services</a>
+      <a href="/#healthcare">Healthcare IT</a>
+      <a href="/articles/">Articles</a>
+      <a href="/#process">Process</a>
+      <a href="/#contact">Contact</a>
+      <a class="cmp-support" href="/#contact">Get Support</a>
+    </nav>
+    <button class="cmp-menu" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<main>
+  <section class="articles-hero">
+    <div class="cmp-container hero-grid">
+      <div class="hero-copy">
+        <h1>CloudManagePro Articles</h1>
+        <p>Practical guides, labs, troubleshooting, and technical how-to content for modern IT teams.</p>
+        <div class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input id="articleSearch" type="search" placeholder="Search articles, guides, or topics..." aria-label="Search articles" />
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="hero-clouds"></div>
+        <div class="hero-shield"><img src="/assets/icon-security.svg" alt="" /></div>
+        <div class="hero-device"><div class="hero-device-screen"><img src="/assets/icon-cloud.svg" alt="" /></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="category-strip">
+    <div class="cmp-container category-scroll" id="categoryButtons">
+      <button class="category-btn active" data-category="all">All</button>
+      <button class="category-btn" data-category="intune">▣ Intune</button>
+      <button class="category-btn" data-category="azure">△ Azure</button>
+      <button class="category-btn" data-category="entra">◇ Entra ID</button>
+      <button class="category-btn" data-category="m365">▦ Microsoft 365</button>
+      <button class="category-btn" data-category="workspace">⬡ Workspace ONE</button>
+      <button class="category-btn" data-category="citrix">citrix</button>
+      <button class="category-btn" data-category="networking">◉ Networking</button>
+      <button class="category-btn" data-category="security">◆ Cybersecurity</button>
+      <button class="category-btn" data-category="ai">⚙ AI & Automation</button>
+    </div>
+  </section>
+
+  <div class="cmp-container hub">
+    <section class="main-column">
+      <article class="featured searchable" data-category="intune m365 security" data-search="intune compliant devices microsoft 365 conditional access entra compliance">
+        <div class="featured-copy">
+          <div class="feature-top"><span class="feature-label">FEATURED</span><span>INTUNE · MICROSOFT 365</span></div>
+          <h2>How to Require Intune Compliant Devices for Microsoft 365</h2>
+          <p>Step-by-step guidance for using Intune compliance and Microsoft Entra Conditional Access to protect Microsoft 365 access.</p>
+          <div class="feature-meta"><span>Technical guide</span><span>•</span><span>Intermediate</span></div>
+          <a class="feature-cta" href="/articles/intune-compliant-devices-microsoft-365/">Read article →</a>
+        </div>
+        <div class="feature-visual" aria-hidden="true">
+          <div class="feature-laptop"><div class="feature-screen"><span class="check">✓</span><span>Compliant</span></div></div>
+          <div class="feature-cloud">Microsoft 365</div>
+          <div class="feature-lock">🔒</div>
+        </div>
+      </article>
+
+      <div class="article-grid" id="articleGrid">
+        <article class="article-card searchable" data-category="azure security" data-search="azure pim resource group privileged identity management">
+          <div class="card-art"><img src="/assets/icon-cloud.svg" alt="" /></div>
+          <div><span class="card-category">Azure</span><h3>Azure PIM Resource Group Step-by-Step Guide</h3><p>Secure privileged access to Azure resource groups using Privileged Identity Management.</p></div>
+          <div class="card-meta"><span class="soon">Coming soon</span> · Intermediate</div>
+        </article>
+
+        <article class="article-card searchable" data-category="citrix" data-search="citrix vda registration troubleshooting">
+          <div class="card-art"><img src="/assets/icon-server.svg" alt="" /></div>
+          <div><span class="card-category">Citrix</span><h3>Fixing Citrix VDA Registration Issues</h3><p>Common causes and practical steps to resolve VDA registration failures.</p></div>
+          <div class="card-meta"><span class="soon">Coming soon</span> · Advanced</div>
+        </article>
+
+        <article class="article-card searchable" data-category="workspace" data-search="workspace one zebra secure launcher kiosk android">
+          <div class="card-art"><img src="/assets/icon-device.svg" alt="" /></div>
+          <div><span class="card-category">Workspace ONE</span><h3>Workspace ONE Zebra Secure Launcher Setup</h3><p>Configure Zebra devices and kiosk workflows with Workspace ONE UEM.</p></div>
+          <div class="card-meta"><span class="soon">Coming soon</span> · Intermediate</div>
+        </article>
+
+        <article class="article-card searchable" data-category="networking security" data-search="enterprise wifi certificate troubleshooting clearpass 802.1x">
+          <div class="card-art"><img src="/assets/icon-workflow.svg" alt="" /></div>
+          <div><span class="card-category">Networking</span><h3>Troubleshooting Enterprise Wi-Fi Certificate Issues</h3><p>Diagnose certificate validation and authentication problems on enterprise wireless networks.</p></div>
+          <div class="card-meta"><span class="soon">Coming soon</span> · Intermediate</div>
+        </article>
+
+        <article class="article-card searchable" data-category="ai" data-search="microsoft foundry multi agent lab ai automation agents">
+          <div class="card-art"><img src="/assets/icon-workflow.svg" alt="" /></div>
+          <div><span class="card-category">AI & Automation</span><h3>Microsoft Foundry Multi-Agent Lab</h3><p>Hands-on architecture for research, content, SEO, and automation agents.</p></div>
+          <div class="card-meta"><span class="soon">Coming soon</span> · Advanced</div>
+        </article>
+
+        <article class="article-card searchable" data-category="entra security" data-search="microsoft entra conditional access best practices identity security">
+          <div class="card-art"><img src="/assets/icon-security.svg" alt="" /></div>
+          <div><span class="card-category">Microsoft Entra</span><h3>Microsoft Entra Conditional Access Best Practices</h3><p>Design secure and user-friendly Conditional Access policies that scale.</p></div>
+          <div class="card-meta"><span class="soon">Coming soon</span> · Intermediate</div>
+        </article>
+      </div>
+
+      <div class="empty-state" id="emptyState">No articles match your search yet.</div>
+
+      <section class="browse">
+        <h2>Browse by Topic</h2>
+        <div class="topic-grid">
+          <div class="topic-card"><img src="/assets/icon-cloud.svg" alt="" /><h3>Azure</h3><p>Architecture, governance, identity, and cloud best practices.</p><span>Explore →</span></div>
+          <div class="topic-card"><img src="/assets/icon-device.svg" alt="" /><h3>Intune</h3><p>Endpoint management, devices, apps, enrollment, and compliance.</p><span>Explore →</span></div>
+          <div class="topic-card"><img src="/assets/icon-server.svg" alt="" /><h3>Healthcare IT</h3><p>Secure, reliable technology for clinical and healthcare workflows.</p><span>Explore →</span></div>
+          <div class="topic-card"><img src="/assets/icon-security.svg" alt="" /><h3>Security</h3><p>Zero Trust, endpoint security, identity, and threat protection.</p><span>Explore →</span></div>
+          <div class="topic-card"><img src="/assets/icon-workflow.svg" alt="" /><h3>Automation</h3><p>PowerShell, tooling, and AI-powered automation for IT.</p><span>Explore →</span></div>
+        </div>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      <section class="side-card">
+        <h2 class="side-title">↗ Popular Topics</h2>
+        <div class="side-list">
+          <div class="side-row"><span class="side-bullet">#</span><span>Intune Compliance</span></div>
+          <div class="side-row"><span class="side-bullet">#</span><span>Conditional Access</span></div>
+          <div class="side-row"><span class="side-bullet">#</span><span>Microsoft Entra ID</span></div>
+          <div class="side-row"><span class="side-bullet">#</span><span>Azure PIM</span></div>
+          <div class="side-row"><span class="side-bullet">#</span><span>Workspace ONE</span></div>
+        </div>
+        <span class="side-link">Counts will come from real analytics later</span>
+      </section>
+
+      <section class="side-card">
+        <h2 class="side-title">▤ Latest Tutorials</h2>
+        <div class="side-list">
+          <div class="side-row"><span class="mini-icon"><img src="/assets/icon-device.svg" alt="" /></span><span>Deploy Win32 Apps with Intune<br><strong>Coming soon</strong></span></div>
+          <div class="side-row"><span class="mini-icon"><img src="/assets/icon-security.svg" alt="" /></span><span>Microsoft 365 Audit Logs<br><strong>Coming soon</strong></span></div>
+          <div class="side-row"><span class="mini-icon"><img src="/assets/icon-cloud.svg" alt="" /></span><span>Azure PIM Resource Groups<br><strong>Coming soon</strong></span></div>
+        </div>
+      </section>
+
+      <section class="side-card">
+        <h2 class="side-title">▧ Downloadable Checklists</h2>
+        <div class="side-list">
+          <div class="side-row"><span class="pdf">PDF</span><span>Intune Security Checklist — planned</span></div>
+          <div class="side-row"><span class="pdf">PDF</span><span>Microsoft 365 Hardening Checklist — planned</span></div>
+          <div class="side-row"><span class="pdf">PDF</span><span>Endpoint Security Best Practices — planned</span></div>
+        </div>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<footer class="cmp-footer">
+  <div class="cmp-container footer-grid">
+    <div>
+      <a class="cmp-brand" href="/"><img src="/assets/logo-mark.svg" alt="" /><span>CloudManagePro</span></a>
+      <p>Cloud, endpoint, security, wireless, and healthcare IT support.</p>
+    </div>
+    <div><strong>Knowledge</strong><p><a href="/articles/">Articles</a><br><a href="/">CloudManagePro Home</a></p></div>
+    <div><strong>Contact</strong><p><a href="mailto:admin@cloudmanagepro.com">admin@cloudmanagepro.com</a></p></div>
+  </div>
+</footer>
+
+<script>
+  const search = document.getElementById('articleSearch');
+  const cards = [...document.querySelectorAll('.searchable')];
+  const buttons = [...document.querySelectorAll('.category-btn')];
+  const emptyState = document.getElementById('emptyState');
+  let category = 'all';
+
+  function applyFilters(){
+    const term = search.value.trim().toLowerCase();
+    let visible = 0;
+    cards.forEach(card => {
+      const text = (card.dataset.search + ' ' + card.innerText).toLowerCase();
+      const categories = card.dataset.category.split(' ');
+      const matchTerm = !term || text.includes(term);
+      const matchCategory = category === 'all' || categories.includes(category);
+      const show = matchTerm && matchCategory;
+      card.hidden = !show;
+      if(show) visible++;
+    });
+    emptyState.style.display = visible ? 'none' : 'block';
+  }
+
+  search.addEventListener('input', applyFilters);
+  buttons.forEach(btn => btn.addEventListener('click', () => {
+    buttons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    category = btn.dataset.category;
+    applyFilters();
+  }));
+</script>
+</body>
+</html>
