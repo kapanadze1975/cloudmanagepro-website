@@ -154,8 +154,89 @@
       font-size:.9rem;
       color:#61748c;
     }
+    .verified{
+      color:#087b69;
+      background:#e8fbf7;
+      border:1px solid #b9eee4;
+      border-radius:999px;
+      padding:6px 10px;
+      font-weight:800;
+    }
+    .hero-card{
+      border-radius:26px;
+      min-height:280px;
+      background:
+        radial-gradient(circle at 80% 25%,rgba(24,191,193,.2),transparent 28%),
+        linear-gradient(145deg,#061c3d,#0a3c76);
+      position:relative;
+      overflow:hidden;
+      box-shadow:0 24px 55px rgba(8,43,85,.16);
+      display:grid;
+      place-items:center;
+    }
+    .hero-card:before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:radial-gradient(rgba(74,176,255,.23) 1px,transparent 1px);
+      background-size:17px 17px;
+    }
+    .device{
+      position:relative;
+      z-index:2;
+      width:230px;
+      height:145px;
+      background:#07305e;
+      border:5px solid #0d579a;
+      border-radius:13px;
+      padding:12px;
+    }
+    .screen{
+      height:100%;
+      background:#eef8ff;
+      border-radius:6px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      font-weight:900;
+      color:#18324e;
+    }
+    .check{
+      width:48px;height:48px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:#24c4b7;
+      color:#fff;
+      font-size:1.7rem;
+    }
+    .cloud-label{
+      position:absolute;
+      z-index:3;
+      top:42px;
+      right:36px;
+      padding:15px 20px;
+      background:#fff;
+      border-radius:999px;
+      box-shadow:var(--shadow);
+      font-weight:900;
+      color:#334d68;
+    }
+    .lock{
+      position:absolute;
+      z-index:3;
+      right:70px;
+      bottom:38px;
+      width:65px;height:65px;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      font-size:2rem;
+      background:linear-gradient(145deg,#0f6bff,#18bfc1);
+    }
 
-    /* Main layout (preserve full CSS from main) */
+    /* Main layout */
     .article-layout{
       display:grid;
       grid-template-columns:minmax(0,1fr) 290px;
@@ -164,29 +245,218 @@
       align-items:start;
     }
     .article-body{min-width:0}
-    .article-body h2{font-size:1.85rem;margin:42px 0 14px;line-height:1.2;color:#10233e}
-    .article-body h3{font-size:1.25rem;margin:28px 0 10px;color:#17304d}
-    .article-body p,.article-body li{font-size:1rem;line-height:1.76;color:#425770}
-    .article-body ul,.article-body ol{padding-left:1.35rem}
-    .lead-box,.note,.warning{border-radius:14px;padding:18px 20px;margin:24px 0}
-    .lead-box{background:#f5f9ff;border:1px solid #dbe8f7}
-    .note{background:#edfbf9;border:1px solid #c7eee8}
-    .warning{background:#fff7e8;border:1px solid #f2d9a4}
-    .label{display:block;font-size:.76rem;font-weight:900;letter-spacing:.07em;text-transform:uppercase;margin-bottom:7px}
-    .step{display:grid;grid-template-columns:44px 1fr;gap:14px;margin:22px 0}
-    .step-num{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:#fff;background:var(--blue);font-weight:900}
-    .screenshot{min-height:260px;border:1px dashed #b9c9dc;background:linear-gradient(135deg,#f8fbff,#eef5fb);border-radius:16px;display:grid;place-items:center;padding:24px;text-align:center;color:#6c7f93;margin:20px 0 30px}
-    .faq{border-top:1px solid var(--line);padding:18px 0}
-    .references{margin-top:18px;padding-left:0;list-style:none}
-    .references li{padding:12px 0;border-bottom:1px solid #edf1f5}
+    .article-body h2{
+      font-size:1.85rem;
+      margin:42px 0 14px;
+      line-height:1.2;
+      color:#10233e;
+    }
+    .article-body h3{
+      font-size:1.25rem;
+      margin:28px 0 10px;
+      color:#17304d;
+    }
+    .article-body p,
+    .article-body li{
+      font-size:1rem;
+      line-height:1.76;
+      color:#425770;
+    }
+    .article-body ul,
+    .article-body ol{padding-left:1.35rem}
+    .article-body li{margin:7px 0}
 
-    /* Sidebar and related/footer preserved */
-    .sidebar{position:sticky;top:94px;display:flex;flex-direction:column;gap:15px}
-    .side-card{border:1px solid var(--line);background:#fff;border-radius:15px;padding:18px}
-    .toc{list-style:none;margin:0;padding:0;display:grid;gap:9px}
-    .related-wrap{background:#f7faff;border-top:1px solid #e4ecf5;padding:48px 0 58px}
+    .lead-box,
+    .note,
+    .warning,
+    .placeholder{
+      border-radius:14px;
+      padding:18px 20px;
+      margin:24px 0;
+    }
+    .lead-box{
+      background:#f5f9ff;
+      border:1px solid #dbe8f7;
+    }
+    .note{
+      background:#edfbf9;
+      border:1px solid #c7eee8;
+    }
+    .warning{
+      background:#fff7e8;
+      border:1px solid #f2d9a4;
+    }
+    .placeholder{
+      background:#fafbfc;
+      border:1px dashed #b8c6d7;
+      color:#697c91;
+    }
+    .label{
+      display:block;
+      font-size:.76rem;
+      font-weight:900;
+      letter-spacing:.07em;
+      text-transform:uppercase;
+      margin-bottom:7px;
+    }
 
-    @media(max-width:960px){.hero-grid{grid-template-columns:1fr}.hero-card{display:none}.article-layout{grid-template-columns:1fr}.sidebar{position:static}.related-grid{grid-template-columns:1fr 1fr}}
+    .step{
+      display:grid;
+      grid-template-columns:44px 1fr;
+      gap:14px;
+      margin:22px 0;
+    }
+    .step-num{
+      width:44px;height:44px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      background:var(--blue);
+      font-weight:900;
+    }
+    .step h3{margin:5px 0 8px}
+
+    .screenshot{
+      min-height:260px;
+      border:1px dashed #b9c9dc;
+      background:
+        linear-gradient(135deg,#f8fbff,#eef5fb);
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      padding:24px;
+      text-align:center;
+      color:#6c7f93;
+      margin:20px 0 30px;
+    }
+
+    .faq{
+      border-top:1px solid var(--line);
+      padding:18px 0;
+    }
+    .faq h3{margin:0 0 8px;font-size:1.08rem}
+
+    .references{
+      margin-top:18px;
+      padding-left:0;
+      list-style:none;
+    }
+    .references li{
+      padding:12px 0;
+      border-bottom:1px solid #edf1f5;
+    }
+
+    /* Sidebar */
+    .sidebar{
+      position:sticky;
+      top:94px;
+      display:flex;
+      flex-direction:column;
+      gap:15px;
+    }
+    .side-card{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:15px;
+      padding:18px;
+      box-shadow:0 7px 22px rgba(17,45,86,.045);
+    }
+    .side-card h2{
+      font-size:1rem;
+      margin:0 0 13px;
+    }
+    .toc{
+      list-style:none;
+      margin:0;padding:0;
+      display:grid;
+      gap:9px;
+    }
+    .toc a{
+      font-size:.86rem;
+      color:#3f5873;
+      font-weight:700;
+    }
+    .toc a:hover{color:var(--blue)}
+    .article-status{
+      display:grid;
+      gap:10px;
+      font-size:.84rem;
+      color:#52667d;
+    }
+    .article-status strong{color:#203953}
+    .back-link{
+      display:block;
+      border-radius:10px;
+      background:#eef5ff;
+      padding:11px 13px;
+      font-size:.88rem;
+      font-weight:800;
+      text-align:center;
+    }
+
+    /* Related */
+    .related-wrap{
+      background:#f7faff;
+      border-top:1px solid #e4ecf5;
+      padding:48px 0 58px;
+    }
+    .related-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+      margin-top:20px;
+    }
+    .related-card{
+      background:#fff;
+      border:1px solid #dfe7f1;
+      border-radius:14px;
+      padding:19px;
+    }
+    .related-card span{
+      color:var(--blue);
+      font-size:.72rem;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+    .related-card h3{
+      margin:7px 0 8px;
+      font-size:1rem;
+    }
+    .related-card p{
+      margin:0;
+      color:#66798e;
+      font-size:.84rem;
+      line-height:1.5;
+    }
+
+    /* Footer */
+    .footer{
+      background:var(--navy);
+      color:#dce7f5;
+      padding:30px 0;
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.2fr 1fr 1fr;
+      gap:28px;
+    }
+    .footer p{color:#b8cbe0;font-size:.86rem;line-height:1.55}
+    .footer a{color:#dce7f5}
+
+    @media(max-width:960px){
+      .hero-grid{grid-template-columns:1fr}
+      .hero-card{display:none}
+      .article-layout{grid-template-columns:1fr}
+      .sidebar{position:static}
+      .related-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:720px){
+      .nav-links{display:none}
+      .article-hero h1{font-size:2.45rem}
+      .related-grid,
+      .footer-grid{grid-template-columns:1fr}
+    }
   </style>
 
   <script type="application/ld+json">
@@ -195,8 +465,14 @@
     "@type": "TechArticle",
     "headline": "Require Intune-Compliant Devices for Microsoft 365",
     "description": "CloudManagePro technical guide for requiring Intune-compliant devices when accessing Microsoft 365.",
-    "author": { "@type": "Organization", "name": "CloudManagePro" },
-    "publisher": { "@type": "Organization", "name": "CloudManagePro" },
+    "author": {
+      "@type": "Organization",
+      "name": "CloudManagePro"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "CloudManagePro"
+    },
     "mainEntityOfPage": "https://www.cloudmanagepro.com/articles/intune-compliant-devices-microsoft-365/"
   }
   </script>
@@ -206,7 +482,11 @@
 
 <header class="site-header">
   <div class="container nav">
-    <a class="brand" href="/"><img src="/assets/logo-mark.svg" alt="" /><span>CloudManagePro</span></a>
+    <a class="brand" href="/">
+      <img src="/assets/logo-mark.svg" alt="" />
+      <span>CloudManagePro</span>
+    </a>
+
     <nav class="nav-links" aria-label="Main navigation">
       <a href="/#services">Services</a>
       <a href="/#healthcare">Healthcare IT</a>
@@ -232,17 +512,39 @@
 
 <section class="article-hero">
   <div class="container hero-grid">
+
     <div>
       <div class="kicker">Microsoft Intune · Microsoft Entra · Microsoft 365</div>
+
       <h1>How to Require Intune-Compliant Devices for Microsoft 365</h1>
-      <p class="dek">A practical CloudManagePro guide for understanding how Intune device compliance and Microsoft Entra Conditional Access can work together to protect access to Microsoft 365.</p>
-      <div class="hero-meta"><span>Technical Guide</span><span>•</span><span>Intermediate</span><span>•</span><span>CloudManagePro</span></div>
+
+      <p class="dek">
+        A practical CloudManagePro guide for understanding how Intune device
+        compliance and Microsoft Entra Conditional Access can work together to
+        protect access to Microsoft 365.
+      </p>
+
+      <div class="hero-meta">
+        <span>Technical Guide</span>
+        <span>•</span>
+        <span>Intermediate</span>
+        <span>•</span>
+        <span>CloudManagePro</span>
+        <span class="verified">Last verified: September 1, 2026</span>
+      </div>
     </div>
+
     <div class="hero-card" aria-hidden="true">
-      <div class="device"><div class="screen"><span class="check">✓</span><span>Compliant</span></div></div>
+      <div class="device">
+        <div class="screen">
+          <span class="check">✓</span>
+          <span>Compliant</span>
+        </div>
+      </div>
       <div class="cloud-label">Microsoft 365</div>
       <div class="lock">🔒</div>
     </div>
+
   </div>
 </section>
 
@@ -250,163 +552,193 @@
 
   <article class="article-body">
 
-    <div class="lead-box">
-      <span class="label">About this guide</span>
-      This article explains how to require devices managed by Microsoft Intune to be evaluated as compliant before granting access to Microsoft 365 resources using Microsoft Entra Conditional Access. It covers what the configuration accomplishes, prerequisites and licensing, guidance for administrator roles, testing options (report-only and What If), rollout recommendations, legacy authentication considerations, troubleshooting, and best practices.
-    </div>
-
     <section id="overview">
       <h2>Overview</h2>
+      <p>This article explains how to require devices managed by Microsoft Intune to be evaluated as compliant before granting access to Microsoft 365 resources using Microsoft Entra Conditional Access. It covers what the configuration accomplishes, prerequisites and licensing, guidance for administrator roles, testing options (report-only and What If), rollout recommendations, legacy authentication considerations, troubleshooting, and best practices. All technical claims below are limited to the verified facts provided.</p>
+      <h3>What this configuration accomplishes</h3>
       <p>When you require Intune-compliant devices for Microsoft 365 access, Microsoft Entra Conditional Access evaluates the device compliance state reported by Microsoft Intune and enforces a grant control that requires the device to be marked as compliant before access is allowed. This integrates device compliance telemetry with access control to conditionally allow or block user sign-ins to Microsoft 365 services.</p>
     </section>
 
     <section id="prerequisites">
       <h2>Prerequisites</h2>
       <ul>
-        <li>Devices must be enrolled in Microsoft Intune and subject to Intune device compliance policies so they can be evaluated as compliant or noncompliant. See Microsoft Intune device compliance documentation: <a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/overview">https://learn.microsoft.com/en-us/intune/device-security/compliance/overview</a></li>
-        <li>Conditional Access policies that use device compliance rely on Microsoft Entra Conditional Access. Ensure Conditional Access is available under your Microsoft Entra licensing: <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a></li>
-        <li>Users who receive Intune policies must have the required Intune licensing assigned: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a> and <a href="https://learn.microsoft.com/en-us/intune/fundamentals/assign-licenses">https://learn.microsoft.com/en-us/intune/fundamentals/assign-licenses</a></li>
-        <li>Administrators who create and manage Intune compliance policies must have the appropriate Intune RBAC roles: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles">https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles</a> and <a href="https://learn.microsoft.com/en-us/intune/govern-administer">https://learn.microsoft.com/en-us/intune/govern-administer</a></li>
+      <li>Devices must be enrolled in Microsoft Intune and subject to Intune device compliance policies so they can be evaluated as compliant or noncompliant. See Microsoft Intune device compliance documentation for details: <a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/overview">https://learn.microsoft.com/en-us/intune/device-security/compliance/overview</a>.</li>
+      <li>Conditional Access policies that use device compliance rely on Microsoft Entra Conditional Access. Ensure Conditional Access is available under your Microsoft Entra licensing. See licensing details: <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a>.</li>
+      <li>Users who receive Intune policies must have the required Intune licensing assigned. See Intune licensing guidance: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a> and <a href="https://learn.microsoft.com/en-us/intune/fundamentals/assign-licenses">https://learn.microsoft.com/en-us/intune/fundamentals/assign-licenses</a>.</li>
+      <li>Administrators who create and manage Intune compliance policies must have the appropriate Intune RBAC roles. Intune uses role-based access control to govern who can create and manage policies: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles">https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles</a> and <a href="https://learn.microsoft.com/en-us/intune/govern-administer">https://learn.microsoft.com/en-us/intune/govern-administer</a>.</li>
       </ul>
-
-      <h3>Licensing</h3>
-      <p>Verify both Intune licensing for managed devices and Microsoft Entra licensing for Conditional Access features before enforcing device compliance.</p>
-
-      <h3>Administrator role guidance</h3>
-      <p>Use least-privilege principles when assigning administrative roles. For Conditional Access policies the Conditional Access Administrator role is the least-privileged built-in role to manage policies. For Intune policy management, use Intune RBAC built-in roles.</p>
     </section>
 
-    <section id="configuration">
-      <h2>Configuration</h2>
-      <p>Configure Intune device compliance policies and a Conditional Access policy that uses the grant control "Require device to be marked as compliant." Follow Microsoft guidance when creating compliance policies and Conditional Access rules.</p>
-
-      <div class="step">
-        <div class="step-num">1</div>
-        <div>
-          <h3>Prepare the pilot</h3>
-          <p>Start with a pilot group of users and devices to verify enrollment and compliance evaluation before broader rollout.</p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num">2</div>
-        <div>
-          <h3>Create compliance policy</h3>
-          <p>Create and assign Intune compliance policies appropriate for your environment. See: <a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/create-policy">https://learn.microsoft.com/en-us/intune/device-security/compliance/create-policy</a>.</p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num">3</div>
-        <div>
-          <h3>Configure Conditional Access</h3>
-          <p>Create a Conditional Access policy that targets the desired users and applications and include the grant control "Require device to be marked as compliant." See: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant</a>.</p>
-        </div>
-      </div>
-
-      <h3>Rollout recommendations</h3>
+    <section id="licensing">
+      <h2>Licensing</h2>
+      <p>Verify two licensing aspects before enforcing device compliance:</p>
       <ul>
-        <li>Start with report-only analysis and the What If tool to identify potential impact on users and applications.</li>
-        <li>Gradually scope enforcement (for example, pilot groups) to reduce risk before broad rollout.</li>
-        <li>Ensure Intune compliance policies are in place and that devices in pilot groups are enrolled and receiving compliance evaluations.</li>
+      <li>Users who receive Intune policies must be licensed for Intune. See: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a>.</li>
+      <li>Conditional Access availability and features depend on Microsoft Entra licensing for your tenant. See: <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a>.</li>
       </ul>
-
-      <h3>Legacy authentication considerations</h3>
-      <p>Identify and address legacy authentication, which can bypass Conditional Access protections. See guidance on blocking legacy authentication and monitoring legacy auth activity.</p>
     </section>
 
-    <section id="validation">
-      <h2>Testing & validation</h2>
-      <p>Use Conditional Access report-only mode and the What If tool to understand policy impact and simulate outcomes before enforcement.</p>
-      <p>Report-only guidance: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only</a></p>
-      <p>What If tool: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool">https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool</a></p>
+    <section id="administrator-roles">
+      <h2>Administrator role guidance</h2>
+      <p>Use least-privilege principles when assigning administrative roles:</p>
+      <ul>
+      <li>Intune RBAC controls who can create and manage Intune device compliance policies. Review Intune built-in roles and governance guidance: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles">https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles</a> and <a href="https://learn.microsoft.com/en-us/intune/govern-administer">https://learn.microsoft.com/en-us/intune/govern-administer</a>.</li>
+      <li>For Conditional Access policy management, Microsoft documents the Conditional Access Administrator role as the least-privileged built-in role for managing Conditional Access policies. See Microsoft guidance: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/">https://learn.microsoft.com/en-us/entra/identity/conditional-access/</a> and <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/managed-policies">https://learn.microsoft.com/en-us/entra/identity/conditional-access/managed-policies</a>.</li>
+      <li>The exact minimum custom Intune RBAC permission mapping is UNVERIFIED; do not assume or create custom permission mappings without verification.</li>
+      </ul>
+    </section>
+
+    <section id="intune-compliance">
+      <h2>Configure Intune device compliance</h2>
+      <p>Intune device compliance policies evaluate enrolled devices and report each device as compliant or noncompliant. Create and assign compliance policies appropriate for your environment so Intune can determine device compliance state. For an overview and instructions on creating compliance policies, see: <a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/overview">https://learn.microsoft.com/en-us/intune/device-security/compliance/overview</a> and <a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/create-policy">https://learn.microsoft.com/en-us/intune/device-security/compliance/create-policy</a>.</p>
+    </section>
+
+    <section id="conditional-access">
+      <h2>Configure Microsoft Entra Conditional Access</h2>
+      <p>Microsoft Entra Conditional Access can use Intune device compliance state as a signal for access decisions. Conditional Access includes a grant control named "Require device to be marked as compliant," which enforces that a device must be evaluated as compliant by Intune before access is granted. See Conditional Access grant controls and policy examples: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant</a> and <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-compliance">https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-compliance</a>.</p>
+    </section>
+
+    <section id="require-compliant">
+      <h2>Require device to be marked as compliant</h2>
+      <p>The Conditional Access grant control "Require device to be marked as compliant" relies on the device compliance state sent by Intune. When you include this grant control in a Conditional Access policy, sign-in requests that match the policy require that the device is marked compliant by Intune before access is permitted. Refer to Microsoft documentation for the grant control and policy guidance: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant</a>.</p>
+    </section>
+
+    <section id="report-only">
+      <h2>Report-only testing</h2>
+      <p>Before enforcement, consider using Conditional Access Report-only mode to understand the impact of a policy without affecting user sign-ins. Conditional Access supports a report-only mode so you can evaluate what would happen if a policy were enforced. See: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only</a>.</p>
+    </section>
+
+    <section id="what-if">
+      <h2>What If testing</h2>
+      <p>Microsoft provides a Conditional Access What If tool to simulate policy evaluation for a given user, application, and conditions so you can predict policy outcomes. Use the What If tool to validate that a policy will behave as expected before enabling enforcement: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool">https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool</a>.</p>
+    </section>
+
+    <section id="rollout">
+      <h2>Rollout recommendations</h2>
+      <ul>
+      <li>Start with report-only analysis and What If tool validation to identify potential impact on users and applications.</li>
+      <li>Gradually scope enforcement (for example, pilot groups) to reduce risk before broad rollout.</li>
+      <li>Ensure Intune compliance policies are in place and that devices in pilot groups are enrolled and receiving compliance evaluations.</li>
+      </ul>
+    </section>
+
+    <section id="legacy-auth">
+      <h2>Legacy authentication considerations</h2>
+      <p>Microsoft recommends identifying and blocking legacy authentication because it bypasses modern authentication methods and Conditional Access protections. Review Microsoft guidance on blocking legacy authentication and monitoring legacy auth activity as part of your deployment planning: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication">https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication</a> and <a href="https://learn.microsoft.com/en-us/entra/identity/monitoring-health/workbook-legacy-authentication">https://learn.microsoft.com/en-us/entra/identity/monitoring-health/workbook-legacy-authentication</a>.</p>
     </section>
 
     <section id="troubleshooting">
       <h2>Troubleshooting</h2>
       <ul>
-        <li>Confirm devices are enrolled in Intune and receiving compliance policy evaluation: <a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/overview">https://learn.microsoft.com/en-us/intune/device-security/compliance/overview</a></li>
-        <li>Verify applicable users are assigned the required Intune licenses: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a></li>
-        <li>Confirm Conditional Access is available and licensed for your tenant: <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a></li>
-        <li>Use report-only mode and the What If tool to analyze policy effects and diagnose unexpected behavior.</li>
+      <li>Confirm devices are enrolled in Intune and receiving compliance policy evaluation. Refer to Intune compliance policy documentation: <a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/overview">https://learn.microsoft.com/en-us/intune/device-security/compliance/overview</a>.</li>
+      <li>Verify applicable users are assigned the required Intune licenses. See Intune licensing: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a>.</li>
+      <li>Confirm Conditional Access is available and licensed for your tenant. See Microsoft Entra licensing: <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a>.</li>
+      <li>Use Conditional Access report-only mode and the What If tool to analyze policy effects and diagnose unexpected behavior: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only</a> and <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool">https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool</a>.</li>
       </ul>
     </section>
 
     <section id="best-practices">
       <h2>Best practices</h2>
       <ul>
-        <li>Validate policies in report-only mode and with the What If tool before enforcement.</li>
-        <li>Use least-privilege administrative roles; assign Intune and Conditional Access roles according to organizational governance.</li>
-        <li>Plan a phased rollout and ensure licensing requirements for both Intune and Conditional Access are met before broad enforcement.</li>
-        <li>Monitor and address legacy authentication to ensure Conditional Access policies are effective.</li>
+      <li>Validate policies in report-only mode and with the What If tool before enforcement.</li>
+      <li>Use least-privilege administrative roles; assign Intune and Conditional Access roles according to organizational governance. See Intune RBAC and Conditional Access role guidance: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles">https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles</a> and <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/">https://learn.microsoft.com/en-us/entra/identity/conditional-access/</a>.</li>
+      <li>Plan a phased rollout and ensure licensing requirements for both Intune and Conditional Access are met before broad enforcement. See licensing information: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a> and <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a>.</li>
+      <li>Monitor and address legacy authentication to ensure Conditional Access policies are effective. See legacy authentication guidance: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication">https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication</a>.</li>
       </ul>
     </section>
 
     <section id="faq">
       <h2>FAQ</h2>
-      <div class="faq">
-        <h3>Can Conditional Access use Intune compliance state?</h3>
-        <p>Yes. Microsoft Intune device compliance status can be used by Microsoft Entra Conditional Access as a signal for policy evaluation. See: <a href="https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/overview">https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/overview</a></p>
-      </div>
-
-      <div class="faq">
-        <h3>Which grant control enforces Intune device compliance?</h3>
-        <p>Microsoft Entra Conditional Access includes the grant control "Require device to be marked as compliant." See: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant</a></p>
-      </div>
-
-      <div class="faq">
-        <h3>Do users need Intune licenses to be evaluated as compliant?</h3>
-        <p>Yes. Microsoft Intune licensing is required for users receiving applicable Intune policies. See: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a></p>
-      </div>
+      <ol>
+      <li><p><strong>Can Conditional Access use Intune compliance state?</strong></p>
+      <p>Yes. Microsoft Intune device compliance status can be used by Microsoft Entra Conditional Access as a signal for policy evaluation. See: <a href="https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/overview">https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/overview</a>.</p>
+      </li>
+      <li><p><strong>Which grant control enforces Intune device compliance?</strong></p>
+      <p>Microsoft Entra Conditional Access includes the grant control "Require device to be marked as compliant." See: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant</a>.</p>
+      </li>
+      <li><p><strong>Do users need Intune licenses to be evaluated as compliant?</strong></p>
+      <p>Yes. Microsoft Intune licensing is required for users receiving applicable Intune policies. See: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a>.</p>
+      </li>
+      <li><p><strong>Is Conditional Access available by default?</strong></p>
+      <p>Conditional Access availability depends on Microsoft Entra licensing. Verify the licensing for features you plan to use: <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a>.</p>
+      </li>
+      <li><p><strong>Can I test policies before enforcing them?</strong></p>
+      <p>Yes. Conditional Access supports report-only mode and Microsoft provides the What If tool to simulate policy outcomes. See: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only</a> and <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool">https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool</a>.</p>
+      </li>
+      </ol>
     </section>
 
     <section id="references">
       <h2>Authoritative Microsoft references</h2>
-      <ul class="references">
-        <li><a href="https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/overview">Intune device compliance and Conditional Access integration</a></li>
-        <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant">Conditional Access grant controls (Require device to be marked as compliant)</a></li>
-        <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-compliance">Conditional Access policy examples using device compliance</a></li>
-        <li><a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">Intune licensing</a></li>
-        <li><a href="https://learn.microsoft.com/en-us/intune/fundamentals/assign-licenses">Assign Intune licenses</a></li>
-        <li><a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">Microsoft Entra licensing</a></li>
+      <ul>
+      <li><a href="https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/overview">Intune device compliance and Conditional Access integration</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant">Conditional Access grant controls (Require device to be marked as compliant)</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-compliance">Conditional Access policy examples using device compliance</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">Intune licensing</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/intune/fundamentals/assign-licenses">Assign Intune licenses</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">Microsoft Entra licensing</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/overview">Intune device compliance overview</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/create-policy">Create Intune compliance policies</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles">Intune built-in RBAC roles</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/intune/govern-administer">Intune governance and administration</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/">Conditional Access overview and role guidance</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/managed-policies">Conditional Access managed policies</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only">Conditional Access report-only mode</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool">Conditional Access What If tool</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication">Policy guidance for blocking legacy authentication</a></li>
+      <li><a href="https://learn.microsoft.com/en-us/entra/identity/monitoring-health/workbook-legacy-authentication">Monitoring legacy authentication workbook</a></li>
       </ul>
     </section>
 
   </article>
 
   <aside class="sidebar">
-    <div class="side-card"><a class="back-link" href="/articles/">← Back to Articles</a></div>
+
+    <div class="side-card">
+      <a class="back-link" href="/articles/">← Back to Articles</a>
+    </div>
+
     <div class="side-card">
       <h2>In this guide</h2>
       <ul class="toc">
         <li><a href="#overview">Overview</a></li>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#configuration">Configuration</a></li>
-        <li><a href="#validation">Testing & validation</a></li>
+        <li><a href="#licensing">Licensing</a></li>
+        <li><a href="#administrator-roles">Administrator roles</a></li>
+        <li><a href="#intune-compliance">Intune compliance</a></li>
+        <li><a href="#conditional-access">Conditional Access</a></li>
+        <li><a href="#require-compliant">Require compliant device</a></li>
+        <li><a href="#report-only">Report-only testing</a></li>
+        <li><a href="#what-if">What If testing</a></li>
+        <li><a href="#rollout">Rollout</a></li>
+        <li><a href="#legacy-auth">Legacy authentication</a></li>
         <li><a href="#troubleshooting">Troubleshooting</a></li>
         <li><a href="#best-practices">Best practices</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a href="#references">References</a></li>
       </ul>
     </div>
+
     <div class="side-card">
       <h2>Article status</h2>
       <div class="article-status">
         <div><strong>Category:</strong><br>Microsoft Intune</div>
         <div><strong>Difficulty:</strong><br>Intermediate</div>
+        <div><strong>Last verified:</strong><br>September 1, 2026</div>
         <div><strong>Technical review:</strong><br>Research Agent + Human approval</div>
       </div>
     </div>
+
   </aside>
+
 </div>
 
 <section class="related-wrap">
   <div class="container">
     <div class="kicker">Continue learning</div>
     <h2>Related CloudManagePro articles</h2>
-    <div class="related-grid">
-      <!-- Related article cards intentionally removed until internal URLs are available -->
-    </div>
+
+    <div class="related-grid"></div>
   </div>
 </section>
 
@@ -414,17 +746,34 @@
 
 <footer class="footer">
   <div class="container footer-grid">
+
     <div>
-      <a class="brand" href="/"><img src="/assets/logo-mark.svg" alt="" /><span>CloudManagePro</span></a>
+      <a class="brand" href="/">
+        <img src="/assets/logo-mark.svg" alt="" />
+        <span>CloudManagePro</span>
+      </a>
       <p>Cloud, endpoint, security, wireless, and healthcare IT support.</p>
     </div>
+
     <div>
       <strong>Knowledge</strong>
-      <p><a href="/articles/">Articles</a><br><a href="/">CloudManagePro Home</a></p>
+      <p>
+        <a href="/articles/">Articles</a><br>
+        <a href="/">CloudManagePro Home</a>
+      </p>
     </div>
+
     <div>
       <strong>Contact</strong>
-      <p><a href="mailto:admin@cloudmanagepro.com">admin@cloudmanagepro.com</a></p>
+      <p>
+        <a href="mailto:admin@cloudmanagepro.com">
+          admin@cloudmanagepro.com
+        </a>
+      </p>
     </div>
+
   </div>
 </footer>
+
+</body>
+</html>
