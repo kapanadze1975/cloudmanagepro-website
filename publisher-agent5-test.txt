@@ -1,0 +1,8 @@
+CloudManagePro Website Publisher Agent 5 test.
+
+This file confirms that Agent 5 can safely:
+- create a branch
+- create a file on that branch
+- prepare a pull request for human review
+
+This is only a test and should not be merged into production.
