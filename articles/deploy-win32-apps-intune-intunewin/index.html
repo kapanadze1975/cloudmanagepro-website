@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Deploy Win32 Apps with Microsoft Intune (.intunewin) — Packaging, Detection, Delivery</title>
+  <meta
+    name="description"
+    content="Step-by-step guide to package Win32 apps as .intunewin, create detection rules, define dependencies and supersedence, optimize Delivery Optimization, and troubleshoot Intune deployments."
+  />
+  <link
+    rel="canonical"
+    href="https://www.cloudmanagepro.com/articles/deploy-win32-apps-intune-intunewin/"
+  />
+
+  <meta property="og:title" content="Deploy Win32 Apps with Microsoft Intune (.intunewin) — Packaging, Detection, Delivery" />
+  <meta
+    property="og:description"
+    content="Step-by-step guide to package Win32 apps as .intunewin, create detection rules, define dependencies and supersedence, optimize Delivery Optimization, and troubleshoot Intune deployments."
+  />
+  <meta property="og:type" content="article" />
+  <meta
+    property="og:url"
+    content="https://www.cloudmanagepro.com/articles/deploy-win32-apps-intune-intunewin/"
+  />
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <style>
+    :root{
+      --navy:#061b38;
+      --blue:#0f6bff;
+      --teal:#18bfc1;
+      --text:#14233b;
+      --muted:#62748b;
+      --line:#dfe7f1;
+      --soft:#f5f9ff;
+      --card:#fff;
+      --shadow:0 12px 34px rgba(17,45,86,.08);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Arial,sans-serif;
+      color:var(--text);
+      background:#fff;
+    }
+    a{color:var(--blue);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{width:min(1180px,calc(100% - 36px));margin:auto}
+
+    /* Header */
+    .site-header{
+      background:var(--navy);
+      position:sticky;
+      top:0;
+      z-index:50;
+      box-shadow:0 1px 0 rgba(255,255,255,.08);
+    }
+    .nav{
+      height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:#fff;
+      font-size:1.35rem;
+      font-weight:800;
+    }
+    .brand:hover{text-decoration:none}
+    .brand img{width:39px;height:39px}
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:26px;
+    }
+    .nav-links a{
+      color:#eef6ff;
+      font-size:.95rem;
+      font-weight:700;
+    }
+    .nav-links a:hover{color:#79c6ff;text-decoration:none}
+    .support{
+      background:var(--blue);
+      padding:11px 18px;
+      border-radius:10px;
+      color:#fff!important;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb-wrap{
+      background:#f8fbff;
+      border-bottom:1px solid #e7eef6;
+    }
+    .breadcrumb{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      padding:14px 0;
+      font-size:.86rem;
+      color:#75879a;
+    }
+    .breadcrumb a{font-weight:700}
+
+    /* Hero */
+    .article-hero{
+      background:
+        radial-gradient(circle at 86% 32%,rgba(15,107,255,.15),transparent 30%),
+        linear-gradient(120deg,#fff 0%,#f7fbff 62%,#edf6ff 100%);
+      border-bottom:1px solid #e5edf6;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:50px;
+      align-items:center;
+      padding:52px 0 48px;
+    }
+    .kicker{
+      color:var(--blue);
+      font-size:.78rem;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .article-hero h1{
+      font-size:clamp(2.4rem,5vw,4.35rem);
+      line-height:1.02;
+      letter-spacing:-.045em;
+      margin:12px 0 18px;
+      color:#071a39;
+    }
+    .dek{
+      max-width:780px;
+      font-size:1.1rem;
+      line-height:1.7;
+      color:#4d6178;
+      margin:0;
+    }
+    .hero-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 18px;
+      margin-top:24px;
+      font-size:.9rem;
+      color:#61748c;
+    }
+    .verified{
+      color:#087b69;
+      background:#e8fbf7;
+      border:1px solid #b9eee4;
+      border-radius:999px;
+      padding:6px 10px;
+      font-weight:800;
+    }
+    .hero-card{
+      border-radius:26px;
+      min-height:280px;
+      background:
+        radial-gradient(circle at 80% 25%,rgba(24,191,193,.2),transparent 28%),
+        linear-gradient(145deg,#061c3d,#0a3c76);
+      position:relative;
+      overflow:hidden;
+      box-shadow:0 24px 55px rgba(8,43,85,.16);
+      display:grid;
+      place-items:center;
+    }
+    .hero-card:before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:radial-gradient(rgba(74,176,255,.23) 1px,transparent 1px);
+      background-size:17px 17px;
+    }
+    .device{
+      position:relative;
+      z-index:2;
+      width:230px;
+      height:145px;
+      background:#07305e;
+      border:5px solid #0d579a;
+      border-radius:13px;
+      padding:12px;
+    }
+    .screen{
+      height:100%;
+      background:#eef8ff;
+      border-radius:6px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      font-weight:900;
+      color:#18324e;
+    }
+    .check{
+      width:48px;height:48px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:#24c4b7;
+      color:#fff;
+      font-size:1.7rem;
+    }
+    .cloud-label{
+      position:absolute;
+      z-index:3;
+      top:42px;
+      right:36px;
+      padding:15px 20px;
+      background:#fff;
+      border-radius:999px;
+      box-shadow:var(--shadow);
+      font-weight:900;
+      color:#334d68;
+    }
+    .lock{
+      position:absolute;
+      z-index:3;
+      right:70px;
+      bottom:38px;
+      width:65px;height:65px;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      font-size:2rem;
+      background:linear-gradient(145deg,#0f6bff,#18bfc1);
+    }
+
+    /* Main layout */
+    .article-layout{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 290px;
+      gap:42px;
+      padding:46px 0 70px;
+      align-items:start;
+    }
+    .article-body{min-width:0}
+    .article-body h2{
+      font-size:1.85rem;
+      margin:42px 0 14px;
+      line-height:1.2;
+      color:#10233e;
+    }
+    .article-body h3{
+      font-size:1.25rem;
+      margin:28px 0 10px;
+      color:#17304d;
+    }
+    .article-body p,
+    .article-body li{
+      font-size:1rem;
+      line-height:1.76;
+      color:#425770;
+    }
+    .article-body ul,
+    .article-body ol{padding-left:1.35rem}
+    .article-body li{margin:7px 0}
+
+    .lead-box,
+    .note,
+    .warning,
+    .placeholder{
+      border-radius:14px;
+      padding:18px 20px;
+      margin:24px 0;
+    }
+    .lead-box{
+      background:#f5f9ff;
+      border:1px solid #dbe8f7;
+    }
+    .note{
+      background:#edfbf9;
+      border:1px solid #c7eee8;
+    }
+    .warning{
+      background:#fff7e8;
+      border:1px solid #f2d9a4;
+    }
+    .placeholder{
+      background:#fafbfc;
+      border:1px dashed #b8c6d7;
+      color:#697c91;
+    }
+    .label{
+      display:block;
+      font-size:.76rem;
+      font-weight:900;
+      letter-spacing:.07em;
+      text-transform:uppercase;
+      margin-bottom:7px;
+    }
+
+    .step{
+      display:grid;
+      grid-template-columns:44px 1fr;
+      gap:14px;
+      margin:22px 0;
+    }
+    .step-num{
+      width:44px;height:44px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      background:var(--blue);
+      font-weight:900;
+    }
+    .step h3{margin:5px 0 8px}
+
+    .screenshot{
+      min-height:260px;
+      border:1px dashed #b9c9dc;
+      background:
+        linear-gradient(135deg,#f8fbff,#eef5fb);
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      padding:24px;
+      text-align:center;
+      color:#6c7f93;
+      margin:20px 0 30px;
+    }
+
+    .faq{
+      border-top:1px solid var(--line);
+      padding:18px 0;
+    }
+    .faq h3{margin:0 0 8px;font-size:1.08rem}
+
+    .references{
+      margin-top:18px;
+      padding-left:0;
+      list-style:none;
+    }
+    .references li{
+      padding:12px 0;
+      border-bottom:1px solid #edf1f5;
+    }
+
+    /* Sidebar */
+    .sidebar{
+      position:sticky;
+      top:94px;
+      display:flex;
+      flex-direction:column;
+      gap:15px;
+    }
+    .side-card{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:15px;
+      padding:18px;
+      box-shadow:0 7px 22px rgba(17,45,86,.045);
+    }
+    .side-card h2{
+      font-size:1rem;
+      margin:0 0 13px;
+    }
+    .toc{
+      list-style:none;
+      margin:0;padding:0;
+      display:grid;
+      gap:9px;
+    }
+    .toc a{
+      font-size:.86rem;
+      color:#3f5873;
+      font-weight:700;
+    }
+    .toc a:hover{color:var(--blue)}
+    .article-status{
+      display:grid;
+      gap:10px;
+      font-size:.84rem;
+      color:#52667d;
+    }
+    .article-status strong{color:#203953}
+    .back-link{
+      display:block;
+      border-radius:10px;
+      background:#eef5ff;
+      padding:11px 13px;
+      font-size:.88rem;
+      font-weight:800;
+      text-align:center;
+    }
+
+    /* Related */
+    .related-wrap{
+      background:#f7faff;
+      border-top:1px solid #e4ecf5;
+      padding:48px 0 58px;
+    }
+    .related-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+      margin-top:20px;
+    }
+    .related-card{
+      background:#fff;
+      border:1px solid #dfe7f1;
+      border-radius:14px;
+      padding:19px;
+    }
+    .related-card span{
+      color:var(--blue);
+      font-size:.72rem;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+    .related-card h3{
+      margin:7px 0 8px;
+      font-size:1rem;
+    }
+    .related-card p{
+      margin:0;
+      color:#66798e;
+      font-size:.84rem;
+      line-height:1.5;
+    }
+
+    /* Footer */
+    .footer{
+      background:var(--navy);
+      color:#dce7f5;
+      padding:30px 0;
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.2fr 1fr 1fr;
+      gap:28px;
+    }
+    .footer p{color:#b8cbe0;font-size:.86rem;line-height:1.55}
+    .footer a{color:#dce7f5}
+
+    @media(max-width:960px){
+      .hero-grid{grid-template-columns:1fr}
+      .hero-card{display:none}
+      .article-layout{grid-template-columns:1fr}
+      .sidebar{position:static}
+      .related-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:720px){
+      .nav-links{display:none}
+      .article-hero h1{font-size:2.45rem}
+      .related-grid,
+      .footer-grid{grid-template-columns:1fr}
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Deploy Win32 Apps with Microsoft Intune (.intunewin) — Packaging, Detection, Delivery",
+    "description": "Step-by-step guide to package Win32 apps as .intunewin, create detection rules, define dependencies and supersedence, optimize Delivery Optimization, and troubleshoot Intune deployments.",
+    "author": {
+      "@type": "Organization",
+      "name": "CloudManagePro"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "CloudManagePro"
+    },
+    "mainEntityOfPage": "https://www.cloudmanagepro.com/articles/deploy-win32-apps-intune-intunewin/"
+  }
+  </script>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="/">
+      <img src="/assets/logo-mark.svg" alt="" />
+      <span>CloudManagePro</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="/#services">Services</a>
+      <a href="/#healthcare">Healthcare IT</a>
+      <a href="/articles/">Articles</a>
+      <a href="/#process">Process</a>
+      <a href="/#contact">Contact</a>
+      <a class="support" href="/#contact">Get Support</a>
+    </nav>
+  </div>
+</header>
+
+<div class="breadcrumb-wrap">
+  <div class="container breadcrumb">
+    <a href="/">Home</a>
+    <span>›</span>
+    <a href="/articles/">Articles</a>
+    <span>›</span>
+    <span>Intune</span>
+  </div>
+</div>
+
+<main>
+
+<section class="article-hero">
+  <div class="container hero-grid">
+
+    <div>
+      <div class="kicker">Microsoft Intune · Win32 Apps</div>
+
+      <h1>How to Package and Deploy Win32 Apps with Microsoft Intune (.intunewin)</h1>
+
+      <p class="dek">
+        A practical guide for packaging Win32 applications into the .intunewin format, creating reliable detection rules, declaring dependencies and supersedence, optimizing Delivery Optimization settings, and troubleshooting common Intune deployment failures.
+      </p>
+
+      <div class="hero-meta">
+        <span>Technical Guide</span>
+        <span>•</span>
+        <span>Intermediate</span>
+        <span>•</span>
+        <span>CloudManagePro</span>
+        <span class="verified">Last verified: September 5, 2026</span>
+      </div>
+    </div>
+
+    <div class="hero-card" aria-hidden="true">
+      <div class="device">
+        <div class="screen">
+          <span class="check">✓</span>
+          <span>Packaged</span>
+        </div>
+      </div>
+      <div class="cloud-label">Intune</div>
+      <div class="lock">📦</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="container article-layout">
+
+  <article class="article-body">
+
+    <section id="short-intro">
+      <h2>Introduction</h2>
+      <p>This article shows how to package Win32 applications into the .intunewin format, upload them to Microsoft Intune, create detection rules, configure dependencies and supersedence, optimize Delivery Optimization for distribution, and troubleshoot common installation issues. It assumes basic familiarity with Intune and Windows administration.</p>
+    </section>
+
+    <section id="what-is">
+      <h2>What the .intunewin format is</h2>
+      <p>.intunewin is a packaging format created to deliver Win32 applications through Microsoft Intune. The Microsoft Win32 Content Prep Tool wraps application files and metadata into a single .intunewin file that Intune can upload, distribute, and manage.</p>
+    </section>
+
+    <section id="why-use">
+      <h2>Why an administrator would use it</h2>
+      <ul>
+        <li>To deploy classic Win32 applications (MSI, EXE, scripts, or multi-file installers) to managed Windows devices.</li>
+        <li>To use Intune detection rules, dependencies, and supersedence features for controlled rollouts and app lifecycle management.</li>
+        <li>To take advantage of Intune’s distribution, monitoring, and reporting for legacy and third-party apps.</li>
+      </ul>
+    </section>
+
+    <section id="prerequisites">
+      <h2>Requirements and prerequisites</h2>
+      <ul>
+        <li>Microsoft Intune tenant with permissions to add and assign apps.</li>
+        <li>A Windows machine to run the Win32 Content Prep Tool and create .intunewin packages.</li>
+        <li>The app installation files and any required scripts.</li>
+        <li>Appropriate administrator roles in Entra ID/Intune for app creation and assignment (e.g., Intune Administrator or Application Manager).</li>
+      </ul>
+    </section>
+
+    <section id="size-limit">
+      <h2>Package size limit</h2>
+      <p>Microsoft Learn currently states that Windows application size is capped at 30 GB per app. Plan packaging and file composition accordingly.</p>
+    </section>
+
+    <section id="tools">
+      <h2>Tools and downloads (verified)</h2>
+      <ul>
+        <li>Microsoft Win32 Content Prep Tool (packaging tool).</li>
+        <li>Intune admin center for app upload and configuration.</li>
+        <li>Optionally: PowerShell or Win32 app installer scripts used during packaging.</li>
+      </ul>
+    </section>
+
+    <section id="packaging-steps">
+      <h2>Step-by-step packaging with the Microsoft Win32 Content Prep Tool</h2>
+
+      <h3>Step 1 — Prepare your source files</h3>
+      <ol>
+        <li>Create a folder on your packaging machine and copy all required installer files, scripts, and support files into it.</li>
+        <li>Ensure your main installer and any silent/quiet install switches are tested locally.</li>
+      </ol>
+
+      <h3>Step 2 — Download the Win32 Content Prep Tool</h3>
+      <ol>
+        <li>Download the tool from the official Microsoft GitHub repository.</li>
+        <li>Extract the tool to a working folder.</li>
+      </ol>
+
+      <h3>Step 3 — Create the .intunewin file</h3>
+      <ol>
+        <li>Open an elevated PowerShell or Command Prompt in the folder containing the Content Prep Tool.</li>
+        <li>Run the tool and follow prompts. Example usage:
+          <ul>
+            <li>Provide the source folder path (the folder you prepared).</li>
+            <li>Specify the setup file name (the main installer or script).</li>
+            <li>Set the output folder path (where the .intunewin will be created).</li>
+          </ul>
+        </li>
+        <li>The tool packages files, generates encryption metadata, and creates the .intunewin output.</li>
+      </ol>
+
+      <h3>What the creation step does</h3>
+      <ul>
+        <li>Gathers all files.</li>
+        <li>Compresses and encrypts them.</li>
+        <li>Produces a single .intunewin file ready to upload to Intune.</li>
+      </ul>
+    </section>
+
+    <section id="upload-configure">
+      <h2>Uploading and configuring the app in Intune</h2>
+
+      <h3>Step 4 — Add the Win32 app in the Intune admin center</h3>
+      <ol>
+        <li>Sign in to the Microsoft Intune admin center.</li>
+        <li>Navigate: Apps → All apps → Add.</li>
+        <li>Select App type: Windows app (Win32) and upload the .intunewin file.</li>
+        <li>Complete the required fields: Name, Description, Publisher. Program commands: Enter install and uninstall commands (include silent switches).</li>
+        <li>Detection rules: Create rules that determine whether the app is already installed. Detection methods include MSI product code, file or folder existence, or registry key/value.</li>
+      </ol>
+
+      <h3>Step 5 — Configure dependencies, requirements, and return codes</h3>
+      <ul>
+        <li>Dependencies: Add other apps that must be installed before this app (for example, a runtime or framework).</li>
+        <li>Requirements: Define OS architecture, minimum OS version, or other device conditions.</li>
+        <li>Return codes: Map installer exit codes to success/failure or to retry behavior. Include any vendor-specific return codes your installer uses.</li>
+      </ul>
+
+      <h3>Step 6 — Supersedence (supersedence)</h3>
+      <p>To replace older versions, configure supersedence settings to specify which existing apps should be superseded. Define the rules so Intune can uninstall older versions and install the new app in a managed fashion.</p>
+    </section>
+
+    <section id="testing-assignment">
+      <h2>Testing and assignment</h2>
+
+      <h3>Step 7 — Assign the app to groups</h3>
+      <ol>
+        <li>Assign the app to device groups or user groups as Required, Available for enrolled devices, or Uninstall as needed.</li>
+        <li>For testing, assign to a limited pilot group first.</li>
+      </ol>
+
+      <h3>Step 8 — Monitor installation and verification</h3>
+      <ul>
+        <li>Use the Intune admin center monitoring pages to view install status, errors, and device reports.</li>
+        <li>On target devices, verify installation by checking the detection criteria (file, registry, or MSI presence).</li>
+      </ul>
+    </section>
+
+    <section id="delivery-optimization">
+      <h2>Delivery Optimization considerations</h2>
+      <ul>
+        <li>Use Delivery Optimization to reduce bandwidth consumption when distributing large Win32 apps across your network.</li>
+        <li>Configure Delivery Optimization policies via Intune device configuration templates and assign them to device groups to control peer caching, bandwidth settings, and group IDs for content sharing.</li>
+      </ul>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>Troubleshooting Win32 app deployments</h2>
+      <h3>Common checks</h3>
+      <ol>
+        <li>Detection rule mismatch: Confirm rules match post-install state (correct file path, registry key, or MSI product code).</li>
+        <li>Install command errors: Test the install command locally and ensure silent switches work.</li>
+        <li>Dependency failures: Verify dependencies installed successfully before the main app.</li>
+        <li>Return code handling: Ensure return codes from the installer are correctly mapped in the app configuration.</li>
+      </ol>
+
+      <h3>Where to look for detailed troubleshooting</h3>
+      <ul>
+        <li>Intune app monitoring in the admin center provides status and error codes.</li>
+        <li>Device-side logs from the Intune Management Extension help identify client-side problems.</li>
+        <li>Consult Microsoft troubleshooting documentation that lists common installation error codes and diagnostics: https://learn.microsoft.com/en-us/troubleshoot/mem/intune/app-management/troubleshoot-win32-app-install</li>
+      </ul>
+    </section>
+
+    <section id="best-practices">
+      <h2>Best practices</h2>
+      <ul>
+        <li>Keep packaging environments consistent and use documented build steps to reproduce packages.</li>
+        <li>Use precise detection rules to avoid false reinstallations.</li>
+        <li>Test install and uninstall commands on a clean test VM matching target devices.</li>
+        <li>Use Delivery Optimization for large apps and peer caching to reduce WAN usage.</li>
+        <li>Use pilot groups for staged rollouts and validate supersedence/uninstall behavior before broad deployment.</li>
+      </ul>
+    </section>
+
+    <section id="practical-example">
+      <h2>Practical example</h2>
+      <p>App: ExampleAppInstaller.exe with silent switch /quiet</p>
+      <p>Content Prep Tool inputs:</p>
+      <ul>
+        <li>Source folder: C:\\Package\\ExampleApp\\</li>
+        <li>Setup file: ExampleAppInstaller.exe</li>
+        <li>Output folder: C:\\Package\\Output\\</li>
+      </ul>
+      <p>Intune program commands:</p>
+      <ul>
+        <li>Install command: ExampleAppInstaller.exe /quiet</li>
+        <li>Uninstall command: msiexec /x {PRODUCT-CODE} /quiet (if MSI) or script that removes app</li>
+      </ul>
+      <p>Detection rule: Registry exists HKLM\\SOFTWARE\\ExampleCompany\\ExampleApp\\Version with value &gt;= 4.0</p>
+      <p>Dependencies: Microsoft Visual C++ Redistributable (configured as dependency)</p>
+      <p>Supersedence: Configure to supersede ExampleApp v3.x applications</p>
+    </section>
+
+    <section id="verification">
+      <h2>Verification / testing checklist</h2>
+      <ul>
+        <li>Package created successfully and uploaded to Intune.</li>
+        <li>Install/uninstall commands tested on a clean VM.</li>
+        <li>Detection rules correctly identify installed app.</li>
+        <li>Dependencies install first and succeed.</li>
+        <li>Supersedence correctly removes older app versions.</li>
+        <li>Delivery Optimization policy applied and content distributed as expected.</li>
+      </ul>
+    </section>
+
+    <section id="limitations">
+      <h2>Important limitations and warnings</h2>
+      <ul>
+        <li>The verified maximum application size per app is 30 GB. Plan packaging strategy when distributing very large installers.</li>
+        <li>Ensure detection rules are accurate; an incorrect rule can cause unnecessary reinstalls or failure to report success.</li>
+        <li>Avoid packaging sensitive secrets or certificates in plaintext inside the .intunewin file.</li>
+      </ul>
+    </section>
+
+    <section id="summary">
+      <h2>Summary</h2>
+      <p>Packaging Win32 applications as .intunewin files and deploying them with Intune lets administrators manage legacy applications alongside modern management workflows. Using validated detection rules, dependencies, supersedence, and Delivery Optimization improves reliability and reduces bandwidth impact. Always test thoroughly in a controlled pilot before broader rollouts.</p>
+    </section>
+
+    <section id="references">
+      <h2>Verified Microsoft references</h2>
+      <ul class="references">
+        <li><a href="https://learn.microsoft.com/en-us/intune/app-management/deployment/create-win32-package">Create Win32 package (Microsoft)</a></li>
+        <li><a href="https://github.com/microsoft/Microsoft-Win32-Content-Prep-Tool">Microsoft Win32 Content Prep Tool (GitHub)</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/intune/app-management/deployment/add-win32">Add Win32 apps to Intune</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/intune/app-management/deployment/win32">Win32 app deployment overview</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/troubleshoot/mem/intune/app-management/troubleshoot-win32-app-install">Troubleshoot Win32 app install</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/intune/device-configuration/templates/configure-delivery-optimization-windows">Configure Delivery Optimization</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/intune/device-management/tools/management-extension-windows">Intune Management Extension logs</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/intune/app-management/deployment/add-win32#step-6-supersedence">Supersedence guidance (Add Win32)</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/troubleshoot/mem/intune/app-management/app-install-error-codes">App install error codes (troubleshoot)</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/graph/api/resources/intune-apps-win32lobappreturncode?view=graph-rest-1.0">Intune Win32 app return codes (Graph)</a></li>
+      </ul>
+    </section>
+
+  </article>
+
+  <aside class="sidebar">
+
+    <div class="side-card">
+      <a class="back-link" href="/articles/">← Back to Articles</a>
+    </div>
+
+    <div class="side-card">
+      <h2>In this guide</h2>
+      <ul class="toc">
+        <li><a href="#short-intro">Introduction</a></li>
+        <li><a href="#what-is">What the .intunewin format is</a></li>
+        <li><a href="#why-use">Why an administrator would use it</a></li>
+        <li><a href="#prerequisites">Requirements and prerequisites</a></li>
+        <li><a href="#size-limit">Package size limit</a></li>
+        <li><a href="#packaging-steps">Packaging steps</a></li>
+        <li><a href="#upload-configure">Uploading and configuring</a></li>
+        <li><a href="#testing-assignment">Testing and assignment</a></li>
+        <li><a href="#delivery-optimization">Delivery Optimization</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+        <li><a href="#best-practices">Best practices</a></li>
+        <li><a href="#practical-example">Practical example</a></li>
+        <li><a href="#verification">Verification / testing checklist</a></li>
+        <li><a href="#limitations">Limitations</a></li>
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#references">References</a></li>
+      </ul>
+    </div>
+
+    <div class="side-card">
+      <h2>Article status</h2>
+      <div class="article-status">
+        <div><strong>Category:</strong><br>Microsoft Intune</div>
+        <div><strong>Difficulty:</strong><br>Intermediate</div>
+        <div><strong>Last verified:</strong><br>September 5, 2026</div>
+        <div><strong>Technical review:</strong><br>Research Agent + Human approval</div>
+      </div>
+    </div>
+
+  </aside>
+
+</div>
+
+<section class="related-wrap">
+  <div class="container">
+    <div class="kicker">Continue learning</div>
+    <h2>Related CloudManagePro articles</h2>
+
+    <div class="related-grid"></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+
+    <div>
+      <a class="brand" href="/">
+        <img src="/assets/logo-mark.svg" alt="" />
+        <span>CloudManagePro</span>
+      </a>
+      <p>Cloud, endpoint, security, wireless, and healthcare IT support.</p>
+    </div>
+
+    <div>
+      <strong>Knowledge</strong>
+      <p>
+        <a href="/articles/">Articles</a><br>
+        <a href="/">CloudManagePro Home</a>
+      </p>
+    </div>
+
+    <div>
+      <strong>Contact</strong>
+      <p>
+        <a href="mailto:admin@cloudmanagepro.com">
+          admin@cloudmanagepro.com
+        </a>
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>
