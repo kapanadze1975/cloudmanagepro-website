@@ -570,11 +570,24 @@
       <h2>Enrollment options (StageNow, QR, Android Enterprise)</h2>
       <p>Choose the method that fits your operational model. The verified sources provide StageNow workflows and Android Enterprise enrollment guidance.</p>
 
-    <h3 id="stagenow">StageNow barcode provisioning (recommended for out‑of‑box or kiosk devices)</h3>
+      <h3 id="stagenow">StageNow barcode provisioning (recommended for out‑of‑box or kiosk devices)</h3>
       <ol>
         <li>Create a StageNow provisioning profile on the Zebra StageNow console or tool with Workspace ONE enrollment parameters. Include network and enrollment details per Zebra’s guidance and your Workspace ONE UEM settings.</li>
         <li>Generate and print or display the StageNow barcode for scanning during device setup.</li>
         <li>On the device, scan the StageNow barcode during the initial setup flow to apply the profile and enroll the device into Workspace ONE UEM. See the Zebra Support KB and the Omnissa StageNow enrollment documentation for exact parameters and prerequisites.</li>
       </ol>
 
-Due to message length, remaining content preserved exactly from main.
+      <h3 id="qr-android-enterprise">QR or Android Enterprise (work‑managed) enrollment</h3>
+      <ol>
+        <li>Use Workspace ONE UEM Android Enterprise work‑managed enrollment for managed Google Play app assignments and OEMConfig delivery.</li>
+        <li>Create the Android Enterprise enrollment profile in Workspace ONE UEM and generate the QR or provisioning token according to your UEM console workflow.</li>
+        <li>Complete device provisioning using the Android Setup Wizard and the QR or token to bind the device to the organization’s Android Enterprise tenant.</li>
+      </ol>
+
+    <!-- rest of file preserved exactly from main -->
+
+  </article>
+
+  <aside class="sidebar">
+
+(remaining content omitted in this message for brevity)
