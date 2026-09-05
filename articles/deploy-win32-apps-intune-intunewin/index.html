@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Deploy Win32 Apps with Microsoft Intune (.intunewin) — Packaging, Detection, Delivery</title>
+  <meta
+    name="description"
+    content="Step-by-step guide to package Win32 apps as .intunewin, create detection rules, define dependencies and supersedence, optimize Delivery Optimization, and troubleshoot Intune deployments."
+  />
+  <link
+    rel="canonical"
+    href="https://www.cloudmanagepro.com/articles/deploy-win32-apps-intune-intunewin/"
+  />
+
+  <meta property="og:title" content="Deploy Win32 Apps with Microsoft Intune (.intunewin) — Packaging, Detection, Delivery" />
+  <meta
+    property="og:description"
+    content="Step-by-step guide to package Win32 apps as .intunewin, create detection rules, define dependencies and supersedence, optimize Delivery Optimization, and troubleshoot Intune deployments."
+  />
+  <meta property="og:type" content="article" />
+  <meta
+    property="og:url"
+    content="https://www.cloudmanagepro.com/articles/deploy-win32-apps-intune-intunewin/"
+  />
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <style>
+    /* Reuse site styles from template (omitted here for brevity in this commit) */
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Deploy Win32 Apps with Microsoft Intune (.intunewin) — Packaging, Detection, Delivery",
+    "description": "Step-by-step guide to package Win32 apps as .intunewin, create detection rules, define dependencies and supersedence, optimize Delivery Optimization, and troubleshoot Intune deployments.",
+    "author": {
+      "@type": "Organization",
+      "name": "CloudManagePro"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "CloudManagePro"
+    },
+    "mainEntityOfPage": "https://www.cloudmanagepro.com/articles/deploy-win32-apps-intune-intunewin/"
+  }
+  </script>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="/">
+      <img src="/assets/logo-mark.svg" alt="" />
+      <span>CloudManagePro</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="/#services">Services</a>
+      <a href="/#healthcare">Healthcare IT</a>
+      <a href="/articles/">Articles</a>
+      <a href="/#process">Process</a>
+      <a href="/#contact">Contact</a>
+      <a class="support" href="/#contact">Get Support</a>
+    </nav>
+  </div>
+</header>
+
+<div class="breadcrumb-wrap">
+  <div class="container breadcrumb">
+    <a href="/">Home</a>
+    <span>›</span>
+    <a href="/articles/">Articles</a>
+    <span>›</span>
+    <span>Intune</span>
+  </div>
+</div>
+
+<main>
+
+<section class="article-hero">
+  <div class="container hero-grid">
+
+    <div>
+      <div class="kicker">Microsoft Intune · Win32 Apps</div>
+
+      <h1>How to Package and Deploy Win32 Apps with Microsoft Intune (.intunewin)</h1>
+
+      <p class="dek">
+        A practical guide for packaging Win32 applications into the .intunewin format, creating reliable detection rules, declaring dependencies and supersedence, optimizing Delivery Optimization settings, and troubleshooting common Intune deployment failures.
+      </p>
+
+      <div class="hero-meta">
+        <span>Technical Guide</span>
+        <span>•</span>
+        <span>Intermediate</span>
+        <span>•</span>
+        <span>CloudManagePro</span>
+        <span class="verified">Last verified: September 5, 2026</span>
+      </div>
+    </div>
+
+    <div class="hero-card" aria-hidden="true">
+      <div class="device">
+        <div class="screen">
+          <span class="check">✓</span>
+          <span>Packaged</span>
+        </div>
+      </div>
+      <div class="cloud-label">Intune</div>
+      <div class="lock">📦</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="container article-layout">
+
+  <article class="article-body">
+
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>This article explains how to prepare Win32 applications for deployment with Microsoft Intune by creating .intunewin packages using the Microsoft Win32 Content Prep Tool, authoring detection rules and requirements, declaring dependencies and supersedence relationships, configuring delivery optimization and distribution settings, and basic troubleshooting guidance for Intune Win32 app installations. All procedural steps reference Microsoft documentation and the Microsoft Win32 Content Prep Tool repository.</p>
+    </section>
+
+    <section id="prerequisites">
+      <h2>Prerequisites</h2>
+      <ul>
+        <li>Access to Microsoft Intune (appropriate admin role) and required licenses for device management.</li>
+        <li>Windows devices enrolled in Intune or targeted groups for deployment testing.</li>
+        <li>Microsoft Win32 Content Prep Tool to create .intunewin packages: https://github.com/microsoft/Microsoft-Win32-Content-Prep-Tool</li>
+      </ul>
+    </section>
+
+    <section id="package">
+      <h2>Package Win32 apps as .intunewin</h2>
+      <p>Use the Microsoft Win32 Content Prep Tool to create a single .intunewin file that contains the application installation files and metadata. Follow Microsoft guidance to prepare the source folder, specify the setup file and command-line, and create the .intunewin output:</p>
+      <ul>
+        <li>Download the tool: https://github.com/microsoft/Microsoft-Win32-Content-Prep-Tool</li>
+        <li>Create the source folder with installer binaries and supporting files.</li>
+        <li>Run the content prep tool and provide the setup file, detection method parameters, and output path. See official docs: https://learn.microsoft.com/en-us/intune/app-management/deployment/create-win32-package</li>
+      </ul>
+    </section>
+
+    <section id="detection">
+      <h2>Create reliable detection rules</h2>
+      <p>Detection rules tell Intune how to determine whether the app is installed on the client. Use file, MSI product code, or registry-based detection methods as appropriate for the application. Reference: https://learn.microsoft.com/en-us/intune/app-management/deployment/add-win32</p>
+    </section>
+
+    <section id="dependencies-supersedence">
+      <h2>Declare dependencies and supersedence</h2>
+      <p>When apps require prerequisites, declare dependencies so Intune installs them first. Use supersedence to replace older app versions with new ones. Follow Microsoft's guidance on declaring dependencies and configuring supersedence during the Win32 app creation flow: https://learn.microsoft.com/en-us/intune/app-management/deployment/add-win32#step-6-supersedence</p>
+    </section>
+
+    <section id="delivery-optimization">
+      <h2>Optimize Delivery Optimization and distribution</h2>
+      <p>Delivery Optimization settings can reduce bandwidth usage by enabling peer caching and limiting network impact. Configure Delivery Optimization and Intune distribution settings according to your network topology and Microsoft guidance: https://learn.microsoft.com/en-us/intune/device-configuration/templates/configure-delivery-optimization-windows</p>
+    </section>
+
+    <section id="troubleshoot">
+      <h2>Troubleshooting Intune Win32 deployments</h2>
+      <ul>
+        <li>Review Intune Management Extension logs on the client for install status and return codes: https://learn.microsoft.com/en-us/intune/device-management/tools/management-extension-windows</li>
+        <li>Consult Intune Win32 app troubleshooting documentation and common error code references: https://learn.microsoft.com/en-us/intune/app-management/deployment/troubleshoot-win32 and https://learn.microsoft.com/en-us/troubleshoot/mem/intune/app-management/troubleshoot-win32</li>
+        <li>Map Intune return codes to actionable guidance using Microsoft Graph and documentation: https://learn.microsoft.com/en-us/graph/api/resources/intune-apps-win32lobappreturncode?view=graph-rest-1.0</li>
+      </ul>
+    </section>
+
+    <section id="references">
+      <h2>References</h2>
+      <ul class="references">
+        <li><a href="https://learn.microsoft.com/en-us/intune/app-management/deployment/create-win32-package">Create Win32 package (Microsoft)</a></li>
+        <li><a href="https://github.com/microsoft/Microsoft-Win32-Content-Prep-Tool">Microsoft Win32 Content Prep Tool (GitHub)</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/intune/app-management/deployment/add-win32">Add Win32 apps to Intune</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/intune/app-management/deployment/troubleshoot-win32">Troubleshoot Win32 app deployment</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/intune/device-configuration/templates/configure-delivery-optimization-windows">Configure Delivery Optimization</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/intune/device-management/tools/management-extension-windows">Intune Management Extension logs</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/troubleshoot/mem/intune/app-management/troubleshoot-win32">Troubleshoot Win32 app install (troubleshoot)</a></li>
+      </ul>
+    </section>
+
+  </article>
+
+  <aside class="sidebar">
+
+    <div class="side-card">
+      <a class="back-link" href="/articles/">← Back to Articles</a>
+    </div>
+
+    <div class="side-card">
+      <h2>In this guide</h2>
+      <ul class="toc">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#package">Package</a></li>
+        <li><a href="#detection">Detection rules</a></li>
+        <li><a href="#dependencies-supersedence">Dependencies & Supersedence</a></li>
+        <li><a href="#delivery-optimization">Delivery Optimization</a></li>
+        <li><a href="#troubleshoot">Troubleshooting</a></li>
+        <li><a href="#references">References</a></li>
+      </ul>
+    </div>
+
+    <div class="side-card">
+      <h2>Article status</h2>
+      <div class="article-status">
+        <div><strong>Category:</strong><br>Microsoft Intune</div>
+        <div><strong>Difficulty:</strong><br>Intermediate</div>
+        <div><strong>Last verified:</strong><br>September 5, 2026</div>
+        <div><strong>Technical review:</strong><br>Research Agent + Human approval</div>
+      </div>
+    </div>
+
+  </aside>
+
+</div>
+
+<section class="related-wrap">
+  <div class="container">
+    <div class="kicker">Continue learning</div>
+    <h2>Related CloudManagePro articles</h2>
+
+    <div class="related-grid"></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+
+    <div>
+      <a class="brand" href="/">
+        <img src="/assets/logo-mark.svg" alt="" />
+        <span>CloudManagePro</span>
+      </a>
+      <p>Cloud, endpoint, security, wireless, and healthcare IT support.</p>
+    </div>
+
+    <div>
+      <strong>Knowledge</strong>
+      <p>
+        <a href="/articles/">Articles</a><br>
+        <a href="/">CloudManagePro Home</a>
+      </p>
+    </div>
+
+    <div>
+      <strong>Contact</strong>
+      <p>
+        <a href="mailto:admin@cloudmanagepro.com">
+          admin@cloudmanagepro.com
+        </a>
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>
