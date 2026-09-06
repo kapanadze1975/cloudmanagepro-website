@@ -1,0 +1,61 @@
+{{{header_html}}}
+
+  <div class="cmp-container hub">
+    <section class="main-column">
+      {{{featured_html}}}
+
+      <div class="article-grid" id="articleGrid">
+        {{{article_cards_html}}}
+      </div>
+
+      <div class="empty-state" id="emptyState">No articles match your search yet.</div>
+
+      <section class="browse">
+        <h2>Browse by Topic</h2>
+        <div class="topic-grid">
+          <div class="topic-card"><img src="/assets/icon-cloud.svg" alt="" /><h3>Azure</h3><p>Architecture, governance, identity, and cloud best practices.</p><span>Explore →</span></div>
+          <div class="topic-card"><img src="/assets/icon-device.svg" alt="" /><h3>Intune</h3><p>Endpoint management, devices, apps, enrollment, and compliance.</p><span>Explore →</span></div>
+          <div class="topic-card"><img src="/assets/icon-server.svg" alt="" /><h3>Healthcare IT</h3><p>Secure, reliable technology for clinical and healthcare workflows.</p><span>Explore →</span></div>
+          <div class="topic-card"><img src="/assets/icon-security.svg" alt="" /><h3>Security</h3><p>Zero Trust, endpoint security, identity, and threat protection.</p><span>Explore →</span></div>
+          <div class="topic-card"><img src="/assets/icon-workflow.svg" alt="" /><h3>Automation</h3><p>PowerShell, tooling, and AI-powered automation for IT.</p><span>Explore →</span></div>
+        </div>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      {{{sidebar_html}}}
+    </aside>
+  </div>
+
+{{{footer_html}}}
+
+<script>
+  const search = document.getElementById('articleSearch');
+  const cards = [...document.querySelectorAll('.searchable')];
+  const buttons = [...document.querySelectorAll('.category-btn')];
+  const emptyState = document.getElementById('emptyState');
+  let category = 'all';
+
+  function applyFilters(){
+    const term = search.value.trim().toLowerCase();
+    let visible = 0;
+    cards.forEach(card => {
+      const text = (card.dataset.search + ' ' + card.innerText).toLowerCase();
+      const categories = card.dataset.category.split(' ');
+      const matchTerm = !term || text.includes(term);
+      const matchCategory = category === 'all' || categories.includes(category);
+      const show = matchTerm && matchCategory;
+      card.hidden = !show;
+      if(show) visible++;
+    });
+    emptyState.style.display = visible ? 'none' : 'block';
+  }
+
+  search.addEventListener('input', applyFilters);
+  buttons.forEach(btn => btn.addEventListener('click', () => {
+    buttons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    category = btn.dataset.category;
+    applyFilters();
+  }));
+</script>
