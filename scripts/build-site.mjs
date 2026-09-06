@@ -237,9 +237,10 @@ async function build(){
   const featuredMeta = articlesMeta.find(a=>a.slug===hubConfig.featured_slug) || articlesMeta[0] || null;
   const featured_html = buildFeaturedHtml(featuredMeta);
 
-  // Build cards: include published articles (all)
+  // Build cards: include published articles (all) BUT exclude featured
   let article_cards_html = '';
   for(const m of articlesMeta){
+    if(featuredMeta && m.slug === featuredMeta.slug) continue; // exclude featured from normal grid
     article_cards_html += buildArticleCard(m)+'\n\n';
   }
 
@@ -266,7 +267,7 @@ async function build(){
     if(footerStart !== -1) footer_html = legacy.substring(footerStart);
   }
 
-  const hubView = { header_html, featured_html, article_cards_html, sidebar_html, footer_html };
+  const hubView = { header_html, featured_html, article_cards_html, sidebar_html, footer_html, categories: hubConfig.categories };
   const hubOut = mustache.render(hubTemplate, hubView);
   const hubOutPath = path.join(BUILD_DIR,'articles','index.html');
   await ensureDir(path.dirname(hubOutPath));
