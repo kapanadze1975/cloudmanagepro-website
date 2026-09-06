@@ -8,6 +8,7 @@ const { JSDOM } = jsdom;
 const ROOT = process.cwd();
 const BUILD_DIR = path.join(ROOT,'build');
 const REPORT_DIR = path.join(ROOT,'.build-reports');
+const MANIFEST_PATH = path.join(REPORT_DIR,'manifest.json');
 
 const PLACEHOLDERS = [
   '(remaining content unchanged)',
@@ -41,12 +42,41 @@ async function validate(){
     report.errors.push('sitemap.xml missing from build/');
   }
 
-  // Validate generated articles under build/articles/* (exclude index.html hub)
-  const articlesDir = path.join(BUILD_DIR,'articles');
-  const entries = await fs.readdir(articlesDir).catch(()=>[]);
-  for(const name of entries){
-    const articlePath = path.join(articlesDir,name,'index.html');
-    if(!existsSync(articlePath)) continue;
+  // Read manifest to determine which generated articles to validate strictly
+  if(!existsSync(MANIFEST_PATH)){
+    throw new Error('.build-reports/manifest.json not found. Run build first to produce manifest.');
+  }
+  const manifestText = await fs.readFile(MANIFEST_PATH,'utf8');
+  let manifest = [];
+  try{
+    manifest = JSON.parse(manifestText);
+  }catch(e){
+    throw new Error('Invalid JSON in .build-reports/manifest.json');
+  }
+
+  // Build a set of generated article slugs (relative to build/articles)
+  const generatedSlugs = new Set();
+  for(const entry of manifest){
+    if(!entry || !entry.generated) continue;
+    // entry.generated may be an absolute path; normalize to build/articles/<slug>/index.html
+    const genPath = path.resolve(entry.generated);
+    // Expect genPath to end with build/articles/<slug>/index.html
+    const rel = path.relative(BUILD_DIR, genPath);
+    // rel like 'articles/<slug>/index.html'
+    const parts = rel.split(path.sep);
+    if(parts.length >= 3 && parts[0] === 'articles'){
+      const slug = parts[1];
+      generatedSlugs.add(slug);
+    }
+  }
+
+  // Validate only generated articles listed in manifest
+  for(const slug of generatedSlugs){
+    const articlePath = path.join(BUILD_DIR,'articles',slug,'index.html');
+    if(!existsSync(articlePath)){
+      report.errors.push(`${articlePath}: generated article missing from build output`);
+      continue;
+    }
     const html = await fs.readFile(articlePath,'utf8');
     const dom = new JSDOM(html);
     const doc = dom.window.document;
@@ -59,8 +89,7 @@ async function validate(){
     const title = doc.querySelector('title');
     if(!title) report.errors.push(`${articlePath}: missing <title>`);
 
-    // 3. meta description matches source metadata (we'll try to read from embedded meta name)
-    // Extract canonical from link[rel=canonical]
+    // 3. canonical
     const canonical = doc.querySelector('link[rel="canonical"]')?.getAttribute('href');
     if(!canonical) report.errors.push(`${articlePath}: missing canonical link`);
 
@@ -102,19 +131,23 @@ async function validate(){
     if(!html.includes('</body>')) report.errors.push(`${articlePath}: missing </body>`);
     if(!html.includes('</html>')) report.errors.push(`${articlePath}: missing </html>`);
 
-    // 10. raw HTML acceptance: assume build already rejected raw HTML in sources
-
-    // 11. generated article path matches metadata slug - best-effort: check folder name
-    const folderName = name;
-    // we can't re-parse front matter here; accept folderName as slug present
-
-    // 12. required static assets copied
-    const requiredAssets = ['index.html','styles.css','script.js'];
-    for(const ra of requiredAssets){
-      if(!existsSync(path.join(BUILD_DIR,ra))) report.errors.push(`Required static file ${ra} missing from build/`);
-    }
-
     report.files.push({ path: articlePath, checks: 'performed' });
+  }
+
+  // Also keep site-wide static copy checks
+  const requiredAssets = ['index.html','styles.css','script.js'];
+  for(const ra of requiredAssets){
+    if(!existsSync(path.join(BUILD_DIR,ra))) report.errors.push(`Required static file ${ra} missing from build/`);
+  }
+
+  // Ensure articles/index.html exists (hub)
+  if(!existsSync(path.join(BUILD_DIR,'articles','index.html'))){
+    report.errors.push('articles/index.html missing from build/');
+  }
+
+  // Ensure sitemap.xml exists (already checked above but keep)
+  if(!existsSync(sitemapPath)){
+    report.errors.push('sitemap.xml missing from build/');
   }
 
   // Write report
@@ -135,4 +168,4 @@ if (
   path.resolve(process.argv[1]) === path.resolve(currentFile)
 ) {
   validate().catch(err => { console.error(err); process.exit(1); });
-}
+}]}]}]}]}]},
