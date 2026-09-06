@@ -1,11 +1,28 @@
 {{{header_html}}}
 
+  <section class="category-strip">
+    <div class="cmp-container category-scroll" id="categoryButtons">
+      {{#categories}}
+      <button class="category-btn" data-category="{{token}}">{{label}}</button>
+      {{/categories}}
+    </div>
+  </section>
+
   <div class="cmp-container hub">
     <section class="main-column">
       {{{featured_html}}}
 
       <div class="article-grid" id="articleGrid">
         {{{article_cards_html}}}
+
+        <!-- Coming soon cards from config should be rendered after generated cards -->
+        {{#coming_soon}}
+        <article class="article-card searchable" data-category="{{category}}" data-search="{{title}}">
+          <div class="card-art"><img src="/assets/icon-cloud.svg" alt="" /></div>
+          <div><span class="card-category">{{category}}</span><h3>{{title}}</h3><p>{{summary}}</p></div>
+          <div class="card-meta"><span class="soon">Coming soon</span> · {{difficulty}}</div>
+        </article>
+        {{/coming_soon}}
       </div>
 
       <div class="empty-state" id="emptyState">No articles match your search yet.</div>
@@ -41,7 +58,7 @@
     let visible = 0;
     cards.forEach(card => {
       const text = (card.dataset.search + ' ' + card.innerText).toLowerCase();
-      const categories = card.dataset.category.split(' ');
+      const categories = (card.dataset.category||'').split(' ');
       const matchTerm = !term || text.includes(term);
       const matchCategory = category === 'all' || categories.includes(category);
       const show = matchTerm && matchCategory;
