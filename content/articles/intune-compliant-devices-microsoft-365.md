@@ -116,4 +116,3 @@ Microsoft recommends identifying and blocking legacy authentication because it b
 - Plan a phased rollout and ensure licensing requirements for both Intune and Conditional Access are met before broad enforcement. See licensing information: https://learn.microsoft.com/en-us/intune/fundamentals/licensing and https://learn.microsoft.com/en-us/entra/fundamentals/licensing.
 - Monitor and address legacy authentication to ensure Conditional Access policies are effective. See legacy authentication guidance: https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication.
 
----
