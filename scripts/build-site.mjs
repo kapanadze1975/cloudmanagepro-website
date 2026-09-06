@@ -71,7 +71,7 @@ function detectRawHtml(markdown){
   return pattern.test(markdown);
 }
 
-function generateHeadingId(text){
+function generateBaseId(text){
   return text.toLowerCase().replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-');
 }
 
@@ -112,12 +112,17 @@ async function build(){
       throw new Error(`Raw HTML detected in Markdown body of ${f}; raw HTML is disallowed in Phase 1`);
     }
 
-    // Convert Markdown to HTML
-    const renderer = new marked.Renderer();
+    // Convert Markdown to HTML with deterministic heading IDs and duplicate handling
     const headings = [];
+    const idCounts = Object.create(null);
+    const renderer = new marked.Renderer();
     renderer.heading = function(text, level, raw, slugger){
       if(level === 2 || level === 3){
-        const id = generateHeadingId(text);
+        let base = generateBaseId(text);
+        if(!base) base = 'section';
+        const count = (idCounts[base] || 0) + 1;
+        idCounts[base] = count;
+        const id = count === 1 ? base : `${base}-${count}`;
         headings.push({ level, text, id });
         return `<h${level} id="${id}">${text}</h${level}>`;
       }
@@ -125,31 +130,67 @@ async function build(){
     };
     const htmlBody = marked(content, { renderer });
 
-    // Build TOC from headings
-    const toc = headings.map(h => ({ href:`#${h.id}`, text: h.text, level: h.level }));
+    // Build TOC HTML from headings (preserve H2/H3 hierarchy)
+    function buildTocHtml(headings){
+      let html = '<ul class="toc">\n';
+      let prevLevel = 2;
+      for(const h of headings){
+        const cls = h.level === 3 ? ' class="toc-sub"' : '';
+        html += `  <li${cls}><a href="#${h.id}">${escapeHtml(h.text)}</a></li>\n`;
+        prevLevel = h.level;
+      }
+      html += '</ul>\n';
+      return html;
+    }
 
-    // Render references from metadata
-    const references = data.references || [];
+    const toc_html = buildTocHtml(headings);
 
-    // Prepare template view
+    // Render references_html from data.references
+    const refs = data.references || [];
+    function buildReferencesHtml(refs){
+      let html = '<ul class="references">\n';
+      for(const r of refs){
+        // preserve URL exactly, escape visible text
+        html += `  <li><a href="${r}">${escapeHtml(r)}</a></li>\n`;
+      }
+      html += '</ul>\n';
+      return html;
+    }
+    const references_html = buildReferencesHtml(refs);
+
+    // Build JSON-LD from metadata
+    const jsonLdObj = {
+      '@context': 'https://schema.org',
+      '@type': 'TechArticle',
+      headline: data.title,
+      description: data.description,
+      author: { '@type': 'Organization', name: data.author },
+      dateModified: data.verified_date,
+      mainEntityOfPage: data.canonical
+    };
+    const jsonld = `<script type="application/ld+json">\n${JSON.stringify(jsonLdObj, null, 2)}\n</script>`;
+
+    // Prepare template view according to required view model
     const view = {
       title: data.title,
       seo_title: data.seo_title,
       description: data.meta_description || data.description,
       canonical: data.canonical,
-      og_title: data.seo_title,
-      hero_kicker: data.hero.kicker,
-      hero_dek: data.hero.dek,
-      hero_screen_label: data.hero.screen_label,
-      hero_cloud_label: data.hero.cloud_label,
-      hero_verified: data.verified_date ? `Last verified: ${data.verified_date}` : '',
-      article_body: htmlBody,
-      toc: toc,
-      references: references,
       category: data.category,
       platform: data.platform,
       level: data.level,
-      author: data.author
+      author: data.author,
+      verified_date: data.verified_date,
+      hero: {
+        kicker: data.hero.kicker,
+        dek: data.hero.dek,
+        screen_label: data.hero.screen_label,
+        cloud_label: data.hero.cloud_label
+      },
+      article_html: htmlBody,
+      toc_html: toc_html,
+      references_html: references_html,
+      jsonld: jsonld
     };
 
     const outHtml = mustache.render(template, view);
@@ -170,6 +211,15 @@ async function build(){
   await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2), 'utf8');
 
   console.log('Build complete. Generated', manifest.length, 'articles.');
+}
+
+function escapeHtml(s){
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
 }
 
 if(process.argv[1] === new URL(import.meta.url).pathname){
