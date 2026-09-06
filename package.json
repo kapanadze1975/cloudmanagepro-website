@@ -1,0 +1,19 @@
+{
+  "name": "cloudmanagepro-publisher-generator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node ./scripts/build-site.mjs",
+    "validate": "node ./scripts/validate-site.mjs"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "jsdom": "^22.0.0",
+    "marked": "^9.0.0",
+    "mustache": "^4.2.0"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
