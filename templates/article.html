@@ -325,14 +325,46 @@
     }
     .faq h3{margin:0 0 8px;font-size:1.08rem}
 
+    /* References (improved row/card styling) */
     .references{
       margin-top:18px;
       padding-left:0;
       list-style:none;
+      margin-bottom:0;
     }
     .references li{
-      padding:12px 0;
-      border-bottom:1px solid #edf1f5;
+      margin:10px 0;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:var(--card);
+      overflow:hidden;
+      transition:box-shadow .18s ease, border-color .18s ease;
+    }
+    .references li a{
+      display:block;
+      padding:14px 16px;
+      text-decoration:none;
+      color:var(--text);
+      line-height:1.4;
+      overflow-wrap:anywhere;
+      word-break:break-word;
+      white-space:normal;
+    }
+    .references li a:hover{
+      color:var(--blue);
+    }
+    .references li:hover{
+      box-shadow:0 8px 22px rgba(17,45,86,.06);
+      border-color:rgba(13,83,154,.12);
+    }
+
+    .references li:last-child{margin-bottom:0}
+
+    .references li .url-host{
+      display:block;
+      font-size:.9rem;
+      color:var(--muted);
+      margin-bottom:6px;
     }
 
     /* Sidebar */
