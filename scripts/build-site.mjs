@@ -76,6 +76,12 @@ function generateBaseId(text){
   return text.toLowerCase().replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-');
 }
 
+// Preferred references metadata format for Publisher V2:
+// references:
+//   - label: "Friendly authoritative source name"
+//     url: "https://example.com/page"
+// Backward-compatible support for legacy string references is preserved.
+
 async function build(){
   // 1. clean/create build/
   await rmrf(BUILD_DIR);
@@ -149,6 +155,8 @@ async function build(){
     // Render references_html from data.references
     const refs = data.references || [];
     function buildReferencesHtml(refs){
+      // Render as a simple bulleted list. Support both legacy string entries and
+      // new object form { label: "...", url: "..." }.
       let html = '<ul class="references">\n';
       for(const r of refs){
         // Backward-compatible handling: string or object
