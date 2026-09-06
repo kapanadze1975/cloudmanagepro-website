@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'node:url';
 import jsdom from 'jsdom';
 
 const { JSDOM } = jsdom;
@@ -128,6 +129,10 @@ async function validate(){
   console.log('Validation passed.');
 }
 
-if(process.argv[1] === new URL(import.meta.url).pathname){
-  validate().catch(err=>{ console.error(err); process.exit(1); });
+const currentFile = fileURLToPath(import.meta.url);
+if (
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === path.resolve(currentFile)
+) {
+  validate().catch(err => { console.error(err); process.exit(1); });
 }

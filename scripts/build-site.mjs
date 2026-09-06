@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import {existsSync, createReadStream} from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'node:url';
 import crypto from 'crypto';
 import matter from 'gray-matter';
 import {marked} from 'marked';
@@ -222,6 +223,13 @@ function escapeHtml(s){
     .replace(/'/g,'&#39;');
 }
 
-if(process.argv[1] === new URL(import.meta.url).pathname){
-  build().catch(err=>{ console.error(err); process.exit(1); });
+const currentFile = fileURLToPath(import.meta.url);
+if (
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === path.resolve(currentFile)
+) {
+  build().catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
 }
