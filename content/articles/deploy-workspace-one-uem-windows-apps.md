@@ -1,38 +1,37 @@
+---
 title: "Deploying Workspace ONE UEM applications to Windows devices"
 seo_title: "Deploy Workspace ONE UEM Apps to Windows Devices — CloudManagePro"
 slug: "deploy-workspace-one-uem-windows-apps"
-description: "Step‑by‑step guidance for Windows administrators to deploy applications with Workspace ONE UEM using Intelligent Hub or the App Deployment Agent, covering package types, detection, assignments, staged rollouts, verification, and troubleshooting."
+description: "Step-by-step guidance for Windows administrators to deploy applications with Workspace ONE UEM using Intelligent Hub or the App Deployment Agent, covering package types, detection, assignments, staged rollouts, verification, and troubleshooting."
 canonical: "https://www.cloudmanagepro.com/articles/deploy-workspace-one-uem-windows-apps/"
 category: "Workspace ONE"
 platform: "Windows"
 level: "intermediate"
 author: "CloudManagePro"
 verified_date: "2026-09-06"
+
 hero:
-kicker: "Workspace ONE · Windows"
-dek: "Learn how to deploy Windows applications with Workspace ONE UEM using supported application delivery methods, assignments, detection criteria, staged rollouts, verification, and troubleshooting."
-screen_label: "Windows Apps"
-cloud_label: "Workspace ONE"
+  kicker: "Workspace ONE · Windows"
+  dek: "Learn how to deploy Windows applications with Workspace ONE UEM using supported application delivery methods, assignments, detection criteria, staged rollouts, verification, and troubleshooting."
+  screen_label: "Windows Apps"
+  cloud_label: "Workspace ONE"
+
 tags:
+  - "workspace-one"
+  - "windows"
+  - "app-deployment"
 
-"workspace-one"
-
-"windows"
-
-"app-deployment"
 references:
+  - "https://techzone.omnissa.com/resource/deploying-workspace-one-uem-applications-windows-devices"
+  - "https://docs.omnissa.com/bundle/ApplicationManagementforWindowsVSaaS/page/AppManagementforWindowsinWorkspaceONEUEM.html"
+  - "https://kb.omnissa.com/s/article/50122080"
+---
 
-"https://techzone.omnissa.com/resource/deploying-workspace-one-uem-applications-windows-devices"
-
-"https://docs.omnissa.com/bundle/ApplicationManagementforWindowsVSaaS/page/AppManagementforWindowsinWorkspaceONEUEM.html"
-
-"https://kb.omnissa.com/s/article/50122080"
-
-Short introduction
+## Short introduction
 
 This article explains how Workspace ONE UEM delivers applications to Windows endpoints, the prerequisites, the differences between Intelligent Hub and the App Deployment Agent, packaging options, detection approaches, assignment using Smart Groups, staged rollouts (deployment rings), verification techniques, and practical troubleshooting. It's written for Windows and Workspace ONE administrators who need a reliable, repeatable deployment process.
 
-What Workspace ONE UEM does for Windows app deployment (overview)
+## What Workspace ONE UEM does for Windows app deployment (overview)
 
 Pushes installers and required configuration to managed Windows devices.
 
@@ -44,7 +43,7 @@ Uses detection criteria to determine whether an app is installed or requires rem
 
 Applies assignments through Smart Groups so you can target users, devices, or deployment rings.
 
-How Workspace ONE UEM deploys Windows apps (conceptual flow)
+## How Workspace ONE UEM deploys Windows apps (conceptual flow)
 
 Administrator adds an application record in the Workspace ONE UEM console (either as a Native/Internal app in the Enterprise App Repository or via the Application File method).
 
@@ -56,7 +55,7 @@ The device agent (Intelligent Hub or App Deployment Agent) evaluates detection c
 
 The agent reports status back to the console for monitoring and troubleshooting.
 
-Prerequisites
+## Prerequisites
 
 Devices must be enrolled and compliant with your Workspace ONE UEM policies.
 
@@ -68,7 +67,7 @@ Administrative credentials and roles in Workspace ONE UEM to create and assign a
 
 Application packages should be tested in a lab to confirm silent install/uninstall behavior and that detection criteria correctly reflect installation state.
 
-Intelligent Hub vs App Deployment Agent — when to use each
+## Intelligent Hub vs App Deployment Agent — when to use each
 
 Intelligent Hub
 
@@ -90,7 +89,7 @@ Use Hub for standard, user-driven installs and where a single agent experience i
 
 Use ADA for heavier software distribution needs or when Omnissa documentation indicates ADA is required for specific package behaviors or delivery guarantees. (Consult your environment’s guidance for agent selection.)
 
-Native/Internal apps vs Application File method
+## Native/Internal apps vs Application File method
 
 Native/Internal apps (Enterprise App Repository)
 
@@ -112,7 +111,7 @@ Use the Enterprise App Repository for repeated, managed enterprise deployments.
 
 Use Application File for ad-hoc or one-off installs where repository lifecycle features aren’t required.
 
-Supported package types
+## Supported package types
 
 Workspace ONE UEM supports common Windows packaging formats. Administrators should verify specific support in the Omnissa documentation for the platform version in use, but generally supported types include:
 
@@ -124,7 +123,7 @@ ZIP or compressed bundles — supported when Workspace ONE or the device-side ag
 
 Other formats may be supported depending on product version and agent capabilities; check Omnissa documentation for details for your deployment.
 
-Configuring install and uninstall commands
+## Configuring install and uninstall commands
 
 Purpose: The install/uninstall command fields tell the device agent what command line to run to perform the operation.
 
@@ -140,7 +139,7 @@ Configure timeouts and retry behavior as supported by Workspace ONE.
 
 Important: Do not assume default installers are silent. Always verify silent/unattended parameters with vendor documentation and test them in a lab. The article intentionally avoids exact CLI examples; use the vendor-specified switches and the Omnissa console fields to configure commands.
 
-Detection criteria options
+## Detection criteria options
 
 Workspace ONE evaluates detection criteria to decide if an install/uninstall is needed. Common detection types (conceptual) include:
 
@@ -156,7 +155,7 @@ Custom script output — where supported, a script can return a success state in
 
 Best practice: Choose the simplest, most reliable detection that uniquely identifies the application with minimal false positives (for example, an MSI product code for MSI installs).
 
-Assignment via Smart Groups
+## Assignment via Smart Groups
 
 Smart Groups are dynamic groups defined by membership rules (device attributes, OS version, enrollment status, tags, etc.).
 
@@ -176,7 +175,7 @@ Set scheduling, maintenance windows, or priority where supported.
 
 Confirm that Smart Group membership evaluation happens on the expected cadence, and that devices have attributes required for membership.
 
-Testing, deployment rings, and staged rollouts
+## Testing, deployment rings, and staged rollouts
 
 Always stage deployments with rings:
 
@@ -198,7 +197,7 @@ Use rollback/uninstall assignments to a test group to validate uninstall behavio
 
 Schedule deployments during maintenance windows to reduce user impact.
 
-Verification methods
+## Verification methods
 
 Console reporting — check install status, success/failure counts, and device logs reported to Workspace ONE UEM.
 
@@ -210,7 +209,7 @@ User confirmation — for user-facing apps, confirm with pilot users that the ap
 
 Automated health checks — incorporate detection criteria that can be re-run by the agent to verify on-device install state and allow Workspace ONE to remediate automatically.
 
-Troubleshooting checklist
+## Troubleshooting checklist
 
 Enrollment/Agent health
 
@@ -258,7 +257,7 @@ Rollback and re-deploy
 
 If an install fails repeatedly, remove the package, clear detection artifacts on a test device, and re-deploy with modified commands or different package format (e.g., MSI vs EXE).
 
-Best practices
+## Best practices
 
 Package preparation
 
@@ -296,9 +295,9 @@ Security and compliance
 
 Validate installers for integrity and sign where possible. Keep an inventory of application versions deployed.
 
-Practical deployment checklist
+## Practical deployment checklist
 
-Step 1 — Prepare and test the package
+### Step 1 — Prepare and test the package
 
 Confirm vendor silent install switches and compatibility.
 
@@ -306,7 +305,7 @@ Test installation and uninstallation on a clean test device image.
 
 Determine authoritative detection criteria.
 
-Step 2 — Create application record
+### Step 2 — Create application record
 
 Upload artifact to Enterprise App Repository or use Application File method.
 
@@ -314,13 +313,13 @@ Enter conceptual install/uninstall commands and configure timeouts.
 
 Configure detection criteria (MSI code, registry, file existence, etc.).
 
-Step 3 — Configure assignment and rings
+### Step 3 — Configure assignment and rings
 
 Create Smart Groups for test/pilot/production rings.
 
 Assign the app to the test Smart Group as Available first, then Required when ready.
 
-Step 4 — Monitor and verify
+### Step 4 — Monitor and verify
 
 Monitor console install success/failure counts for test devices.
 
@@ -328,13 +327,13 @@ Collect client logs from Hub or ADA on failures and resolve issues.
 
 After success in test/pilot, progressively expand Smart Group assignments.
 
-Step 5 — Full rollout and maintenance
+### Step 5 — Full rollout and maintenance
 
 Convert assignment to Required for production ring if desired.
 
 Maintain documentation for future updates and provide rollback guidance.
 
-Important limitations and warnings
+## Important limitations and warnings
 
 Do not assume every third-party EXE supports the same silent parameters; vendor documentation and testing are required.
 
