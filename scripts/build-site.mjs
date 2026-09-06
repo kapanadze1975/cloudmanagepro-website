@@ -151,8 +151,21 @@ async function build(){
     function buildReferencesHtml(refs){
       let html = '<ul class="references">\n';
       for(const r of refs){
-        // preserve URL exactly, escape visible text
-        html += `  <li><a href="${r}">${escapeHtml(r)}</a></li>\n`;
+        // Backward-compatible handling: string or object
+        if(typeof r === 'string'){
+          const url = r;
+          html += `  <li><a href="${escapeHtml(url)}">${escapeHtml(url)}</a></li>\n`;
+        } else if(r && typeof r === 'object'){
+          // Strict validation: url is required and must be non-empty string
+          if(typeof r.url !== 'string' || !r.url.trim()){
+            throw new Error(`Invalid reference object (missing url) in ${f}: ${JSON.stringify(r)}`);
+          }
+          const url = r.url;
+          const label = (typeof r.label === 'string' && r.label.trim()) ? r.label : r.url;
+          html += `  <li><a href="${escapeHtml(url)}">${escapeHtml(label)}</a></li>\n`;
+        } else {
+          throw new Error(`Invalid reference entry in ${f}: must be string or object`);
+        }
       }
       html += '</ul>\n';
       return html;
