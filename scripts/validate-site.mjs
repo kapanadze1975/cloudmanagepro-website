@@ -168,4 +168,4 @@ if (
   path.resolve(process.argv[1]) === path.resolve(currentFile)
 ) {
   validate().catch(err => { console.error(err); process.exit(1); });
-}]}]}]}]}]},
+}
