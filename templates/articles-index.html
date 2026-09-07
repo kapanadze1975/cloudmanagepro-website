@@ -1,0 +1,99 @@
+{{{header_html}}}
+
+  <main>
+  <section class="articles-hero">
+    <div class="cmp-container hero-grid">
+      <div class="hero-copy">
+        <h1>CloudManagePro Articles</h1>
+        <p>Practical guides, labs, troubleshooting, and technical how-to content for modern IT teams.</p>
+        <div class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input id="articleSearch" type="search" placeholder="Search articles, guides, or topics..." aria-label="Search articles" />
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="hero-clouds"></div>
+        <div class="hero-shield"><img src="/assets/icon-security.svg" alt="" /></div>
+        <div class="hero-device"><div class="hero-device-screen"><img src="/assets/icon-cloud.svg" alt="" /></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="category-strip">
+    <div class="cmp-container category-scroll" id="categoryButtons">
+      <!-- Render configured categories. Production displays icons/text; keep label tokens from config. -->
+      {{#categories}}
+      <button class="category-btn" data-category="{{token}}">{{label}}</button>
+      {{/categories}}
+    </div>
+  </section>
+
+  <div class="cmp-container hub">
+    <section class="main-column">
+      {{{featured_html}}}
+
+      <div class="article-grid" id="articleGrid">
+        {{{article_cards_html}}}
+
+        <!-- Coming soon cards from config should be rendered after generated cards -->
+        {{#coming_soon}}
+        <article class="article-card searchable" data-category="{{category}}" data-search="{{title}}">
+          <div class="card-art"><img src="/assets/icon-cloud.svg" alt="" /></div>
+          <div><span class="card-category">{{category}}</span><h3>{{title}}</h3><p>{{summary}}</p></div>
+          <div class="card-meta"><span class="soon">Coming soon</span> · {{difficulty}}</div>
+        </article>
+        {{/coming_soon}}
+      </div>
+
+      <div class="empty-state" id="emptyState">No articles match your search yet.</div>
+
+      <section class="browse">
+        <h2>Browse by Topic</h2>
+        <div class="topic-grid">
+          <div class="topic-card"><img src="/assets/icon-cloud.svg" alt="" /><h3>Azure</h3><p>Architecture, governance, identity, and cloud best practices.</p><span>Explore →</span></div>
+          <div class="topic-card"><img src="/assets/icon-device.svg" alt="" /><h3>Intune</h3><p>Endpoint management, devices, apps, enrollment, and compliance.</p><span>Explore →</span></div>
+          <div class="topic-card"><img src="/assets/icon-server.svg" alt="" /><h3>Healthcare IT</h3><p>Secure, reliable technology for clinical and healthcare workflows.</p><span>Explore →</span></div>
+          <div class="topic-card"><img src="/assets/icon-security.svg" alt="" /><h3>Security</h3><p>Zero Trust, endpoint security, identity, and threat protection.</p><span>Explore →</span></div>
+          <div class="topic-card"><img src="/assets/icon-workflow.svg" alt="" /><h3>Automation</h3><p>PowerShell, tooling, and AI-powered automation for IT.</p><span>Explore →</span></div>
+        </div>
+      </section>
+    </section>
+
+    <aside class="sidebar">
+      {{{sidebar_html}}}
+    </aside>
+  </div>
+  </main>
+
+{{{footer_html}}}
+
+<script>
+  const search = document.getElementById('articleSearch');
+  const cards = [...document.querySelectorAll('.searchable')];
+  const buttons = [...document.querySelectorAll('.category-btn')];
+  const emptyState = document.getElementById('emptyState');
+  let category = 'all';
+
+  function applyFilters(){
+    const term = search.value.trim().toLowerCase();
+    let visible = 0;
+    cards.forEach(card => {
+      const text = (card.dataset.search + ' ' + card.innerText).toLowerCase();
+      const categories = (card.dataset.category||'').split(' ');
+      const matchTerm = !term || text.includes(term);
+      const matchCategory = category === 'all' || categories.includes(category);
+      const show = matchTerm && matchCategory;
+      card.hidden = !show;
+      if(show) visible++;
+    });
+    emptyState.style.display = visible ? 'none' : 'block';
+  }
+
+  if(search){ search.addEventListener('input', applyFilters); }
+  buttons.forEach(btn => btn.addEventListener('click', () => {
+    buttons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    category = btn.dataset.category;
+    applyFilters();
+  }));
+</script>

@@ -1,0 +1,47 @@
+{
+  "featured_slug": "intune-compliant-devices-microsoft-365",
+  "categories": [
+    { "token": "all", "label": "All" },
+    { "token": "intune", "label": "Intune" },
+    { "token": "azure", "label": "Azure" },
+    { "token": "entra", "label": "Entra ID" },
+    { "token": "m365", "label": "Microsoft 365" },
+    { "token": "workspace", "label": "Workspace ONE" },
+    { "token": "citrix", "label": "Citrix" },
+    { "token": "networking", "label": "Networking" },
+    { "token": "security", "label": "Cybersecurity" },
+    { "token": "ai", "label": "AI & Automation" }
+  ],
+  "coming_soon": [
+    {
+      "title": "Azure PIM Resource Group Step-by-Step Guide",
+      "category": "azure",
+      "summary": "Secure privileged access to Azure resource groups using Privileged Identity Management.",
+      "difficulty": "Intermediate"
+    },
+    {
+      "title": "Fixing Citrix VDA Registration Issues",
+      "category": "citrix",
+      "summary": "Common causes and practical steps to resolve VDA registration failures.",
+      "difficulty": "Advanced"
+    },
+    {
+      "title": "Troubleshooting Enterprise Wi-Fi Certificate Issues",
+      "category": "networking security",
+      "summary": "Diagnose certificate validation and authentication problems on enterprise wireless networks.",
+      "difficulty": "Intermediate"
+    },
+    {
+      "title": "Microsoft Foundry Multi-Agent Lab",
+      "category": "ai",
+      "summary": "Hands-on architecture for research, content, SEO, and automation agents.",
+      "difficulty": "Advanced"
+    },
+    {
+      "title": "Microsoft Entra Conditional Access Best Practices",
+      "category": "entra security",
+      "summary": "Design secure and user-friendly Conditional Access policies that scale.",
+      "difficulty": "Intermediate"
+    }
+  ]
+}
