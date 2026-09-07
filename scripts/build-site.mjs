@@ -14,6 +14,7 @@ const CONTENT_DIR = path.join(ROOT, 'content', 'articles');
 const TEMPLATE_PATH = path.join(ROOT, 'templates', 'article.html');
 const HUB_TEMPLATE_PATH = path.join(ROOT, 'templates', 'articles-index.html');
 const HUB_CONFIG_PATH = path.join(ROOT, 'config', 'articles-hub.json');
+const SITEMAP_STATIC_PATH = path.join(ROOT, 'config', 'sitemap-static-urls.json');
 const LEGACY_HUB_SOURCE = path.join(ROOT, 'articles', 'index.html');
 
 // Public allowlist (explicit)
@@ -223,7 +224,7 @@ async function build(){
   function buildFeaturedHtml(featuredMeta){
     if(!featuredMeta) return '';
     // replicate existing featured markup (simplified, using same classes)
-    return `<article class="featured searchable" data-category="${mapCategoryToken(featuredMeta.category)}" data-search="${escapeHtml((featuredMeta.title+' '+featuredMeta.slug+' '+(featuredMeta.tags||[]).join(' ')).toLowerCase())}\">\n<div class="featured-copy">\n  <div class="feature-top"><span class="feature-label">FEATURED</span><span>${escapeHtml(featuredMeta.category)}</span></div>\n  <h2>${escapeHtml(featuredMeta.title)}</h2>\n  <p>${escapeHtml(featuredMeta.description)}</p>\n  <div class="feature-meta"><span>Technical guide</span><span>•</span><span>${escapeHtml(featuredMeta.level)}</span></div>\n  <a class="feature-cta" href="/articles/${escapeHtml(featuredMeta.slug)}/">Read article →</a>\n</div>\n<div class="feature-visual" aria-hidden="true">\n  <div class="feature-laptop"><div class="feature-screen"><span class="check">✓</span><span>Verified</span></div></div>\n</div>\n</article>`;
+    return `<article class="featured searchable" data-category="${mapCategoryToken(featuredMeta.category)}" data-search="${escapeHtml((featuredMeta.title+' '+featuredMeta.slug+' '+(featuredMeta.tags||[]).join(' ')).toLowerCase())}">\n<div class="featured-copy">\n  <div class="feature-top"><span class="feature-label">FEATURED</span><span>${escapeHtml(featuredMeta.category)}</span></div>\n  <h2>${escapeHtml(featuredMeta.title)}</h2>\n  <p>${escapeHtml(featuredMeta.description)}</p>\n  <div class="feature-meta"><span>Technical guide</span><span>•</span><span>${escapeHtml(featuredMeta.level)}</span></div>\n  <a class="feature-cta" href="/articles/${escapeHtml(featuredMeta.slug)}/">Read article →</a>\n</div>\n<div class="feature-visual" aria-hidden="true">\n  <div class="feature-laptop"><div class="feature-screen"><span class="check">✓</span><span>Verified</span></div></div>\n</div>\n</article>`;
   }
 
   // Build article cards
@@ -276,6 +277,31 @@ async function build(){
   // Write manifest
   const manifestPath = path.join(REPORT_DIR,'manifest.json');
   await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2), 'utf8');
+
+  // Generate sitemap.xml in build/
+  try{
+    const staticUrls = existsSync(SITEMAP_STATIC_PATH) ? JSON.parse(await fs.readFile(SITEMAP_STATIC_PATH,'utf8')) : ['https://www.cloudmanagepro.com/'];
+    // Collect article canonicals from manifest
+    const articleUrls = manifest.map(m => m.canonical).filter(Boolean);
+    // Validate canonical format and uniqueness
+    const seen = new Set();
+    const allUrls = [];
+    for(const u of staticUrls){ if(!u) continue; if(!u.startsWith('https://www.cloudmanagepro.com/')) continue; if(!seen.has(u)){ seen.add(u); allUrls.push(u); } }
+    const sortedArticles = Array.from(new Set(articleUrls)).sort();
+    for(const a of sortedArticles){ if(!a.startsWith('https://www.cloudmanagepro.com/')){ throw new Error('Invalid canonical URL (must start with https://www.cloudmanagepro.com/): '+a); } if(seen.has(a)){ continue; } seen.add(a); allUrls.push(a); }
+
+    // Build XML
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    xml += '<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">\n';
+    for(const u of allUrls){ xml += `  <url><loc>${escapeHtml(u)}</loc></url>\n`; }
+    xml += '</urlset>\n';
+
+    const sitemapOutPath = path.join(BUILD_DIR,'sitemap.xml');
+    await fs.writeFile(sitemapOutPath, xml, 'utf8');
+  }catch(e){
+    console.error('Sitemap generation failed:', e);
+    throw e;
+  }
 
   console.log('Build complete. Generated', manifest.length, 'articles and hub.');
 }

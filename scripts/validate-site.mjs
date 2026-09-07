@@ -10,6 +10,7 @@ const BUILD_DIR = path.join(ROOT,'build');
 const REPORT_DIR = path.join(ROOT,'.build-reports');
 const MANIFEST_PATH = path.join(REPORT_DIR,'manifest.json');
 const HUB_CONFIG = path.join(ROOT,'config','articles-hub.json');
+const SITEMAP_STATIC_PATH = path.join(ROOT,'config','sitemap-static-urls.json');
 
 const PLACEHOLDERS = [
   '(remaining content unchanged)',
@@ -52,6 +53,12 @@ async function validate(){
   let hubConfig = { coming_soon: [] };
   if(existsSync(HUB_CONFIG)){
     try{ hubConfig = JSON.parse(await fs.readFile(HUB_CONFIG,'utf8')); }catch(e){}
+  }
+
+  // load sitemap static urls config
+  let staticConfig = [];
+  if(existsSync(SITEMAP_STATIC_PATH)){
+    try{ staticConfig = JSON.parse(await fs.readFile(SITEMAP_STATIC_PATH,'utf8')); }catch(e){}
   }
 
   const generatedSlugs = new Set();
@@ -138,6 +145,56 @@ async function validate(){
     if(hubHtml.indexOf('ai.azure.com') !== -1) report.errors.push('build/articles/index.html: contains ai.azure.com links');
     // 7. placeholders
     for(const ph of PLACEHOLDERS){ if(hubHtml.indexOf(ph) !== -1) report.errors.push(`build/articles/index.html: contains forbidden placeholder '${ph}'`); }
+  }
+
+  // Validate generated sitemap: require exact set equality between expected (staticConfig + manifest canonicals) and actual sitemap URLs
+  if(!existsSync(sitemapPath)){
+    report.errors.push('build/sitemap.xml missing from build/');
+  } else {
+    const sitemapXml = await fs.readFile(sitemapPath,'utf8');
+    try{
+      const sitemapDom = new JSDOM(sitemapXml, { contentType: 'text/xml' });
+      const sitemapDoc = sitemapDom.window.document;
+      const root = sitemapDoc.documentElement;
+      if(!root || root.localName !== 'urlset') throw new Error('invalid sitemap root');
+      const urls = Array.from(sitemapDoc.getElementsByTagNameNS('*','url')).map(node => {
+        const loc = node.getElementsByTagNameNS('*','loc')[0];
+        return loc?.textContent?.trim();
+      }).filter(Boolean);
+
+      // normalize expected set: static urls + manifest canonicals
+      const staticUrlsNormalized = Array.from(new Set((staticConfig||[]).filter(u=>typeof u==='string' && u)));
+      const manifestCanonicals = manifest.map(m=>m.canonical).filter(Boolean);
+      // check for duplicate canonicals in manifest
+      const dupCanonicals = manifestCanonicals.length !== new Set(manifestCanonicals).size;
+      if(dupCanonicals) report.errors.push('manifest contains duplicate canonical URLs');
+
+      const expectedSet = new Set();
+      for(const s of staticUrlsNormalized){ expectedSet.add(s); }
+      for(const c of Array.from(new Set(manifestCanonicals)).sort()){ expectedSet.add(c); }
+
+      const actualSet = new Set(urls);
+
+      // compare sizes
+      if(actualSet.size !== expectedSet.size) report.errors.push(`build/sitemap.xml: URL count mismatch. expected ${expectedSet.size}, found ${actualSet.size}`);
+
+      // find missing and unexpected
+      const missing = [];
+      const unexpected = [];
+      for(const e of expectedSet){ if(!actualSet.has(e)) missing.push(e); }
+      for(const a of actualSet){ if(!expectedSet.has(a)) unexpected.push(a); }
+
+      if(missing.length) report.errors.push(`build/sitemap.xml: missing expected URLs:\n${missing.join('\n')}`);
+      if(unexpected.length) report.errors.push(`build/sitemap.xml: unexpected extra URLs:\n${unexpected.join('\n')}`);
+
+      // duplicates
+      if(urls.length !== actualSet.size) report.errors.push('build/sitemap.xml: duplicate URLs found');
+
+      // additional checks: prefixes and forbidden domains/placeholders
+      for(const u of urls){ if(!u.startsWith('https://www.cloudmanagepro.com/')) report.errors.push(`build/sitemap.xml: invalid url prefix ${u}`); if(u.indexOf('ai.azure.com') !== -1) report.errors.push(`build/sitemap.xml: contains ai.azure.com URL ${u}`); if(u.indexOf('azurestaticapps.net') !== -1) report.errors.push(`build/sitemap.xml: contains azurestaticapps.net URL ${u}`); for(const ph of PLACEHOLDERS){ if(u.indexOf(ph) !== -1) report.errors.push(`build/sitemap.xml: contains forbidden placeholder in URL ${u}`); } }
+
+      report.files.push({ path: sitemapPath, urls: urls.length, missing: missing.length, unexpected: unexpected.length });
+    }catch(e){ report.errors.push('build/sitemap.xml: parse error'); }
   }
 
   // Basic static checks
