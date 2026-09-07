@@ -3,7 +3,6 @@ import { existsSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'node:url';
 import jsdom from 'jsdom';
-import { parseStringPromise } from 'xml2js';
 
 const { JSDOM } = jsdom;
 const ROOT = process.cwd();
@@ -154,8 +153,14 @@ async function validate(){
   } else {
     const sitemapXml = await fs.readFile(sitemapPath,'utf8');
     try{
-      const parsed = await parseStringPromise(sitemapXml);
-      const urls = (parsed.urlset && parsed.urlset.url) ? parsed.urlset.url.map(u=>u.loc[0]) : [];
+      const sitemapDom = new JSDOM(sitemapXml, { contentType: 'text/xml' });
+      const sitemapDoc = sitemapDom.window.document;
+      const root = sitemapDoc.documentElement;
+      if(!root || root.localName !== 'urlset') throw new Error('invalid sitemap root');
+      const urls = Array.from(sitemapDoc.getElementsByTagNameNS('*','url')).map(node => {
+        const loc = node.getElementsByTagNameNS('*','loc')[0];
+        return loc?.textContent?.trim();
+      }).filter(Boolean);
 
       // normalize expected set: static urls + manifest canonicals
       const staticUrlsNormalized = Array.from(new Set((staticConfig||[]).filter(u=>typeof u==='string' && u)));
