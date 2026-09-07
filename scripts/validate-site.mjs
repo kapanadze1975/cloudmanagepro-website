@@ -148,7 +148,7 @@ async function validate(){
     for(const ph of PLACEHOLDERS){ if(hubHtml.indexOf(ph) !== -1) report.errors.push(`build/articles/index.html: contains forbidden placeholder '${ph}'`); }
   }
 
-  // Validate generated sitemap
+  // Validate generated sitemap: require exact set equality between expected (staticConfig + manifest canonicals) and actual sitemap URLs
   if(!existsSync(sitemapPath)){
     report.errors.push('build/sitemap.xml missing from build/');
   } else {
@@ -156,22 +156,39 @@ async function validate(){
     try{
       const parsed = await parseStringPromise(sitemapXml);
       const urls = (parsed.urlset && parsed.urlset.url) ? parsed.urlset.url.map(u=>u.loc[0]) : [];
-      // basic checks
-      const duplicates = urls.length !== new Set(urls).size;
-      if(duplicates) report.errors.push('build/sitemap.xml: duplicate URLs found');
-      // check static urls present
-      for(const su of staticConfig){ if(!urls.includes(su)) report.errors.push(`build/sitemap.xml: missing static URL ${su}`); }
-      // check no coming soon titles are present as URLs
-      for(const cs of (hubConfig.coming_soon||[])){
-        // coming soon entries have titles, not canonical; ensure their title string isn't present as a URL
-        for(const u of urls){ if(u.indexOf(encodeURIComponent(cs.title)) !== -1) report.errors.push(`build/sitemap.xml: Coming Soon title appears in URL list: ${cs.title}`); }
-      }
-      // check each manifest canonical appears exactly once
-      const canonicals = manifest.map(m=>m.canonical);
-      for(const c of canonicals){ const count = urls.filter(u=>u===c).length; if(count === 0) report.errors.push(`build/sitemap.xml: canonical ${c} missing`); if(count > 1) report.errors.push(`build/sitemap.xml: canonical ${c} appears ${count} times`); }
-      // check url prefixes
+
+      // normalize expected set: static urls + manifest canonicals
+      const staticUrlsNormalized = Array.from(new Set((staticConfig||[]).filter(u=>typeof u==='string' && u)));
+      const manifestCanonicals = manifest.map(m=>m.canonical).filter(Boolean);
+      // check for duplicate canonicals in manifest
+      const dupCanonicals = manifestCanonicals.length !== new Set(manifestCanonicals).size;
+      if(dupCanonicals) report.errors.push('manifest contains duplicate canonical URLs');
+
+      const expectedSet = new Set();
+      for(const s of staticUrlsNormalized){ expectedSet.add(s); }
+      for(const c of Array.from(new Set(manifestCanonicals)).sort()){ expectedSet.add(c); }
+
+      const actualSet = new Set(urls);
+
+      // compare sizes
+      if(actualSet.size !== expectedSet.size) report.errors.push(`build/sitemap.xml: URL count mismatch. expected ${expectedSet.size}, found ${actualSet.size}`);
+
+      // find missing and unexpected
+      const missing = [];
+      const unexpected = [];
+      for(const e of expectedSet){ if(!actualSet.has(e)) missing.push(e); }
+      for(const a of actualSet){ if(!expectedSet.has(a)) unexpected.push(a); }
+
+      if(missing.length) report.errors.push(`build/sitemap.xml: missing expected URLs:\n${missing.join('\n')}`);
+      if(unexpected.length) report.errors.push(`build/sitemap.xml: unexpected extra URLs:\n${unexpected.join('\n')}`);
+
+      // duplicates
+      if(urls.length !== actualSet.size) report.errors.push('build/sitemap.xml: duplicate URLs found');
+
+      // additional checks: prefixes and forbidden domains/placeholders
       for(const u of urls){ if(!u.startsWith('https://www.cloudmanagepro.com/')) report.errors.push(`build/sitemap.xml: invalid url prefix ${u}`); if(u.indexOf('ai.azure.com') !== -1) report.errors.push(`build/sitemap.xml: contains ai.azure.com URL ${u}`); if(u.indexOf('azurestaticapps.net') !== -1) report.errors.push(`build/sitemap.xml: contains azurestaticapps.net URL ${u}`); for(const ph of PLACEHOLDERS){ if(u.indexOf(ph) !== -1) report.errors.push(`build/sitemap.xml: contains forbidden placeholder in URL ${u}`); } }
-      report.files.push({ path: sitemapPath, urls: urls.length });
+
+      report.files.push({ path: sitemapPath, urls: urls.length, missing: missing.length, unexpected: unexpected.length });
     }catch(e){ report.errors.push('build/sitemap.xml: parse error'); }
   }
 
