@@ -93,24 +93,27 @@ async function validate(){
   if(existsSync(path.join(BUILD_DIR,'articles','index.html'))){
     const hubHtml = await fs.readFile(path.join(BUILD_DIR,'articles','index.html'),'utf8');
     const dom = new JSDOM(hubHtml); const doc = dom.window.document;
-    // 1. exactly one featured
-    const featured = doc.querySelectorAll('article.featured');
-    if(featured.length !== 1) report.errors.push(`build/articles/index.html: expected 1 featured article, found ${featured.length}`);
-    // 2. every generated article appears in hub exactly once
+    // 1. exactly one featured within main column
+    const featured = doc.querySelectorAll('.main-column article.featured');
+    if(featured.length !== 1) report.errors.push(`build/articles/index.html: expected 1 featured article in main column, found ${featured.length}`);
+    // 2. every generated article appears in hub exactly once (count only within main column to avoid counting sidebar/navigation links)
+    const main = doc.querySelector('.main-column') || doc;
     for(const slug of generatedSlugs){
       const selector = `a[href="/articles/${slug}/"]`;
-      const links = doc.querySelectorAll(selector);
+      const links = main.querySelectorAll(selector);
       if(links.length === 0) report.errors.push(`build/articles/index.html: missing link to /articles/${slug}/`);
-      if(links.length > 1) report.errors.push(`build/articles/index.html: duplicate links to /articles/${slug}/ found (${links.length})`);
+      if(links.length > 1) report.errors.push(`build/articles/index.html: duplicate links to /articles/${slug}/ found in main column (${links.length})`);
     }
     // 3. coming soon cards present
-    const coming = doc.querySelectorAll('.article-card .soon, .article-card a.feature-cta');
+    const coming = main.querySelectorAll('.article-card .soon, .article-card a.feature-cta');
     if(coming.length === 0) {
       // not a strict error; ensure at least placeholder exists
       report.errors.push('build/articles/index.html: Coming soon cards appear to be missing');
     }
-    // 4. category buttons exist
-    const catBtns = doc.querySelectorAll('.category-btn'); if(catBtns.length === 0) report.errors.push('build/articles/index.html: category buttons missing');
+    // 4. category buttons exist (scoped to categoryButtons container)
+    const catContainer = doc.querySelector('#categoryButtons');
+    const catBtns = catContainer ? catContainer.querySelectorAll('.category-btn') : doc.querySelectorAll('.category-btn');
+    if(catBtns.length === 0) report.errors.push('build/articles/index.html: category buttons missing');
     // 5. no ai.azure.com links
     if(hubHtml.indexOf('ai.azure.com') !== -1) report.errors.push('build/articles/index.html: contains ai.azure.com links');
     // 6. placeholders
