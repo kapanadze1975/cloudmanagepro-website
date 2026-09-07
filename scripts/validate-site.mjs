@@ -3,6 +3,7 @@ import { existsSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'node:url';
 import jsdom from 'jsdom';
+import { parseStringPromise } from 'xml2js';
 
 const { JSDOM } = jsdom;
 const ROOT = process.cwd();
@@ -10,6 +11,7 @@ const BUILD_DIR = path.join(ROOT,'build');
 const REPORT_DIR = path.join(ROOT,'.build-reports');
 const MANIFEST_PATH = path.join(REPORT_DIR,'manifest.json');
 const HUB_CONFIG = path.join(ROOT,'config','articles-hub.json');
+const SITEMAP_STATIC_PATH = path.join(ROOT,'config','sitemap-static-urls.json');
 
 const PLACEHOLDERS = [
   '(remaining content unchanged)',
@@ -52,6 +54,12 @@ async function validate(){
   let hubConfig = { coming_soon: [] };
   if(existsSync(HUB_CONFIG)){
     try{ hubConfig = JSON.parse(await fs.readFile(HUB_CONFIG,'utf8')); }catch(e){}
+  }
+
+  // load sitemap static urls config
+  let staticConfig = [];
+  if(existsSync(SITEMAP_STATIC_PATH)){
+    try{ staticConfig = JSON.parse(await fs.readFile(SITEMAP_STATIC_PATH,'utf8')); }catch(e){}
   }
 
   const generatedSlugs = new Set();
@@ -138,6 +146,33 @@ async function validate(){
     if(hubHtml.indexOf('ai.azure.com') !== -1) report.errors.push('build/articles/index.html: contains ai.azure.com links');
     // 7. placeholders
     for(const ph of PLACEHOLDERS){ if(hubHtml.indexOf(ph) !== -1) report.errors.push(`build/articles/index.html: contains forbidden placeholder '${ph}'`); }
+  }
+
+  // Validate generated sitemap
+  if(!existsSync(sitemapPath)){
+    report.errors.push('build/sitemap.xml missing from build/');
+  } else {
+    const sitemapXml = await fs.readFile(sitemapPath,'utf8');
+    try{
+      const parsed = await parseStringPromise(sitemapXml);
+      const urls = (parsed.urlset && parsed.urlset.url) ? parsed.urlset.url.map(u=>u.loc[0]) : [];
+      // basic checks
+      const duplicates = urls.length !== new Set(urls).size;
+      if(duplicates) report.errors.push('build/sitemap.xml: duplicate URLs found');
+      // check static urls present
+      for(const su of staticConfig){ if(!urls.includes(su)) report.errors.push(`build/sitemap.xml: missing static URL ${su}`); }
+      // check no coming soon titles are present as URLs
+      for(const cs of (hubConfig.coming_soon||[])){
+        // coming soon entries have titles, not canonical; ensure their title string isn't present as a URL
+        for(const u of urls){ if(u.indexOf(encodeURIComponent(cs.title)) !== -1) report.errors.push(`build/sitemap.xml: Coming Soon title appears in URL list: ${cs.title}`); }
+      }
+      // check each manifest canonical appears exactly once
+      const canonicals = manifest.map(m=>m.canonical);
+      for(const c of canonicals){ const count = urls.filter(u=>u===c).length; if(count === 0) report.errors.push(`build/sitemap.xml: canonical ${c} missing`); if(count > 1) report.errors.push(`build/sitemap.xml: canonical ${c} appears ${count} times`); }
+      // check url prefixes
+      for(const u of urls){ if(!u.startsWith('https://www.cloudmanagepro.com/')) report.errors.push(`build/sitemap.xml: invalid url prefix ${u}`); if(u.indexOf('ai.azure.com') !== -1) report.errors.push(`build/sitemap.xml: contains ai.azure.com URL ${u}`); if(u.indexOf('azurestaticapps.net') !== -1) report.errors.push(`build/sitemap.xml: contains azurestaticapps.net URL ${u}`); for(const ph of PLACEHOLDERS){ if(u.indexOf(ph) !== -1) report.errors.push(`build/sitemap.xml: contains forbidden placeholder in URL ${u}`); } }
+      report.files.push({ path: sitemapPath, urls: urls.length });
+    }catch(e){ report.errors.push('build/sitemap.xml: parse error'); }
   }
 
   // Basic static checks
