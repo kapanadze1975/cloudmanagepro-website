@@ -9,6 +9,7 @@ const ROOT = process.cwd();
 const BUILD_DIR = path.join(ROOT,'build');
 const REPORT_DIR = path.join(ROOT,'.build-reports');
 const MANIFEST_PATH = path.join(REPORT_DIR,'manifest.json');
+const HUB_CONFIG = path.join(ROOT,'config','articles-hub.json');
 
 const PLACEHOLDERS = [
   '(remaining content unchanged)',
@@ -46,6 +47,12 @@ async function validate(){
   const manifestText = await fs.readFile(MANIFEST_PATH,'utf8');
   let manifest = [];
   try{ manifest = JSON.parse(manifestText); }catch(e){ throw new Error('Invalid JSON in .build-reports/manifest.json'); }
+
+  // load hub config for coming_soon validation
+  let hubConfig = { coming_soon: [] };
+  if(existsSync(HUB_CONFIG)){
+    try{ hubConfig = JSON.parse(await fs.readFile(HUB_CONFIG,'utf8')); }catch(e){}
+  }
 
   const generatedSlugs = new Set();
   for(const entry of manifest){
@@ -104,19 +111,32 @@ async function validate(){
       if(links.length === 0) report.errors.push(`build/articles/index.html: missing link to /articles/${slug}/`);
       if(links.length > 1) report.errors.push(`build/articles/index.html: duplicate links to /articles/${slug}/ found in main column (${links.length})`);
     }
-    // 3. coming soon cards present
-    const coming = main.querySelectorAll('.article-card .soon, .article-card a.feature-cta');
-    if(coming.length === 0) {
-      // not a strict error; ensure at least placeholder exists
-      report.errors.push('build/articles/index.html: Coming soon cards appear to be missing');
+    // 3. coming soon cards present in main grid and count matches config
+    const comingCards = Array.from(main.querySelectorAll('.article-card')).filter(el=>!!el.querySelector('.soon'));
+    const expectedComing = (hubConfig.coming_soon && hubConfig.coming_soon.length) || 0;
+    if(comingCards.length !== expectedComing) report.errors.push(`build/articles/index.html: expected ${expectedComing} Coming soon cards in main grid, found ${comingCards.length}`);
+    // 3b. verify each coming soon title present
+    const comingTitles = comingCards.map(c=>{ const h = c.querySelector('h3'); return h? h.textContent.trim(): ''; });
+    const missingTitles = [];
+    for(const cs of (hubConfig.coming_soon||[])){
+      if(!comingTitles.includes(cs.title)) missingTitles.push(cs.title);
     }
+    if(missingTitles.length) report.errors.push(`build/articles/index.html: missing Coming soon titles: ${missingTitles.join('; ')}`);
+
     // 4. category buttons exist (scoped to categoryButtons container)
     const catContainer = doc.querySelector('#categoryButtons');
     const catBtns = catContainer ? catContainer.querySelectorAll('.category-btn') : doc.querySelectorAll('.category-btn');
     if(catBtns.length === 0) report.errors.push('build/articles/index.html: category buttons missing');
-    // 5. no ai.azure.com links
+
+    // 5. search input present and search JS exists
+    const searchInput = doc.getElementById('articleSearch');
+    if(!searchInput) report.errors.push('build/articles/index.html: search input #articleSearch missing');
+    const hasApplyFilters = hubHtml.indexOf('function applyFilters') !== -1 || hubHtml.indexOf('applyFilters(') !== -1;
+    if(!hasApplyFilters) report.errors.push('build/articles/index.html: search/filter JS not present');
+
+    // 6. no ai.azure.com links
     if(hubHtml.indexOf('ai.azure.com') !== -1) report.errors.push('build/articles/index.html: contains ai.azure.com links');
-    // 6. placeholders
+    // 7. placeholders
     for(const ph of PLACEHOLDERS){ if(hubHtml.indexOf(ph) !== -1) report.errors.push(`build/articles/index.html: contains forbidden placeholder '${ph}'`); }
   }
 
