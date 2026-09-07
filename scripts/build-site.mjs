@@ -223,7 +223,7 @@ async function build(){
   function buildFeaturedHtml(featuredMeta){
     if(!featuredMeta) return '';
     // replicate existing featured markup (simplified, using same classes)
-    return `<article class="featured searchable" data-category="${mapCategoryToken(featuredMeta.category)}" data-search="${escapeHtml((featuredMeta.title+' '+featuredMeta.slug+' '+(featuredMeta.tags||[]).join(' ')).toLowerCase())}">\n<div class="featured-copy">\n  <div class="feature-top"><span class="feature-label">FEATURED</span><span>${escapeHtml(featuredMeta.category)}</span></div>\n  <h2>${escapeHtml(featuredMeta.title)}</h2>\n  <p>${escapeHtml(featuredMeta.description)}</p>\n  <div class="feature-meta"><span>Technical guide</span><span>•</span><span>${escapeHtml(featuredMeta.level)}</span></div>\n  <a class="feature-cta" href="/articles/${escapeHtml(featuredMeta.slug)}/">Read article →</a>\n</div>\n<div class="feature-visual" aria-hidden="true">\n  <div class="feature-laptop"><div class="feature-screen"><span class="check">✓</span><span>Verified</span></div></div>\n</div>\n</article>`;
+    return `<article class="featured searchable" data-category="${mapCategoryToken(featuredMeta.category)}" data-search="${escapeHtml((featuredMeta.title+' '+featuredMeta.slug+' '+(featuredMeta.tags||[]).join(' ')).toLowerCase())}\">\n<div class="featured-copy">\n  <div class="feature-top"><span class="feature-label">FEATURED</span><span>${escapeHtml(featuredMeta.category)}</span></div>\n  <h2>${escapeHtml(featuredMeta.title)}</h2>\n  <p>${escapeHtml(featuredMeta.description)}</p>\n  <div class="feature-meta"><span>Technical guide</span><span>•</span><span>${escapeHtml(featuredMeta.level)}</span></div>\n  <a class="feature-cta" href="/articles/${escapeHtml(featuredMeta.slug)}/">Read article →</a>\n</div>\n<div class="feature-visual" aria-hidden="true">\n  <div class="feature-laptop"><div class="feature-screen"><span class="check">✓</span><span>Verified</span></div></div>\n</div>\n</article>`;
   }
 
   // Build article cards
@@ -267,7 +267,7 @@ async function build(){
     if(footerStart !== -1) footer_html = legacy.substring(footerStart);
   }
 
-  const hubView = { header_html, featured_html, article_cards_html, sidebar_html, footer_html, categories: hubConfig.categories };
+  const hubView = { header_html, featured_html, article_cards_html, sidebar_html, footer_html, categories: hubConfig.categories, coming_soon: hubConfig.coming_soon };
   const hubOut = mustache.render(hubTemplate, hubView);
   const hubOutPath = path.join(BUILD_DIR,'articles','index.html');
   await ensureDir(path.dirname(hubOutPath));
