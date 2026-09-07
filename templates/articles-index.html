@@ -1,5 +1,6 @@
 {{{header_html}}}
 
+  <main>
   <section class="articles-hero">
     <div class="cmp-container hero-grid">
       <div class="hero-copy">
@@ -20,6 +21,7 @@
 
   <section class="category-strip">
     <div class="cmp-container category-scroll" id="categoryButtons">
+      <!-- Render configured categories. Production displays icons/text; keep label tokens from config. -->
       {{#categories}}
       <button class="category-btn" data-category="{{token}}">{{label}}</button>
       {{/categories}}
@@ -61,6 +63,7 @@
       {{{sidebar_html}}}
     </aside>
   </div>
+  </main>
 
 {{{footer_html}}}
 
@@ -86,7 +89,7 @@
     emptyState.style.display = visible ? 'none' : 'block';
   }
 
-  search.addEventListener('input', applyFilters);
+  if(search){ search.addEventListener('input', applyFilters); }
   buttons.forEach(btn => btn.addEventListener('click', () => {
     buttons.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
