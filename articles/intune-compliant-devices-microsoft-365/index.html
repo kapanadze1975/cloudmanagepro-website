@@ -4,20 +4,20 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Require Intune-Compliant Devices for Microsoft 365 | CloudManagePro</title>
+  <title>Require Intune‑Compliant Devices for Microsoft 365 — Guide & Conditional Access</title>
   <meta
     name="description"
-    content="CloudManagePro technical guide for requiring Intune-compliant devices when accessing Microsoft 365 with Microsoft Entra Conditional Access."
+    content="Step-by-step guide to require Intune‑compliant devices for Microsoft 365. Learn how to configure Intune compliance policies and a Microsoft Entra ID Conditional Access policy to block noncompliant devices and protect Exchange Online, Teams, and SharePoint."
   />
   <link
     rel="canonical"
     href="https://www.cloudmanagepro.com/articles/intune-compliant-devices-microsoft-365/"
   />
 
-  <meta property="og:title" content="Require Intune-Compliant Devices for Microsoft 365" />
+  <meta property="og:title" content="Require Intune‑Compliant Devices for Microsoft 365 — Guide & Conditional Access" />
   <meta
     property="og:description"
-    content="Practical CloudManagePro guide for Intune compliance and Microsoft Entra Conditional Access."
+    content="Step-by-step guide to require Intune‑compliant devices for Microsoft 365. Learn how to configure Intune compliance policies and a Microsoft Entra ID Conditional Access policy to block noncompliant devices and protect Exchange Online, Teams, and SharePoint."
   />
   <meta property="og:type" content="article" />
   <meta
@@ -516,7 +516,7 @@
     <div>
       <div class="kicker">Microsoft Intune · Microsoft Entra · Microsoft 365</div>
 
-      <h1>How to Require Intune-Compliant Devices for Microsoft 365</h1>
+      <h1>How to Require Intune‑Compliant Devices for Microsoft 365</h1>
 
       <p class="dek">
         A practical CloudManagePro guide for understanding how Intune device
@@ -738,7 +738,10 @@
     <div class="kicker">Continue learning</div>
     <h2>Related CloudManagePro articles</h2>
 
-    <div class="related-grid"></div>
+    <div class="related-grid">
+      <div class="related-card"><span>Intune</span><h3><a href="/articles/deploy-win32-apps-intune-intunewin/">Deploy Win32 Apps with Microsoft Intune</a></h3><p>Packaging and deploying Win32 apps as .intunewin with detection, dependencies, and Delivery Optimization.</p></div>
+      <div class="related-card"><span>Workspace ONE</span><h3><a href="/articles/workspace-one-zebra-secure-launcher-kiosk/">Workspace ONE Zebra Secure Launcher &amp; Kiosk</a></h3><p>Configure Zebra Android devices with Workspace ONE Launcher and OEMConfig for kiosk workflows.</p></div>
+    </div>
   </div>
 </section>
 
@@ -774,6 +777,71 @@
 
   </div>
 </footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I require a device to be Intune compliant before accessing Microsoft 365?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Create an Intune device compliance policy and then create a Microsoft Entra Conditional Access policy that targets your users and Microsoft 365 cloud apps and requires 'device to be marked as compliant' under the Grant controls. Test in report-only or a pilot group before full enforcement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What settings should an Intune compliance policy include for Windows devices?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Common checks include OS minimum version, encryption (BitLocker) status, password requirements, device health attestation, and endpoint protection status. Configure assignments for the appropriate device groups and monitor compliance reports to tune checks for your environment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will Conditional Access block Outlook mobile on noncompliant devices?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Conditional Access evaluates the sign-in and will block access if the policy requires a compliant device. However, application behavior can vary; test app access and remediation flows because legacy authentication or bypass scenarios may differ."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if a device is enrolled but not compliant?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A device that is enrolled but marked noncompliant will be subject to your Conditional Access controls and can be blocked from accessing Microsoft 365 resources if policies require compliance. Use Intune reporting and the Company Portal to guide users through remediation steps."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can users remediate a device that’s noncompliant?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Typical remediation steps include installing updates, enabling required settings (like encryption), installing/starting endpoint protection, or re-enrolling the device if enrollment is broken. Provide documentation and use Company Portal remediation actions when possible."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need additional licenses to require device compliance for Microsoft 365?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Licensing requirements can vary by feature (Intune, Microsoft Entra ID Conditional Access). Confirm licensing details against Microsoft product documentation for your tenant — do not rely on this page for definitive license requirements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I test a Conditional Access policy without blocking users?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the Conditional Access policy's 'Report-only' mode (or target a small pilot group) to observe the impact before enforcement. Monitor sign-in logs and 'What If' tools in Entra ID to validate policy behavior."
+      }
+    }
+  ]
+}
+</script>
 
 </body>
 </html>
