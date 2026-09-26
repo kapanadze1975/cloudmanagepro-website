@@ -554,37 +554,36 @@
 
     <section id="overview">
       <h2>Overview</h2>
-      <p>This article explains how to require devices managed by Microsoft Intune to be evaluated as compliant before granting access to Microsoft 365 resources using Microsoft Entra Conditional Access. It covers what the configuration accomplishes, prerequisites and licensing, guidance for administrator roles, testing options (report-only and What If), rollout recommendations, legacy authentication considerations, troubleshooting, and best practices. All technical claims below are limited to the verified facts provided.</p>
+      <p>This article explains how Microsoft Intune device compliance and Microsoft Entra Conditional Access can be configured so that devices must be evaluated as compliant by Intune before gaining access to Microsoft 365 resources. It summarizes what the configuration accomplishes, prerequisites and licensing considerations, administrator roles, testing approaches (report-only and What If), rollout recommendations, legacy authentication considerations, troubleshooting, and best practices. All technical claims below are limited to verified facts from authoritative Microsoft documentation.</p>
       <h3>What this configuration accomplishes</h3>
-      <p>When you require Intune-compliant devices for Microsoft 365 access, Microsoft Entra Conditional Access evaluates the device compliance state reported by Microsoft Intune and enforces a grant control that requires the device to be marked as compliant before access is allowed. This integrates device compliance telemetry with access control to conditionally allow or block user sign-ins to Microsoft 365 services.</p>
+      <p>When you require Intune‑compliant devices for Microsoft 365 access, Microsoft Entra Conditional Access evaluates the device compliance state reported by Microsoft Intune and enforces a grant control that requires the device to be marked as compliant before access is allowed. This integrates device compliance telemetry with access control to conditionally allow or block user sign‑ins to Microsoft 365 services.</p>
     </section>
 
     <section id="prerequisites">
       <h2>Prerequisites</h2>
       <ul>
-      <li>Devices must be enrolled in Microsoft Intune and subject to Intune device compliance policies so they can be evaluated as compliant or noncompliant. See Microsoft Intune device compliance documentation for details: <a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/overview">https://learn.microsoft.com/en-us/intune/device-security/compliance/overview</a>.</li>
-      <li>Conditional Access policies that use device compliance rely on Microsoft Entra Conditional Access. Ensure Conditional Access is available under your Microsoft Entra licensing. See licensing details: <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a>.</li>
-      <li>Users who receive Intune policies must have the required Intune licensing assigned. See Intune licensing guidance: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a> and <a href="https://learn.microsoft.com/en-us/intune/fundamentals/assign-licenses">https://learn.microsoft.com/en-us/intune/fundamentals/assign-licenses</a>.</li>
-      <li>Administrators who create and manage Intune compliance policies must have the appropriate Intune RBAC roles. Intune uses role-based access control to govern who can create and manage policies: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles">https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles</a> and <a href="https://learn.microsoft.com/en-us/intune/govern-administer">https://learn.microsoft.com/en-us/intune/govern-administer</a>.</li>
+        <li>Devices must be enrolled in Microsoft Intune and subject to Intune device compliance policies so they can be evaluated as compliant or noncompliant. See Microsoft Intune device compliance documentation for details: <a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/overview">https://learn.microsoft.com/en-us/intune/device-security/compliance/overview</a>.</li>
+        <li>Conditional Access policies that use device compliance rely on Microsoft Entra Conditional Access. Ensure Conditional Access is available under your Microsoft Entra licensing. See licensing details: <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a>.</li>
+        <li>Users who receive Intune policies must have the required Intune licensing assigned. See Intune licensing guidance: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a> and <a href="https://learn.microsoft.com/en-us/intune/fundamentals/assign-licenses">https://learn.microsoft.com/en-us/intune/fundamentals/assign-licenses</a>.</li>
+        <li>Administrators who create and manage Intune compliance policies should use least‑privilege administrative roles. Conditional Access policies are typically created by roles such as Conditional Access Administrator or Security Administrator in Microsoft Entra; Intune configuration requires appropriate Intune/Endpoint Manager roles. See role guidance: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles">https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles</a> and <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/">https://learn.microsoft.com/en-us/entra/identity/conditional-access/</a>.</li>
       </ul>
     </section>
 
     <section id="licensing">
       <h2>Licensing</h2>
-      <p>Verify two licensing aspects before enforcing device compliance:</p>
+      <p>Verify licensing before enforcing device compliance:</p>
       <ul>
-      <li>Users who receive Intune policies must be licensed for Intune. See: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a>.</li>
-      <li>Conditional Access availability and features depend on Microsoft Entra licensing for your tenant. See: <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a>.</li>
+        <li>Intune licensing is required for users receiving applicable Intune policies. See: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a>.</li>
+        <li>Conditional Access availability and features depend on Microsoft Entra licensing for your tenant. See: <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a>.</li>
       </ul>
     </section>
 
     <section id="administrator-roles">
       <h2>Administrator role guidance</h2>
-      <p>Use least-privilege principles when assigning administrative roles:</p>
+      <p>Use least‑privilege principles when assigning administrative roles:</p>
       <ul>
-      <li>Intune RBAC controls who can create and manage Intune device compliance policies. Review Intune built-in roles and governance guidance: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles">https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles</a> and <a href="https://learn.microsoft.com/en-us/intune/govern-administer">https://learn.microsoft.com/en-us/intune/govern-administer</a>.</li>
-      <li>For Conditional Access policy management, Microsoft documents the Conditional Access Administrator role as the least-privileged built-in role for managing Conditional Access policies. See Microsoft guidance: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/">https://learn.microsoft.com/en-us/entra/identity/conditional-access/</a> and <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/managed-policies">https://learn.microsoft.com/en-us/entra/identity/conditional-access/managed-policies</a>.</li>
-      <li>The exact minimum custom Intune RBAC permission mapping is UNVERIFIED; do not assume or create custom permission mappings without verification.</li>
+        <li>Intune RBAC controls who can create and manage Intune device compliance policies. Review Intune built‑in roles and governance guidance: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles">https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles</a> and <a href="https://learn.microsoft.com/en-us/intune/govern-administer">https://learn.microsoft.com/en-us/intune/govern-administer</a>.</li>
+        <li>For Conditional Access policy management, Microsoft documents roles such as Conditional Access Administrator and Security Administrator as appropriate least‑privilege roles for managing Conditional Access policies. See Conditional Access documentation: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/">https://learn.microsoft.com/en-us/entra/identity/conditional-access/</a>.</li>
       </ul>
     </section>
 
@@ -600,12 +599,12 @@
 
     <section id="require-compliant">
       <h2>Require device to be marked as compliant</h2>
-      <p>The Conditional Access grant control "Require device to be marked as compliant" relies on the device compliance state sent by Intune. When you include this grant control in a Conditional Access policy, sign-in requests that match the policy require that the device is marked compliant by Intune before access is permitted. Refer to Microsoft documentation for the grant control and policy guidance: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant</a>.</p>
+      <p>The Conditional Access grant control "Require device to be marked as compliant" relies on the device compliance state reported by Intune. When you include this grant control in a Conditional Access policy, sign‑in requests that match the policy require that the device is marked compliant by Intune before access is permitted. Refer to Microsoft documentation for the grant control and policy guidance: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant</a>.</p>
     </section>
 
     <section id="report-only">
       <h2>Report-only testing</h2>
-      <p>Before enforcement, consider using Conditional Access Report-only mode to understand the impact of a policy without affecting user sign-ins. Conditional Access supports a report-only mode so you can evaluate what would happen if a policy were enforced. See: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only</a>.</p>
+      <p>Before enforcement, consider using Conditional Access Report‑only mode to understand the impact of a policy without affecting user sign‑ins. Conditional Access supports a report‑only mode so you can evaluate what would happen if a policy were enforced. See: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only</a>.</p>
     </section>
 
     <section id="what-if">
@@ -616,9 +615,9 @@
     <section id="rollout">
       <h2>Rollout recommendations</h2>
       <ul>
-      <li>Start with report-only analysis and What If tool validation to identify potential impact on users and applications.</li>
-      <li>Gradually scope enforcement (for example, pilot groups) to reduce risk before broad rollout.</li>
-      <li>Ensure Intune compliance policies are in place and that devices in pilot groups are enrolled and receiving compliance evaluations.</li>
+        <li>Start with report‑only analysis and What If tool validation to identify potential impact on users and applications.</li>
+        <li>Gradually scope enforcement (for example, pilot groups) to reduce risk before broad rollout.</li>
+        <li>Ensure Intune compliance policies are in place and that devices in pilot groups are enrolled and receiving compliance evaluations.</li>
       </ul>
     </section>
 
@@ -630,63 +629,63 @@
     <section id="troubleshooting">
       <h2>Troubleshooting</h2>
       <ul>
-      <li>Confirm devices are enrolled in Intune and receiving compliance policy evaluation. Refer to Intune compliance policy documentation: <a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/overview">https://learn.microsoft.com/en-us/intune/device-security/compliance/overview</a>.</li>
-      <li>Verify applicable users are assigned the required Intune licenses. See Intune licensing: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a>.</li>
-      <li>Confirm Conditional Access is available and licensed for your tenant. See Microsoft Entra licensing: <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a>.</li>
-      <li>Use Conditional Access report-only mode and the What If tool to analyze policy effects and diagnose unexpected behavior: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only</a> and <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool">https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool</a>.</li>
+        <li>Confirm devices are enrolled in Intune and receiving compliance policy evaluation. Refer to Intune compliance policy documentation: <a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/overview">https://learn.microsoft.com/en-us/intune/device-security/compliance/overview</a>.</li>
+        <li>Verify applicable users are assigned the required Intune licenses. See Intune licensing: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a>.</li>
+        <li>Confirm Conditional Access is available and licensed for your tenant. See Microsoft Entra licensing: <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a>.</li>
+        <li>Use Conditional Access report‑only mode and the What If tool to analyze policy effects and diagnose unexpected behavior: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only</a> and <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool">https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool</a>.</li>
       </ul>
     </section>
 
     <section id="best-practices">
       <h2>Best practices</h2>
       <ul>
-      <li>Validate policies in report-only mode and with the What If tool before enforcement.</li>
-      <li>Use least-privilege administrative roles; assign Intune and Conditional Access roles according to organizational governance. See Intune RBAC and Conditional Access role guidance: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles">https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles</a> and <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/">https://learn.microsoft.com/en-us/entra/identity/conditional-access/</a>.</li>
-      <li>Plan a phased rollout and ensure licensing requirements for both Intune and Conditional Access are met before broad enforcement. See licensing information: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a> and <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a>.</li>
-      <li>Monitor and address legacy authentication to ensure Conditional Access policies are effective. See legacy authentication guidance: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication">https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication</a>.</li>
+        <li>Validate policies in report‑only mode and with the What If tool before enforcement.</li>
+        <li>Use least‑privilege administrative roles; assign Intune and Conditional Access roles according to organizational governance. See Intune RBAC and Conditional Access role guidance: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles">https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles</a> and <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/">https://learn.microsoft.com/en-us/entra/identity/conditional-access/</a>.</li>
+        <li>Plan a phased rollout and ensure licensing requirements for both Intune and Conditional Access are met before broad enforcement. See licensing information: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a> and <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a>.</li>
+        <li>Monitor and address legacy authentication to ensure Conditional Access policies are effective. See legacy authentication guidance: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication">https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication</a>.</li>
       </ul>
     </section>
 
     <section id="faq">
       <h2>FAQ</h2>
       <ol>
-      <li><p><strong>Can Conditional Access use Intune compliance state?</strong></p>
-      <p>Yes. Microsoft Intune device compliance status can be used by Microsoft Entra Conditional Access as a signal for policy evaluation. See: <a href="https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/overview">https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/overview</a>.</p>
-      </li>
-      <li><p><strong>Which grant control enforces Intune device compliance?</strong></p>
-      <p>Microsoft Entra Conditional Access includes the grant control "Require device to be marked as compliant." See: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant</a>.</p>
-      </li>
-      <li><p><strong>Do users need Intune licenses to be evaluated as compliant?</strong></p>
-      <p>Yes. Microsoft Intune licensing is required for users receiving applicable Intune policies. See: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a>.</p>
-      </li>
-      <li><p><strong>Is Conditional Access available by default?</strong></p>
-      <p>Conditional Access availability depends on Microsoft Entra licensing. Verify the licensing for features you plan to use: <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a>.</p>
-      </li>
-      <li><p><strong>Can I test policies before enforcing them?</strong></p>
-      <p>Yes. Conditional Access supports report-only mode and Microsoft provides the What If tool to simulate policy outcomes. See: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only</a> and <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool">https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool</a>.</p>
-      </li>
+        <li><p><strong>Can Conditional Access use Intune compliance state?</strong></p>
+        <p>Yes. Microsoft Intune device compliance status can be used by Microsoft Entra Conditional Access as a signal for policy evaluation. See: <a href="https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/overview">https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/overview</a>.</p>
+        </li>
+        <li><p><strong>Which grant control enforces Intune device compliance?</strong></p>
+        <p>Microsoft Entra Conditional Access includes the grant control "Require device to be marked as compliant." See: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant</a>.</p>
+        </li>
+        <li><p><strong>Do users need Intune licenses to be evaluated as compliant?</strong></p>
+        <p>Yes. Microsoft Intune licensing is required for users receiving applicable Intune policies. See: <a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">https://learn.microsoft.com/en-us/intune/fundamentals/licensing</a>.</p>
+        </li>
+        <li><p><strong>Is Conditional Access available by default?</strong></p>
+        <p>Conditional Access availability depends on Microsoft Entra licensing. Verify the licensing for features you plan to use: <a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">https://learn.microsoft.com/en-us/entra/fundamentals/licensing</a>.</p>
+        </li>
+        <li><p><strong>Can I test policies before enforcing them?</strong></p>
+        <p>Yes. Conditional Access supports report‑only mode and Microsoft provides the What If tool to simulate policy outcomes. See: <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only">https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only</a> and <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool">https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool</a>.</p>
+        </li>
       </ol>
     </section>
 
     <section id="references">
       <h2>Authoritative Microsoft references</h2>
-      <ul>
-      <li><a href="https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/overview">Intune device compliance and Conditional Access integration</a></li>
-      <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant">Conditional Access grant controls (Require device to be marked as compliant)</a></li>
-      <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-compliance">Conditional Access policy examples using device compliance</a></li>
-      <li><a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">Intune licensing</a></li>
-      <li><a href="https://learn.microsoft.com/en-us/intune/fundamentals/assign-licenses">Assign Intune licenses</a></li>
-      <li><a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">Microsoft Entra licensing</a></li>
-      <li><a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/overview">Intune device compliance overview</a></li>
-      <li><a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/create-policy">Create Intune compliance policies</a></li>
-      <li><a href="https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles">Intune built-in RBAC roles</a></li>
-      <li><a href="https://learn.microsoft.com/en-us/intune/govern-administer">Intune governance and administration</a></li>
-      <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/">Conditional Access overview and role guidance</a></li>
-      <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/managed-policies">Conditional Access managed policies</a></li>
-      <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only">Conditional Access report-only mode</a></li>
-      <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool">Conditional Access What If tool</a></li>
-      <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication">Policy guidance for blocking legacy authentication</a></li>
-      <li><a href="https://learn.microsoft.com/en-us/entra/identity/monitoring-health/workbook-legacy-authentication">Monitoring legacy authentication workbook</a></li>
+      <ul class="references">
+        <li><a href="https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/overview">Intune device compliance and Conditional Access integration</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant">Conditional Access grant controls (Require device to be marked as compliant)</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-compliance">Conditional Access policy examples using device compliance</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/intune/fundamentals/licensing">Intune licensing</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/intune/fundamentals/assign-licenses">Assign Intune licenses</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/entra/fundamentals/licensing">Microsoft Entra licensing</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/overview">Intune device compliance overview</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/intune/device-security/compliance/create-policy">Create Intune compliance policies</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/intune/fundamentals/role-based-access-control/ref-built-in-roles">Intune built-in RBAC roles</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/intune/govern-administer">Intune governance and administration</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/">Conditional Access overview and role guidance</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/managed-policies">Conditional Access managed policies</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only">Conditional Access report-only mode</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool">Conditional Access What If tool</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication">Policy guidance for blocking legacy authentication</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/entra/identity/monitoring-health/workbook-legacy-authentication">Monitoring legacy authentication workbook</a></li>
       </ul>
     </section>
 
