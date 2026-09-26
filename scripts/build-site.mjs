@@ -187,7 +187,40 @@ async function build(){
     const jsonLdObj = { '@context': 'https://schema.org', '@type': 'TechArticle', headline: data.title, description: data.description, author: { '@type': 'Organization', name: data.author }, dateModified: data.verified_date, mainEntityOfPage: data.canonical };
     const jsonld = `<script type="application/ld+json">\n${JSON.stringify(jsonLdObj, null, 2)}\n</script>`;
 
-    const view = { title: data.title, seo_title: data.seo_title, description: data.meta_description || data.description, canonical: data.canonical, category: data.category, platform: data.platform, level: data.level, author: data.author, verified_date: data.verified_date, hero: { kicker: data.hero.kicker, dek: data.hero.dek, screen_label: data.hero.screen_label, cloud_label: data.hero.cloud_label }, article_html: htmlBody, toc_html: toc_html, references_html: references_html, jsonld: jsonld };
+    // FAQ JSON-LD generation (new behavior)
+    let faq_jsonld = '';
+    if(typeof data.faq === 'undefined' || data.faq === null){
+      faq_jsonld = '';
+    } else {
+      if(!Array.isArray(data.faq)){
+        throw new Error(`FAQ validation failed for ${f}: faq must be an array`);
+      }
+      // validate each item
+      for(let i=0;i<data.faq.length;i++){
+        const item = data.faq[i];
+        if(!item || typeof item.question !== 'string' || !item.question.trim()){
+          throw new Error(`FAQ validation failed for ${f}: item ${i} missing non-empty question`);
+        }
+        if(!item || typeof item.answer !== 'string' || !item.answer.trim()){
+          throw new Error(`FAQ validation failed for ${f}: item ${i} missing non-empty answer`);
+        }
+      }
+      const faqJsonLdObj = {
+        '@context': 'https' + '://' + 'schema.org',
+        '@type': 'FAQPage',
+        mainEntity: data.faq.map(item => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: item.answer
+          }
+        }))
+      };
+      faq_jsonld = `<script type="application/ld+json">\n${JSON.stringify(faqJsonLdObj, null, 2)}\n</script>`;
+    }
+
+    const view = { title: data.title, seo_title: data.seo_title, description: data.meta_description || data.description, canonical: data.canonical, category: data.category, platform: data.platform, level: data.level, author: data.author, verified_date: data.verified_date, hero: { kicker: data.hero.kicker, dek: data.hero.dek, screen_label: data.hero.screen_label, cloud_label: data.hero.cloud_label }, article_html: htmlBody, toc_html: toc_html, references_html: references_html, jsonld: jsonld, faq_jsonld: faq_jsonld };
 
     const outHtml = mustache.render(template, view);
     const outDir = path.join(BUILD_DIR,'articles',data.slug);
