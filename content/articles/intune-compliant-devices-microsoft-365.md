@@ -1,8 +1,8 @@
 ---
-title: "How to Require Intune‑Compliant Devices for Microsoft 365"
-seo_title: "Require Intune‑Compliant Devices for Microsoft 365 | CloudManagePro"
+title: "How to Require Intune-Compliant Devices for Microsoft 365"
+seo_title: "Require Intune-Compliant Devices for Microsoft 365 — Guide & Conditional Access"
 slug: "intune-compliant-devices-microsoft-365"
-description: "CloudManagePro technical guide for requiring Intune-compliant devices when accessing Microsoft 365 with Microsoft Entra Conditional Access."
+description: "Step-by-step guide to require Intune-compliant devices for Microsoft 365. Learn how to configure Intune compliance policies and a Microsoft Entra ID Conditional Access policy to block noncompliant devices and protect Exchange Online, Teams, and SharePoint."
 canonical: "https://www.cloudmanagepro.com/articles/intune-compliant-devices-microsoft-365/"
 category: "Microsoft Intune"
 platform: "Cross-platform"
@@ -24,26 +24,16 @@ tags:
   - "device-compliance"
 
 references:
-  - label: "Intune device compliance and Conditional Access integration"
-    url: "https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/overview"
-  - label: "Conditional Access grant controls (Require device to be marked as compliant)"
-    url: "https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-grant"
-  - label: "Conditional Access policy examples using device compliance"
-    url: "https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-compliance"
-  - label: "Intune device compliance overview"
-    url: "https://learn.microsoft.com/en-us/intune/device-security/compliance/overview"
-  - label: "Create Intune compliance policies"
-    url: "https://learn.microsoft.com/en-us/intune/device-security/compliance/create-policy"
-  - label: "Conditional Access report-only mode"
-    url: "https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only"
-  - label: "Conditional Access What If tool"
-    url: "https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool"
-  - label: "Policy guidance for blocking legacy authentication"
-    url: "https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication"
-  - label: "Resilience with device states"
-    url: "https://learn.microsoft.com/en-us/entra/architecture/resilience-with-device-states"
-  - label: "Intune whats new"
-    url: "https://learn.microsoft.com/en-us/intune/whats-new/"
+  - "https://learn.microsoft.com/en-us/intune/device-security/compliance/overview"
+  - "https://learn.microsoft.com/en-us/intune/device-security/compliance/create-policy"
+  - "https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/device-based-policies"
+  - "https://learn.microsoft.com/en-us/intune/device-security/conditional-access-integration/overview"
+  - "https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-device-compliance"
+  - "https://learn.microsoft.com/en-us/entra/identity/conditional-access/"
+  - "https://learn.microsoft.com/en-us/entra/architecture/resilience-with-device-states"
+  - "https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication"
+  - "https://learn.microsoft.com/en-us/entra/identity/conditional-access/how-to-migrate-custom-controls-external-mfa"
+  - "https://learn.microsoft.com/en-us/intune/whats-new/"
 
 faq:
   - question: "What is a compliant device in Microsoft Intune?"
@@ -57,8 +47,6 @@ faq:
   - question: "What common causes make a compliant device appear noncompliant?"
     answer: "Common causes include failed device check-ins, misconfigured policy settings, unsupported OS versions, missing required security features, or temporary state changes during updates. Check Intune device compliance details and force a sync on the device."
 ---
-
-# How to Require Intune‑Compliant Devices for Microsoft 365
 
 This article explains how Microsoft Intune device compliance works with Conditional Access to protect Microsoft 365 resources. It provides an overview of compliance signals, step‑by‑step configuration for a compliance policy in Intune, and a Conditional Access policy that requires devices to be compliant before accessing Microsoft 365. Practical troubleshooting and an FAQ follow.
 

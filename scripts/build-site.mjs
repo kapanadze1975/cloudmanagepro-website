@@ -160,24 +160,16 @@ async function build(){
       html += '</ul>\n';
       return html;
     }
-    const toc_html = buildTocHtml(headings);
+
+    const refs = data.references || [];
+    const tocHeadings = refs.length ? [...headings, { level: 2, text: 'References', id: 'references' }] : headings;
+    const toc_html = buildTocHtml(tocHeadings);
 
     // Render references
-    const refs = data.references || [];
     function buildReferencesHtml(refs){
       let html = '<ul class="references">\n';
       for(const r of refs){
-        if(typeof r === 'string'){
           const url = r; html += `  <li><a href="${escapeHtml(url)}">${escapeHtml(url)}</a></li>\n`;
-        } else if(r && typeof r === 'object'){
-          if(typeof r.url !== 'string' || !r.url.trim()){
-            throw new Error(`Invalid reference object (missing url) in ${f}: ${JSON.stringify(r)}`);
-          }
-          const url = r.url; const label = (typeof r.label === 'string' && r.label.trim())? r.label : r.url;
-          html += `  <li><a href="${escapeHtml(url)}">${escapeHtml(label)}</a></li>\n`;
-        } else {
-          throw new Error(`Invalid reference entry in ${f}: must be string or object`);
-        }
       }
       html += '</ul>\n'; return html;
     }
