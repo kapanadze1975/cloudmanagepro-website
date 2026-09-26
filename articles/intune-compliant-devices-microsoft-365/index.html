@@ -29,10 +29,434 @@
   <link rel="stylesheet" href="/styles.css" />
 
   <style>
-    /* preserved existing styles */
-    :root{--navy:#061b38;--blue:#0f6bff;--teal:#18bfc1;--text:#14233b;--muted:#62748b;--line:#dfe7f1;--soft:#f5f9ff;--card:#fff;--shadow:0 12px 34px rgba(17,45,86,.08)}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text);background:#fff}a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}.container{width:min(1180px,calc(100% - 36px));margin:auto}
-    /* full original CSS omitted here for brevity in the push content but preserved in actual file */
+    :root{
+      --navy:#061b38;
+      --blue:#0f6bff;
+      --teal:#18bfc1;
+      --text:#14233b;
+      --muted:#62748b;
+      --line:#dfe7f1;
+      --soft:#f5f9ff;
+      --card:#fff;
+      --shadow:0 12px 34px rgba(17,45,86,.08);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Arial,sans-serif;
+      color:var(--text);
+      background:#fff;
+    }
+    a{color:var(--blue);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{width:min(1180px,calc(100% - 36px));margin:auto}
+
+    /* Header */
+    .site-header{
+      background:var(--navy);
+      position:sticky;
+      top:0;
+      z-index:50;
+      box-shadow:0 1px 0 rgba(255,255,255,.08);
+    }
+    .nav{
+      height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:#fff;
+      font-size:1.35rem;
+      font-weight:800;
+    }
+    .brand:hover{text-decoration:none}
+    .brand img{width:39px;height:39px}
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:26px;
+    }
+    .nav-links a{
+      color:#eef6ff;
+      font-size:.95rem;
+      font-weight:700;
+    }
+    .nav-links a:hover{color:#79c6ff;text-decoration:none}
+    .support{
+      background:var(--blue);
+      padding:11px 18px;
+      border-radius:10px;
+      color:#fff!important;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb-wrap{
+      background:#f8fbff;
+      border-bottom:1px solid #e7eef6;
+    }
+    .breadcrumb{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      padding:14px 0;
+      font-size:.86rem;
+      color:#75879a;
+    }
+    .breadcrumb a{font-weight:700}
+
+    /* Hero */
+    .article-hero{
+      background:
+        radial-gradient(circle at 86% 32%,rgba(15,107,255,.15),transparent 30%),
+        linear-gradient(120deg,#fff 0%,#f7fbff 62%,#edf6ff 100%);
+      border-bottom:1px solid #e5edf6;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:50px;
+      align-items:center;
+      padding:52px 0 48px;
+    }
+    .kicker{
+      color:var(--blue);
+      font-size:.78rem;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .article-hero h1{
+      font-size:clamp(2.4rem,5vw,4.35rem);
+      line-height:1.02;
+      letter-spacing:-.045em;
+      margin:12px 0 18px;
+      color:#071a39;
+    }
+    .dek{
+      max-width:780px;
+      font-size:1.1rem;
+      line-height:1.7;
+      color:#4d6178;
+      margin:0;
+    }
+    .hero-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 18px;
+      margin-top:24px;
+      font-size:.9rem;
+      color:#61748c;
+    }
+    .verified{
+      color:#087b69;
+      background:#e8fbf7;
+      border:1px solid #b9eee4;
+      border-radius:999px;
+      padding:6px 10px;
+      font-weight:800;
+    }
+    .hero-card{
+      border-radius:26px;
+      min-height:280px;
+      background:
+        radial-gradient(circle at 80% 25%,rgba(24,191,193,.2),transparent 28%),
+        linear-gradient(145deg,#061c3d,#0a3c76);
+      position:relative;
+      overflow:hidden;
+      box-shadow:0 24px 55px rgba(8,43,85,.16);
+      display:grid;
+      place-items:center;
+    }
+    .hero-card:before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:radial-gradient(rgba(74,176,255,.23) 1px,transparent 1px);
+      background-size:17px 17px;
+    }
+    .device{
+      position:relative;
+      z-index:2;
+      width:230px;
+      height:145px;
+      background:#07305e;
+      border:5px solid #0d579a;
+      border-radius:13px;
+      padding:12px;
+    }
+    .screen{
+      height:100%;
+      background:#eef8ff;
+      border-radius:6px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      font-weight:900;
+      color:#18324e;
+    }
+    .check{
+      width:48px;height:48px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:#24c4b7;
+      color:#fff;
+      font-size:1.7rem;
+    }
+    .cloud-label{
+      position:absolute;
+      z-index:3;
+      top:42px;
+      right:36px;
+      padding:15px 20px;
+      background:#fff;
+      border-radius:999px;
+      box-shadow:var(--shadow);
+      font-weight:900;
+      color:#334d68;
+    }
+    .lock{
+      position:absolute;
+      z-index:3;
+      right:70px;
+      bottom:38px;
+      width:65px;height:65px;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      font-size:2rem;
+      background:linear-gradient(145deg,#0f6bff,#18bfc1);
+    }
+
+    /* Main layout */
+    .article-layout{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 290px;
+      gap:42px;
+      padding:46px 0 70px;
+      align-items:start;
+    }
+    .article-body{min-width:0}
+    .article-body h2{
+      font-size:1.85rem;
+      margin:42px 0 14px;
+      line-height:1.2;
+      color:#10233e;
+    }
+    .article-body h3{
+      font-size:1.25rem;
+      margin:28px 0 10px;
+      color:#17304d;
+    }
+    .article-body p,
+    .article-body li{
+      font-size:1rem;
+      line-height:1.76;
+      color:#425770;
+    }
+    .article-body ul,
+    .article-body ol{padding-left:1.35rem}
+    .article-body li{margin:7px 0}
+
+    .lead-box,
+    .note,
+    .warning,
+    .placeholder{
+      border-radius:14px;
+      padding:18px 20px;
+      margin:24px 0;
+    }
+    .lead-box{
+      background:#f5f9ff;
+      border:1px solid #dbe8f7;
+    }
+    .note{
+      background:#edfbf9;
+      border:1px solid #c7eee8;
+    }
+    .warning{
+      background:#fff7e8;
+      border:1px solid #f2d9a4;
+    }
+    .placeholder{
+      background:#fafbfc;
+      border:1px dashed #b8c6d7;
+      color:#697c91;
+    }
+    .label{
+      display:block;
+      font-size:.76rem;
+      font-weight:900;
+      letter-spacing:.07em;
+      text-transform:uppercase;
+      margin-bottom:7px;
+    }
+
+    .step{
+      display:grid;
+      grid-template-columns:44px 1fr;
+      gap:14px;
+      margin:22px 0;
+    }
+    .step-num{
+      width:44px;height:44px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      background:var(--blue);
+      font-weight:900;
+    }
+    .step h3{margin:5px 0 8px}
+
+    .screenshot{
+      min-height:260px;
+      border:1px dashed #b9c9dc;
+      background:
+        linear-gradient(135deg,#f8fbff,#eef5fb);
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      padding:24px;
+      text-align:center;
+      color:#6c7f93;
+      margin:20px 0 30px;
+    }
+
+    .faq{
+      border-top:1px solid var(--line);
+      padding:18px 0;
+    }
+    .faq h3{margin:0 0 8px;font-size:1.08rem}
+
+    .references{
+      margin-top:18px;
+      padding-left:0;
+      list-style:none;
+    }
+    .references li{
+      padding:12px 0;
+      border-bottom:1px solid #edf1f5;
+    }
+
+    /* Sidebar */
+    .sidebar{
+      position:sticky;
+      top:94px;
+      display:flex;
+      flex-direction:column;
+      gap:15px;
+    }
+    .side-card{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:15px;
+      padding:18px;
+      box-shadow:0 7px 22px rgba(17,45,86,.045);
+    }
+    .side-card h2{
+      font-size:1rem;
+      margin:0 0 13px;
+    }
+    .toc{
+      list-style:none;
+      margin:0;padding:0;
+      display:grid;
+      gap:9px;
+    }
+    .toc a{
+      font-size:.86rem;
+      color:#3f5873;
+      font-weight:700;
+    }
+    .toc a:hover{color:var(--blue)}
+    .article-status{
+      display:grid;
+      gap:10px;
+      font-size:.84rem;
+      color:#52667d;
+    }
+    .article-status strong{color:#203953}
+    .back-link{
+      display:block;
+      border-radius:10px;
+      background:#eef5ff;
+      padding:11px 13px;
+      font-size:.88rem;
+      font-weight:800;
+      text-align:center;
+    }
+
+    /* Related */
+    .related-wrap{
+      background:#f7faff;
+      border-top:1px solid #e4ecf5;
+      padding:48px 0 58px;
+    }
+    .related-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+      margin-top:20px;
+    }
+    .related-card{
+      background:#fff;
+      border:1px solid #dfe7f1;
+      border-radius:14px;
+      padding:19px;
+    }
+    .related-card span{
+      color:var(--blue);
+      font-size:.72rem;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+    .related-card h3{
+      margin:7px 0 8px;
+      font-size:1rem;
+    }
+    .related-card p{
+      margin:0;
+      color:#66798e;
+      font-size:.84rem;
+      line-height:1.5;
+    }
+
+    /* Footer */
+    .footer{
+      background:var(--navy);
+      color:#dce7f5;
+      padding:30px 0;
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns:1.2fr 1fr 1fr;
+      gap:28px;
+    }
+    .footer p{color:#b8cbe0;font-size:.86rem;line-height:1.55}
+    .footer a{color:#dce7f5}
+
+    @media(max-width:960px){
+      .hero-grid{grid-template-columns:1fr}
+      .hero-card{display:none}
+      .article-layout{grid-template-columns:1fr}
+      .sidebar{position:static}
+      .related-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:720px){
+      .nav-links{display:none}
+      .article-hero h1{font-size:2.45rem}
+      .related-grid,
+      .footer-grid{grid-template-columns:1fr}
+    }
   </style>
 
   <script type="application/ld+json">
@@ -41,8 +465,14 @@
     "@type": "TechArticle",
     "headline": "Require Intune-Compliant Devices for Microsoft 365",
     "description": "CloudManagePro technical guide for requiring Intune-compliant devices when accessing Microsoft 365.",
-    "author": {"@type": "Organization","name": "CloudManagePro"},
-    "publisher": {"@type": "Organization","name": "CloudManagePro"},
+    "author": {
+      "@type": "Organization",
+      "name": "CloudManagePro"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "CloudManagePro"
+    },
     "mainEntityOfPage": "https://www.cloudmanagepro.com/articles/intune-compliant-devices-microsoft-365/"
   }
   </script>
@@ -50,15 +480,72 @@
 
 <body>
 
-<header class="site-header">...
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="/">
+      <img src="/assets/logo-mark.svg" alt="" />
+      <span>CloudManagePro</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="/#services">Services</a>
+      <a href="/#healthcare">Healthcare IT</a>
+      <a href="/articles/">Articles</a>
+      <a href="/#process">Process</a>
+      <a href="/#contact">Contact</a>
+      <a class="support" href="/#contact">Get Support</a>
+    </nav>
+  </div>
 </header>
 
-<div class="breadcrumb-wrap">...
+<div class="breadcrumb-wrap">
+  <div class="container breadcrumb">
+    <a href="/">Home</a>
+    <span>›</span>
+    <a href="/articles/">Articles</a>
+    <span>›</span>
+    <span>Intune</span>
+  </div>
 </div>
 
 <main>
 
-<section class="article-hero">...
+<section class="article-hero">
+  <div class="container hero-grid">
+
+    <div>
+      <div class="kicker">Microsoft Intune · Microsoft Entra · Microsoft 365</div>
+
+      <h1>How to Require Intune‑Compliant Devices for Microsoft 365</h1>
+
+      <p class="dek">
+        A practical CloudManagePro guide for understanding how Intune device
+        compliance and Microsoft Entra Conditional Access can work together to
+        protect access to Microsoft 365.
+      </p>
+
+      <div class="hero-meta">
+        <span>Technical Guide</span>
+        <span>•</span>
+        <span>Intermediate</span>
+        <span>•</span>
+        <span>CloudManagePro</span>
+        <span class="verified">Last verified: September 1, 2026</span>
+      </div>
+    </div>
+
+    <div class="hero-card" aria-hidden="true">
+      <div class="device">
+        <div class="screen">
+          <span class="check">✓</span>
+          <span>Compliant</span>
+        </div>
+      </div>
+      <div class="cloud-label">Microsoft 365</div>
+      <div class="lock">🔒</div>
+    </div>
+
+  </div>
 </section>
 
 <div class="container article-layout">
@@ -254,15 +741,114 @@
 
 </div>
 
-<section class="related-wrap">...
+<section class="related-wrap">
+  <div class="container">
+    <div class="kicker">Continue learning</div>
+    <h2>Related CloudManagePro articles</h2>
+
+    <div class="related-grid">
+      <div class="related-card"><span>Intune</span><h3><a href="/articles/deploy-win32-apps-intune-intunewin/">Deploy Win32 Apps with Microsoft Intune</a></h3><p>Packaging and deploying Win32 apps as .intunewin with detection, dependencies, and Delivery Optimization.</p></div>
+      <div class="related-card"><span>Workspace ONE</span><h3><a href="/articles/workspace-one-zebra-secure-launcher-kiosk/">Workspace ONE Zebra Secure Launcher &amp; Kiosk</a></h3><p>Configure Zebra Android devices with Workspace ONE Launcher and OEMConfig for kiosk workflows.</p></div>
+    </div>
+  </div>
 </section>
 
 </main>
 
-<footer class="footer">...
+<footer class="footer">
+  <div class="container footer-grid">
+
+    <div>
+      <a class="brand" href="/">
+        <img src="/assets/logo-mark.svg" alt="" />
+        <span>CloudManagePro</span>
+      </a>
+      <p>Cloud, endpoint, security, wireless, and healthcare IT support.</p>
+    </div>
+
+    <div>
+      <strong>Knowledge</strong>
+      <p>
+        <a href="/articles/">Articles</a><br>
+        <a href="/">CloudManagePro Home</a>
+      </p>
+    </div>
+
+    <div>
+      <strong>Contact</strong>
+      <p>
+        <a href="mailto:admin@cloudmanagepro.com">
+          admin@cloudmanagepro.com
+        </a>
+      </p>
+    </div>
+
+  </div>
 </footer>
 
-<script type="application/ld+json">...
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I require a device to be Intune compliant before accessing Microsoft 365?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Create an Intune device compliance policy and then create a Microsoft Entra Conditional Access policy that targets your users and Microsoft 365 cloud apps and requires 'device to be marked as compliant' under the Grant controls. Test in report-only or a pilot group before full enforcement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What settings should an Intune compliance policy include for Windows devices?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Common checks include OS minimum version, encryption (BitLocker) status, password requirements, device health attestation, and endpoint protection status. Configure assignments for the appropriate device groups and monitor compliance reports to tune checks for your environment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will Conditional Access block Outlook mobile on noncompliant devices?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Conditional Access evaluates the sign-in and will block access if the policy requires a compliant device. However, application behavior can vary; test app access and remediation flows because legacy authentication or bypass scenarios may differ."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if a device is enrolled but not compliant?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A device that is enrolled but marked noncompliant will be subject to your Conditional Access controls and can be blocked from accessing Microsoft 365 resources if policies require compliance. Use Intune reporting and the Company Portal to guide users through remediation steps."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can users remediate a device that’s noncompliant?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Typical remediation steps include installing updates, enabling required settings (like encryption), installing/starting endpoint protection, or re-enrolling the device if enrollment is broken. Provide documentation and use Company Portal remediation actions when possible."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need additional licenses to require device compliance for Microsoft 365?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Licensing requirements can vary by feature (Intune, Microsoft Entra ID Conditional Access). Confirm licensing details against Microsoft product documentation for your tenant — do not rely on this page for definitive license requirements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I test a Conditional Access policy without blocking users?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the Conditional Access policy's 'Report-only' mode (or target a small pilot group) to observe the impact before enforcement. Monitor sign-in logs and 'What If' tools in Entra ID to validate policy behavior."
+      }
+    }
+  ]
+}
 </script>
 
 </body>
